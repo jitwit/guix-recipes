@@ -16,7 +16,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (gnu packages j)
+(define-module (jrn packages j)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix utils)
@@ -211,7 +211,7 @@
 	      (system "echo \"RECHO ddall\" | $j32"))
 	     #t))
 	 (replace 'install
-	   (lambda _
+ 	   (lambda _
 	     (copy-recursively
 	      (getenv "JPATH")
 	      (assoc-ref %outputs "out"))
@@ -272,9 +272,7 @@ Ken Iverson and Roger Hui.")
                                               "/bin"))
              (invoke "ln" "-s"
                      (string-append (assoc-ref %build-inputs "j") "/bin/libj.so")
-                     (string-append (assoc-ref %outputs "out") "/bin/libj.so"))
-             ;; todo link libj.so symbolically?
-             ))
+                     (string-append (assoc-ref %outputs "out") "/bin/libj.so"))))
          (add-after 'install 'wrap-executable
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (wrap-program (string-append (assoc-ref outputs "out") "/bin/jqt")
@@ -282,7 +280,13 @@ Ken Iverson and Roger Hui.")
                  ,(map (lambda (label)
                          (string-append (assoc-ref inputs label)
                                         "/lib/qt5/plugins"))
-                       '("qtbase" "qtdeclarative"))))
+                       '("qtbase"
+			 "qtdeclarative"
+			 "qtwebsockets"
+			 "qtsvg"
+			 "qtwebengine"
+			 "qtmultimedia"
+			 "qtwebchannel"))))
              #t)))))
     (synopsis "QT-based ide for the J Programming Language")
     (description "tbd")
