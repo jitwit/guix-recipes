@@ -47,7 +47,6 @@
          (commit "edcffe8d7847e9941d14f6838110a068e0a89102")))
        (sha256
         (base32 "00k417ia5fvszmb4pnd4japrn8i15ync8n4fk1l7i7fbafinxrnr"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -83,7 +82,6 @@
          (commit "2bb8578c370fd2f25b118ae8cba11153c4687eab")))
        (sha256
         (base32 "155m56f0d268jc8g9yc6fw5l8mnx2sm408if865h0a7682mpgqrb"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -119,8 +117,7 @@
          (commit "a635da57097649ad434680e6006679e65f2711eb")))
        (sha256
         (base32 "034px2d9m1p49jz75469dqx2z1m1zds2jg7rq9c5qjmz7q5kbli3"))))
-    (inputs `(("j" ,j)
-              ("glibc" ,glibc)
+    (inputs `(("glibc" ,glibc)
               ("gdk-pixbuf" ,gdk-pixbuf)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -172,8 +169,7 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "2767c9b8efea71c38b0d8433bd58aba360ea464a")))
        (sha256
         (base32 "1i5i9x7am36dr58bvlhydyp3bhmhbgg355k9jfddjylbrsnb7rc9"))))
-    (inputs `(("j" ,j)
-              ("j-arc-zlib" ,j-arc-zlib)))
+    (native-inputs `(("j-arc-zlib" ,j-arc-zlib)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -205,8 +201,7 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "e23236060339cdf4b4bec1da9dbca911c2230ad8")))
        (sha256
         (base32 "15f22zxyfj96a2ak6pdclg0jzc81a9x96hwcv5b2s7kbgpnj6cw8"))))
-    (inputs `(("j" ,j)
-              ("cairo" ,cairo)))
+    (native-inputs `(("cairo" ,cairo)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -245,7 +240,6 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "a5dd48482aa0f37a1e917d3651148203312a8107")))
        (sha256
         (base32 "0kzl810n43cpibygvwvyahk99sywmpcg317wisd841adnyqfbfkx"))))
-    (inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -277,13 +271,12 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "900efc7c70923f8b2592e6d0ecefa77b00b8ece2")))
        (sha256
         (base32 "04n07988gp5a424sgpasivs2mb3yiqfaxnkp4gw0xf5gqx8v3ams"))))
-    (inputs `(("j" ,j) ;; todo: general-misc & graphics/gl2
-              ("j-graphics-afm" ,j-graphics-afm)
-              ("j-graphics-bmp" ,j-graphics-bmp)
-              ("j-graphics-color" ,j-graphics-color)
-              ("j-graphics-png" ,j-graphics-png)
-              ("j-math-misc" ,j-math-misc)
-              ("j-general-misc" ,j-general-misc)))
+    (nattive-inputs `(("j-graphics-afm" ,j-graphics-afm)
+		      ("j-graphics-bmp" ,j-graphics-bmp)
+		      ("j-graphics-color" ,j-graphics-color)
+		      ("j-graphics-png" ,j-graphics-png)
+		      ("j-math-misc" ,j-math-misc)
+		      ("j-general-misc" ,j-general-misc)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -315,10 +308,9 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "ed86115ed60a43a506f4ec9c827963866b738217")))
        (sha256
         (base32 "1jv52s3fi6wrqjdi2p45v7mjy2jr5zmkq213axjgbgm2f4b3m458"))))
-    (inputs `(("j" ,j) ;; todo: graphics/gl2
-              ("j-graphics-bmp" ,j-graphics-bmp)
-              ("j-graphics-color" ,j-graphics-color)
-              ("j-graphics-png" ,j-graphics-png)))
+    (native-inputs `(("j-graphics-bmp" ,j-graphics-bmp)
+		     ("j-graphics-color" ,j-graphics-color)
+		     ("j-graphics-png" ,j-graphics-png)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -350,8 +342,7 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "a3709bb1a087c8439cc2afedd2cc749799422327")))
        (sha256
         (base32 "0fwp8kl27vdix4nz5z0i0b80jwgbk58ck4hg93gcvzn6l40sgsir"))))
-    (inputs `(("j" ,j)
-              ("mesa" ,mesa)))
+    (inputs `(("mesa" ,mesa)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -495,7 +486,6 @@ See wiki page: code.jsoftware.com/wiki/Vocabulary/LAPACK")
          (commit "289c02d2a8781a4c810ccf783e6447508e5f5ddd")))
        (sha256
         (base32 "0rpdazacplyg8ipra19h1zksclkkgqc33q6pc45fga6a8zh3d3a4"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -560,7 +550,6 @@ trig.ijs Trigonometric functions")
        (sha256
         (base32 "0wwl4sf1pxwp9p3cg7pzqsnfsvvybgpsm85p1zlcfgz9c3gs1glz"))))
     (inputs `(("zlib" ,zlib)))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -602,7 +591,6 @@ trig.ijs Trigonometric functions")
          (commit "af56a2ec846ef3a31720a6459de568d32bebd5fc")))
        (sha256
         (base32 "0q4npxs0x5agywq6x5rmjhnhzlyvvh1cmd71rqxvg8696jgm7qmv"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -634,7 +622,6 @@ trig.ijs Trigonometric functions")
          (commit "a64defe9adb24a0350517ab99121e8c75259983e")))
        (sha256
         (base32 "1km259hnvc1qwxhvb6nz7pk79jz5rn62g43yhn6ma5bvfz5hj35r"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -668,7 +655,6 @@ trig.ijs Trigonometric functions")
          (commit "7fdff1f8898b958c14c1035f6b42e494bd98fd0d")))
        (sha256
         (base32 "1896hjd43lzmrrags4srgm73r0lf36b89x1z2vdikdwwrksrr9ms"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -771,7 +757,6 @@ Contributed by Ric Sherlock.")
          (commit "c0916768bba3832fbb9bf2305d34575a5adc0ad0")))
        (sha256
         (base32 "0j78h07jm1b1q79vz091kv54cqx7g1jralj1dy5vyvswj3gkqrwj"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -803,7 +788,6 @@ Contributed by Ric Sherlock.")
          (commit "bbfc957fc4ddf90231c4a06239cbc85c67cc2769")))
        (sha256
         (base32 "1ky88dq8skdik0lbrr9892bmbdqbj8fn6w83gxg0jc1lkqsmqb6d"))))
-    (native-inputs `(("j" ,j)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
