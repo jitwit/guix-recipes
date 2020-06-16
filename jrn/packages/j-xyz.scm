@@ -29,10 +29,9 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages gl)
-  #:use-module (gnu packages j)
+  #:use-module (jrn packages j)
   #:use-module (gnu packages maths)
-  #:use-module (gnu packages curl)
-  )
+  #:use-module (gnu packages curl))
 
 ;;;; Graphics Addons
 (define-public j-graphics-bmp
