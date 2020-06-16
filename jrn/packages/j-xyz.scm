@@ -872,3 +872,34 @@ fndef.ijs Using a more literate style")
     (synopsis "Retrieve files from web")
     (description "J interface to Wget/cURL for retrieving files using http, https or ftp protocols.")
     (license expat)))
+
+(define-public j-ide-qt
+  (package
+    (name "j-ide-qt")
+    (version "1.1.139")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/ide_qt.git")
+         (commit "e306a3898e89a3215c94075d70d360a7deb477d2")))
+       (sha256
+        (base32 "0vnx2dhi9wjimnk8s3l17fz6ywxx7rkcd905a0swhgbr32w5ajxs"))))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/ide/qt")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/ide_qt/")
+    (synopsis "Qt IDE")
+    (description "Qt development")
+    (license expat)))

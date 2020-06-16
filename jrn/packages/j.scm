@@ -37,6 +37,12 @@
   #:use-module (gnu packages readline)
   #:use-module (gnu packages qt))
 
+;; fixme, maybe build "standard library" including profile/addons and
+;; such separately. jconsole and jqt both can be told where libraries
+;; and such are with cmdline args -lib and -jprofile so what's
+;; currenlty here is actually good enough for getting the shared
+;; object files built. this will also enable getting rid of that silly
+;; JPATH env var addition...
 (define-public j
   (package
     (name "j")
@@ -139,38 +145,24 @@
 	       ;; variables. Instead of using substitute*, just print
 	       ;; directly to target file.
 	       (with-output-to-file "jsrc/jversion.h"
-		 (lambda
-		     ()
-		   (display "#define jversion  ")
-		   (write ,version)
-		   (newline)
-		   (display "#define jplatform ")
-		   (write jplatform)
-		   (newline)
-		   (display "#define jtype     ")
-		   (write "beta")
-		   (newline)
-		   (display "#define jlicense  ")
-		   (write "GPL3")
-		   (newline)
-		   (display "#define jbuilder  ")
-		   (write "guix")
-		   (newline)))
+		 (lambda ()
+		   (display "#define jversion  ") (write ,version)  (newline)
+		   (display "#define jplatform ") (write jplatform) (newline)
+		   (display "#define jtype     ") (write "beta")    (newline)
+		   (display "#define jlicense  ") (write "GPL3")    (newline)
+		   (display "#define jbuilder  ") (write "guix")    (newline)))
 	       ;; be able to see added addons
-	       (substitute*
-		   `(,(string-append jgit "/jlibrary/bin/profile.ijs"))
+	       (substitute* `(,(string-append jgit "/jlibrary/bin/profile.ijs"))
 		 ((usr-j-share)
 		  guix-profile-j-share))
 	       ;; be able to use j's pcre2 regexes
-	       (substitute*
-		   `(,(string-append jgit "/jlibrary/system/main/regex.ijs"))
+	       (substitute* `(,(string-append jgit "/jlibrary/system/main/regex.ijs"))
 		 (("pcre2dll=: f")
 		  (string-append "pcre2dll=: '"
 				 (assoc-ref %build-inputs "pcre2")
 				 "/lib/libpcre2-8.so.0'")))
 	       ;; be able to use tar in built in addons
-	       (substitute*
-		   `(,(string-append jgit "/jlibrary/system/util/tar.ijs"))
+	       (substitute* `(,(string-append jgit "/jlibrary/system/util/tar.ijs"))
 		 (("libz=: .+$")
 		  (string-append "zlib=: '"
 				 (assoc-ref %build-inputs "zlib")
@@ -270,9 +262,9 @@ Ken Iverson and Roger Hui.")
              (copy-recursively "bin/linux-x86_64/release"
                                (string-append (assoc-ref %outputs "out")
                                               "/bin"))
-             (invoke "ln" "-s"
-                     (string-append (assoc-ref %build-inputs "j") "/bin/libj.so")
-                     (string-append (assoc-ref %outputs "out") "/bin/libj.so"))))
+	     ;;             (invoke "ln" "-s"(string-append (assoc-ref %build-inputs "j") "/bin/libj.so")           (string-append (assoc-ref %outputs "out") "/bin/libj.so"))
+	     #t
+	     ))
          (add-after 'install 'wrap-executable
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (wrap-program (string-append (assoc-ref outputs "out") "/bin/jqt")
