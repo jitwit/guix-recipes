@@ -244,8 +244,7 @@ Ken Iverson and Roger Hui.")
               ("qtdeclarative" ,qtdeclarative)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
-              ("qtwebengine" ,qtwebengine)
-              ("j" ,j)))
+              ("qtwebengine" ,qtwebengine)))
     (arguments
      `(#:modules ((guix build gnu-build-system) (guix build utils))
        #:tests? #f
@@ -262,9 +261,7 @@ Ken Iverson and Roger Hui.")
              (copy-recursively "bin/linux-x86_64/release"
                                (string-append (assoc-ref %outputs "out")
                                               "/bin"))
-	     ;;             (invoke "ln" "-s"(string-append (assoc-ref %build-inputs "j") "/bin/libj.so")           (string-append (assoc-ref %outputs "out") "/bin/libj.so"))
-	     #t
-	     ))
+	     #t))
          (add-after 'install 'wrap-executable
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (wrap-program (string-append (assoc-ref outputs "out") "/bin/jqt")
