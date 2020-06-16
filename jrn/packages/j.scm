@@ -64,8 +64,7 @@
        ("libedit" ,libedit)
        ("pcre2" ,pcre2)
        ("zlib" ,zlib)))
-    (outputs
-     '("out"))
+    (outputs '("out"))
     (arguments
      `(#:modules
        ((guix build gnu-build-system)
@@ -88,27 +87,18 @@
 		  (jplatform ,(if
 			       (target-arm?)
 			       "raspberry" "linux"))
-		  (jbits ,(if
-			   (target-64bit?)
-			   "j64" "j32"))
+		  (jbits ,(if (target-64bit?) "j64" "j32"))
 		  (jsuffix "so")
 		  (CC "gcc")
-		  (tsu
-		   (string-append jgit "/test/tsu.ijs"))
-		  (j32
-		   (string-append jbld "/j32/bin/jconsole " tsu))
-		  (j64
-		   (string-append jbld "/j64/bin/jconsole " tsu))
-		  (j64avx
-		   (string-append jbld "/j64/bin/jconsole -lib libjavx."
-                                  jsuffix " " tsu))
-		  (j64avx2
-		   (string-append jbld "/j64/bin/jconsole -lib libjavx2."
-                                  jsuffix " " tsu))
-		  (jmake
-		   (string-append jgit "/make"))
-		  (out
-		   (assoc-ref %outputs "out"))
+		  (tsu (string-append jgit "/test/tsu.ijs"))
+		  (j32 (string-append jbld "/j32/bin/jconsole " tsu))
+		  (j64 (string-append jbld "/j64/bin/jconsole " tsu))
+		  (j64avx (string-append jbld "/j64/bin/jconsole -lib libjavx."
+					 jsuffix " " tsu))
+		  (j64avx2 (string-append jbld "/j64/bin/jconsole -lib libjavx2."
+					  jsuffix " " tsu))
+		  (jmake (string-append jgit "/make"))
+		  (out   (assoc-ref %outputs "out"))
 		  ;; this is likely not a good hack to help profile.ijs
 		  ;; point flexibly to where it ought. used when running
 		  ;; tests as well as upon installation to make installed
@@ -198,13 +188,18 @@
 	     #t))
 	 (replace 'install
  	   (lambda _
-	     (let ((bin-in  (string-append (getenv "JPATH") "/bin/"))
-		   (bin-out (string-append (assoc-ref %outputs "out") "/bin/")))
-	       (install-file (string-append bin-in "jconsole") bin-out)
-	       (install-file (string-append bin-in "libj.so")  bin-out)
-	       (when (target-64bit?)
-		 (install-file (string-append bin-in "libjavx.so")   bin-out)
-		 (install-file (string-append bin-in "libjavx2.so")  bin-out)))
+	     (let* ((bin-in  (string-append (getenv "JPATH") "/bin/"))
+		    (bin-out (string-append (assoc-ref %outputs "out") "/bin/"))
+		    (jconsole (string-append bin-in "jconsole"))
+		    (libj.so (string-append bin-in "libj.so"))
+		    (libjavx.so (string-append bin-in "libjavx.so"))
+		    (libjavx2.so (string-append bin-in "libjavx2.so")))
+	       (install-file jconsole bin-out)
+	       (install-file libj.so bin-out)
+	       (when (file-exists? libjavx.so)
+		 (install-file libjavx.so bin-out))
+	       (when (file-exists? libjavx2.so)
+		 (install-file libjavx2.so bin-out)))
 	     #t)))))
     (synopsis "APL Dialect")
     (description "Terse, interpreted, array language originally developed by
@@ -212,7 +207,6 @@ Ken Iverson and Roger Hui.")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license gpl3)))
 
-;;;; WIP/doesn't work!
 (define-public jqt
   (package
     (name "jqt")
@@ -274,3 +268,68 @@ Ken Iverson and Roger Hui.")
     (description "tbd")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license lgpl2.1)))
+
+(define-public j-standard-library
+  (package
+    (name "j-standard-library")
+    (version "902")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+	(git-reference
+	 (url "https://github.com/jsoftware/jsource.git")
+	 (commit "7faecfaf9c5e1f3bf4410aa61fee28142a6a44ce")))
+       (sha256
+	(base32 "0bpp5zm03z6hpdz6l2bxvk1dw5khvhh05lzv56583np8jw4ml2mg"))))
+    (build-system gnu-build-system)
+    (inputs
+     `(("bash" ,bash)
+       ("pcre2" ,pcre2)
+       ("zlib" ,zlib)))
+    (outputs '("out"))
+    (arguments
+     `(#:modules
+       ((guix build gnu-build-system)
+	(guix build utils)
+	(ice-9 match))
+       #:phases
+       (modify-phases %standard-phases
+	 (replace 'configure
+	   (lambda _
+	     ;; the environment variables J build scripts expect
+	     (let* ((jgit (getcwd))
+		    (usr-j-share
+		     (string-append "'/usr/share/j/"
+				    (substring ,version 0 1)
+				    "."
+				    (substring ,version 1)
+				    "'")))
+	       ;; be able to use j's pcre2 regexes
+	       (substitute* `("jlibrary/system/main/regex.ijs")
+		 (("pcre2dll=: f")
+		  (string-append "pcre2dll=: '"
+				 (assoc-ref %build-inputs "pcre2")
+				 "/lib/libpcre2-8.so.0'")))
+	       ;; be able to use tar in built in addons
+	       (substitute* `("jlibrary/system/util/tar.ijs")
+		 (("libz=: .+$")
+		  (string-append "zlib=: '"
+				 (assoc-ref %build-inputs "zlib")
+				 "/lib/libz.so'\n")))
+	       #t)))
+	 (delete 'check)
+	 (delete 'build)
+	 (replace 'install
+ 	   (lambda _
+	     (let ((destination (string-append (assoc-ref %outputs "out")
+					       "/share/j")))
+	       (copy-recursively "jlibrary/addons"
+				 (string-append destination "/addons"))
+	       (copy-recursively "jlibrary/system"
+				 (string-append destination "/system"))
+	       #t))))))
+    (synopsis "APL Dialect")
+    (description "J with standard library")
+    (home-page "https://code.jsoftware.com/wiki/Main_Page")
+    (license gpl3)))
