@@ -75,44 +75,35 @@
 	 (replace 'configure
 	   (lambda _
 	     ;; the environment variables J build scripts expect
-	     (setenv "HOME"
-		     (getenv "TEMP"))
-	     (let*
-		 ((jgit
-		   (getcwd))
-		  (jbld
-		   (string-append
-		    (getenv "HOME")
-		    "/jbld"))
-		  (jplatform ,(if
-			       (target-arm?)
-			       "raspberry" "linux"))
-		  (jbits ,(if (target-64bit?) "j64" "j32"))
-		  (jsuffix "so")
-		  (CC "gcc")
-		  (tsu (string-append jgit "/test/tsu.ijs"))
-		  (j32 (string-append jbld "/j32/bin/jconsole " tsu))
-		  (j64 (string-append jbld "/j64/bin/jconsole " tsu))
-		  (j64avx (string-append jbld "/j64/bin/jconsole -lib libjavx."
-					 jsuffix " " tsu))
-		  (j64avx2 (string-append jbld "/j64/bin/jconsole -lib libjavx2."
-					  jsuffix " " tsu))
-		  (jmake (string-append jgit "/make"))
-		  (out   (assoc-ref %outputs "out"))
-		  ;; this is likely not a good hack to help profile.ijs
-		  ;; point flexibly to where it ought. used when running
-		  ;; tests as well as upon installation to make installed
-		  ;; addons visible. probably best to do full patches on
-		  ;; profile or to just provide one.
-		  (j-pre-install
-		   (string-append jbld "/" jbits "/"))
-		  (guix-profile-j-share "'share/j',~2!:5'JPATH'")
-		  (usr-j-share
-		   (string-append "'/usr/share/j/"
-				  (substring ,version 0 1)
-				  "."
-				  (substring ,version 1)
-				  "'")))
+	     (setenv "HOME" (getenv "TEMP"))
+	     (let* ((jgit  (getcwd))
+		    (jbld (string-append (getenv "HOME") "/jbld"))
+		    (jplatform ,(if (target-arm?) "raspberry" "linux"))
+		    (jbits ,(if (target-64bit?) "j64" "j32"))
+		    (jsuffix "so")
+		    (CC "gcc")
+		    (tsu (string-append jgit "/test/tsu.ijs"))
+		    (j32 (string-append jbld "/j32/bin/jconsole " tsu))
+		    (j64 (string-append jbld "/j64/bin/jconsole " tsu))
+		    (j64avx  (string-append jbld "/j64/bin/jconsole -lib libjavx."
+					    jsuffix " " tsu))
+		    (j64avx2 (string-append jbld "/j64/bin/jconsole -lib libjavx2."
+					    jsuffix " " tsu))
+		    (jmake   (string-append jgit "/make"))
+		    (out     (assoc-ref %outputs "out"))
+		    ;; this is likely not a good hack to help profile.ijs
+		    ;; point flexibly to where it ought. used when running
+		    ;; tests as well as upon installation to make installed
+		    ;; addons visible. probably best to do full patches on
+		    ;; profile or to just provide one.
+		    (j-pre-install (string-append jbld "/" jbits "/"))
+		    (guix-profile-j-share "'share/j',~2!:5'JPATH'")
+		    (usr-j-share
+		     (string-append "'/usr/share/j/"
+				    (substring ,version 0 1)
+				    "."
+				    (substring ,version 1)
+				    "'")))
 	       ;; make/make.txt asks us to copy make/jvars.sh to ~ and
 	       ;; change appropriate vars. that file is used to set
 	       ;; environment variables before calling J's build scripts. We
@@ -329,7 +320,41 @@ Ken Iverson and Roger Hui.")
 	       (copy-recursively "jlibrary/system"
 				 (string-append destination "/system"))
 	       #t))))))
-    (synopsis "APL Dialect")
-    (description "J with standard library")
+    (synopsis "Standard library for J")
+    (description "Standard library for J.")
+    (home-page "https://code.jsoftware.com/wiki/Main_Page")
+    (license gpl3)))
+
+(define-public jpl
+  (package
+    (name "jpl")
+    (version "902")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+	(git-reference
+	 (url "https://github.com/jitwit/jpl.git")
+	 (commit "b67316d65b1c7cd68780767f5c8552917a6b7b97")))
+       (sha256
+	(base32 "1pw8a80cm9gdpd09zwxla47lxv43k6ych122w59q4w7vql8bzq9l"))))
+    (native-inputs
+     `(("j" ,j)
+       ("jqt" ,jqt)
+       ("j-standard-library" ,j-standard-library)))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:make-flags (let ((j-dir   (assoc-ref %build-inputs "j"))
+			  (jqt-dir (assoc-ref %build-inputs "jqt"))
+			  (out (assoc-ref %outputs "out")))
+		       `(,(string-append "LIBJ=" j-dir "/bin/libjavx2.so")
+			 ,(string-append "JCONSOLE=" j-dir "/bin/jconsole")
+			 ,(string-append "JQT=" jqt-dir "/bin/jqt")
+			 ,(string-append "OUT=" out)))
+       #:phases (modify-phases %standard-phases
+		  (delete 'configure))))
+    (synopsis "profile.ijs and wrappers that cooperate with guix")
+    (description "Skirting around some of the assumptions that J uses
+about it's environment to play nice with guix.")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license gpl3)))
