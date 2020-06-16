@@ -181,38 +181,31 @@
 	       #t)))
 	 (replace 'build
 	   (lambda _
-	     (let
-		 ((jbits
-		   (getenv "jbits")))
+	     (let ((jbits (getenv "jbits")))
 	       (invoke "cat" "jsrc/jversion.h")
 	       (invoke "make/build_jconsole.sh" jbits)
 	       (invoke "make/build_tsdll.sh" jbits)
 	       (invoke "make/build_libj.sh" jbits)
-	       (when
-		   (string=? jbits "j64")
+	       (when (string=? jbits "j64")
 		 (invoke "make/build_libj.sh" "j64avx")
 		 (invoke "make/build_libj.sh" "j64avx2")))
 	     #t))
 	 (replace 'check
 	   (lambda _
-	     (if
-	      (string=?
-	       (getenv "jbits")
-	       "j64")
-	      (system "echo \"RECHO ddall\" | $j64avx2")
-	      (system "echo \"RECHO ddall\" | $j32"))
+	     (if (string=? (getenv "jbits") "j64")
+		 (system "echo \"RECHO ddall\" | $j64avx2")
+		 (system "echo \"RECHO ddall\" | $j32"))
 	     #t))
 	 (replace 'install
  	   (lambda _
-	     (copy-recursively
-	      (getenv "JPATH")
-	      (assoc-ref %outputs "out"))
+	     (let ((bin-in  (string-append (getenv "JPATH") "/bin/"))
+		   (bin-out (string-append (assoc-ref %outputs "out") "/bin/")))
+	       (install-file (string-append bin-in "jconsole") bin-out)
+	       (install-file (string-append bin-in "libj.so")  bin-out)
+	       (when (target-64bit?)
+		 (install-file (string-append bin-in "libjavx.so")   bin-out)
+		 (install-file (string-append bin-in "libjavx2.so")  bin-out)))
 	     #t)))))
-    (native-search-paths
-     `(,(search-path-specification
-	 (variable "JPATH")
-	 (files
-	  '("")))))
     (synopsis "APL Dialect")
     (description "Terse, interpreted, array language originally developed by
 Ken Iverson and Roger Hui.")
@@ -234,7 +227,7 @@ Ken Iverson and Roger Hui.")
        (sha256
         (base32 "0qanmh4863mn0aryl3k1yg38a78mc2cv26xxyhlr11xhc3a7ck73"))))
     (build-system gnu-build-system)
-    (outputs '("out"))    
+    (outputs '("out"))
     (inputs `(("bash" ,bash)
               ("mesa" ,mesa)
               ("pulseaudio" ,pulseaudio)
