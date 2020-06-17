@@ -28,6 +28,8 @@
     (update-cached-checkout url.git))
   (define manifest.ijs
     (string-append cache-dir "/manifest.ijs"))
+  (define (jdep->gdep dep)
+    (string-join (cons "j" (string-split dep (cut char=? <> #\/))) "-"))
   (pretty-print
    `(define-public ,(string->symbol
 		     (string-append "j-" name))
@@ -47,7 +49,10 @@
 				     (guix-hash "-x" "-r" cache-dir)))))
 		       (substring hash 0 52))))))
 	(propagated-inputs
-	 ,@(j-manifest manifest.ijs "DEPENDS"))
+	 (,@(map (lambda (dep)
+		   (let ((dep (jdep->gdep dep)))
+		     `(,dep ,(string->symbol dep))))
+		 (j-manifest manifest.ijs "DEPENDS"))))
 	(outputs '("out"))
 	(build-system gnu-build-system)
 	(arguments
