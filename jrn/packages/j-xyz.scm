@@ -1047,7 +1047,7 @@ fndef.ijs Using a more literate style")
         (sha256
           (base32
             "1hyamk0m10yn76240fqn9c90z50mbyzl80jlv7ig2d9v2diprq5n"))))
-    (propagated-inputs'())
+    (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
