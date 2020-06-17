@@ -118,7 +118,7 @@
        (sha256
         (base32 "034px2d9m1p49jz75469dqx2z1m1zds2jg7rq9c5qjmz7q5kbli3"))))
     (inputs `(("glibc" ,glibc)
-              ("gdk-pixbuf" ,gdk-pixbuf)))
+	      ("gdk-pixbuf" ,gdk-pixbuf)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -169,7 +169,7 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "2767c9b8efea71c38b0d8433bd58aba360ea464a")))
        (sha256
         (base32 "1i5i9x7am36dr58bvlhydyp3bhmhbgg355k9jfddjylbrsnb7rc9"))))
-    (native-inputs `(("j-arc-zlib" ,j-arc-zlib)))
+    (propagated-inputs `(("j-arc-zlib" ,j-arc-zlib)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -201,7 +201,7 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "e23236060339cdf4b4bec1da9dbca911c2230ad8")))
        (sha256
         (base32 "15f22zxyfj96a2ak6pdclg0jzc81a9x96hwcv5b2s7kbgpnj6cw8"))))
-    (native-inputs `(("cairo" ,cairo)))
+    (inputs `(("cairo" ,cairo)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -271,12 +271,12 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "900efc7c70923f8b2592e6d0ecefa77b00b8ece2")))
        (sha256
         (base32 "04n07988gp5a424sgpasivs2mb3yiqfaxnkp4gw0xf5gqx8v3ams"))))
-    (native-inputs `(("j-graphics-afm" ,j-graphics-afm)
-		     ("j-graphics-bmp" ,j-graphics-bmp)
-		     ("j-graphics-color" ,j-graphics-color)
-		     ("j-graphics-png" ,j-graphics-png)
-		     ("j-math-misc" ,j-math-misc)
-		     ("j-general-misc" ,j-general-misc)))
+    (propagated-inputs `(("j-graphics-afm" ,j-graphics-afm)
+			 ("j-graphics-bmp" ,j-graphics-bmp)
+			 ("j-graphics-color" ,j-graphics-color)
+			 ("j-graphics-png" ,j-graphics-png)
+			 ("j-math-misc" ,j-math-misc)
+			 ("j-general-misc" ,j-general-misc)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -308,9 +308,9 @@ Based on media/platimg developed by Oleg Kobchenko")
          (commit "ed86115ed60a43a506f4ec9c827963866b738217")))
        (sha256
         (base32 "1jv52s3fi6wrqjdi2p45v7mjy2jr5zmkq213axjgbgm2f4b3m458"))))
-    (native-inputs `(("j-graphics-bmp" ,j-graphics-bmp)
-		     ("j-graphics-color" ,j-graphics-color)
-		     ("j-graphics-png" ,j-graphics-png)))
+    (propagated-inputs `(("j-graphics-bmp" ,j-graphics-bmp)
+			 ("j-graphics-color" ,j-graphics-color)
+			 ("j-graphics-png" ,j-graphics-png)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
