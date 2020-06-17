@@ -890,6 +890,45 @@ fndef.ijs Using a more literate style")
     (description "Qt development")
     (license expat)))
 
+(define-public j-debug-lint
+  (package
+    (name "j-debug-lint")
+    (version "1.18.16")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/debug_lint.git")
+         (commit "e312d707b31a8c7c92e63c62f9e0b13b553a0d68")))
+       (sha256
+        (base32 "1askbwxsrq2jv7bvb0087jdlcgc6kss2c7lz38z36gx3kvcz7lc8"))))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/debug/lint")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/debug_lint/")
+    (synopsis "Load a script and check its syntax")
+    (description "lint tries to find errors before a script is run.  The idea is for 'lint' to replace 'load'
+during debugging.  The errors it looks for are the following:
+ explicit definitions lacking trailing )
+ undefined names, including names not defined in all paths
+ verbs used with invalid valences
+ non-noun results at the end of condition blocks and verbs
+ syntax errors
+ sentences with no effect on execution (eg verb verb)
+See the program header for description and directives.")
+    (license expat)))
+
 ;;;; Demos/Labs
 (define-public j-demos-qtdemo
   (package
@@ -962,3 +1001,68 @@ fndef.ijs Using a more literate style")
     (synopsis "qt demo")
     (description "simple demos for qt")
     (license expat)))
+
+(define-public j-demos-isigraph
+  (package
+    (name "j-demos-isigraph")
+    (version "1.0.71")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/demos_isigraph.git")
+         (commit "301d390b932f8751613d149333cdc91e409e4461")))
+       (sha256
+        (base32 "0vhkz89f09fkdrxi5ilb59n3dqvjm2w1xvpjm1fwrfpyilwdgzhi"))))
+    (propagated-inputs `(("j-graphics-viewmat" ,j-graphics-viewmat)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/demos/isigraph")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/demos_isigraph/")
+    (synopsis "qt demo")
+    (description "simple demos for qt")
+    (license expat)))
+
+;; many depends:
+;; (define-public j-demos-wd
+;;   (package
+;;     (name "j-demos-wd")
+;;     (version "1.0.71")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri
+;;         (git-reference
+;;          (url "https://github.com/jsoftware/demos_wd.git")
+;;          (commit "301d390b932f8751613d149333cdc91e409e4461")))
+;;        (sha256
+;;         (base32 "0vhkz89f09fkdrxi5ilb59n3dqvjm2w1xvpjm1fwrfpyilwdgzhi"))))
+;;     (propagated-inputs `(("j-graphics-viewmat" ,j-graphics-viewmat)))
+;;     (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;      `(#:modules ((guix build gnu-build-system) (guix build utils))
+;;        #:phases
+;;        (modify-phases %standard-phases
+;;          (delete 'configure) (delete 'check) (delete 'build)
+;;          (replace 'install
+;;            (lambda _
+;;              (let ((out (string-append (assoc-ref %outputs "out")
+;;                                        "/share/j/addons/demos/isigraph")))
+;;                (copy-recursively "." out)
+;;                #t))))))
+;;     (home-page "https://github.com/jsoftware/demos_wd/")
+;;     (synopsis "qt demo")
+;;     (description "simple demos for qt")
+;;     (license expat)))
