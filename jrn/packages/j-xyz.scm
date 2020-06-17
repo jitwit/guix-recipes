@@ -34,6 +34,47 @@
   #:use-module (gnu packages curl))
 
 ;;;; Graphics Addons
+(define-public j-media-imagekit
+  (package
+    (name "j-media-imagekit")
+    (version "1.0.8")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/media_imagekit.git")
+               (commit "6de6b5eb1305427a99e0eb59285d421959b9c1bb")))
+        (sha256
+          (base32 "17i2dfdmx6bsa826a1xfw8xg9r855cw8yq8asgfiv3vcvdzqpqa8"))))
+    (propagated-inputs
+     `(("j-graphics-viewmat" ,j-graphics-viewmat)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/media/imagekit")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/media_imagekit")
+    (synopsis
+      "Utilities for accessing 24-bit jpeg, png, bmp image files in J")
+    (description
+      "The image kit package provides utilities for accessing 24-bit jpeg, png image files in J. The core functions allow reading and writing image files as 3-dimensional J arrays.\n\nThe addon includes several scripts. The main script, imagekit.ijs, provides J functions for the basic image reading, writing, and viewing images through other J addons. Another script, html_gallery.ijs, provides J functions that create thumbnails and image...\n\n")
+    (license expat)))
+
 (define-public j-graphics-bmp
   (package
     (name "j-graphics-bmp")
@@ -620,6 +661,51 @@ trig.ijs Trigonometric functions")
     (description "This J addon provides an interface to zlib.")
     (license expat)))
 
+;; depends on arc/zip, todo 
+;; (define-public j-arc-ziptrees
+;;   (package
+;;     (name "j-arc-ziptrees")
+;;     (version "1.0.13")
+;;     (source
+;;       (origin
+;;         (method git-fetch)
+;;         (uri (git-reference
+;;                (url "https://github.com/jsoftware/arc_ziptrees.git")
+;;                (commit
+;;                  "be0206c115b13073f72f5f551e68ca8842fa8494")))
+;;         (sha256
+;;           (base32
+;;             "1n5sr21yf17c0ycf2857qnkl598j77c5c86yx2yqaz9iq4zgrgs2"))))
+;;     (propagated-inputs
+;;      `(("j-arc-zip" ,j-arc-zip)
+;;        ("j-general-dirutils" ,j-general-dirutils)))
+;;     (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;       `(#:modules
+;;         ((guix build gnu-build-system)
+;;          (guix build utils))
+;;         #:phases
+;;         (modify-phases
+;;           %standard-phases
+;;           (delete 'configure)
+;;           (delete 'check)
+;;           (delete 'build)
+;;           (replace
+;;             'install
+;;             (lambda _
+;;               (let ((out (string-append
+;;                            (assoc-ref %outputs "out")
+;;                            "/share/j/addons/arc/ziptrees")))
+;;                 (copy-recursively "." out)
+;;                 #t))))))
+;;     (home-page
+;;       "https://github.com/jsoftware/arc_ziptrees")
+;;     (synopsis "Zips and Unzips directory trees")
+;;     (description
+;;       "Zips and unzips directory trees to and from zip files.\nUses the the arc/zip addon.\n\nContributed by Ric Sherlock\n\n")
+;;     (license expat)))
+
 ;;;; Data Addons
 (define-public j-data-jmf
   (package
@@ -943,7 +1029,7 @@ Contributed by Ric Sherlock.")
             (lambda _
               (let ((out (string-append
                            (assoc-ref %outputs "out")
-                           ,"/share/j/addons/format/printf")))
+                           "/share/j/addons/format/printf")))
                 (copy-recursively "." out)
                 #t))))))
     (home-page
@@ -951,6 +1037,48 @@ Contributed by Ric Sherlock.")
     (synopsis "C-style printf formatting")
     (description
       "Printf provides verbs and adverbs for formatted printing in the manner of C's printf and sprintf.\n\n")
+    (license expat)))
+
+(define-public j-general-dirutils
+  (package
+    (name "j-general-dirutils")
+    (version "1.0.14")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/general_dirutils.git")
+               (commit
+                 "8221d58878d2926dde42a7a1330ae5e994410c53")))
+        (sha256
+          (base32
+            "12jl7mi6wm5s3116gkv8j1x04dzxfhws7824jhpcdv97siafymdy"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/general/dirutils")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/general_dirutils")
+    (synopsis "Additional directory utilities")
+    (description
+      "Directory utilities in addition to those in dir.ijs.\nIncluding test for existence of directory, create all non-existing\ndirectories in a path.\nContributed by Ric Sherlock\n\n")
     (license expat)))
 
 (define-public j-general-unittest
@@ -1120,6 +1248,49 @@ fndef.ijs Using a more literate style")
       "sockmux creates a socket in its own locale and manages multiple such sockets.\nsockconnxactn calls sockmux and mediates transfer of data to an application, using callbacks to tell the application when data has been received.  Suitable for things like email or HTTP transactions.\nThere is also a file-server. \n\n")
     (license expat)))
 
+(define-public j-sockets-sockutils
+  (package
+    (name "j-sockets-sockutils")
+    (version "1.0.4")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/sockets_sockutils.git")
+               (commit
+                 "3cd63f5de3124eeafe47de379a12a16cf89631eb")))
+        (sha256
+          (base32
+            "1mwrc92dn4zmdqzkb30agd1y1zcam9sdg2bbk44zp9p3g9c88yv8"))))
+    (propagated-inputs
+     `(("j-misc-miscutils" ,j-misc-miscutils)
+       ("j-sockets-socklib" ,j-sockets-socklib)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/sockets/sockutils")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/sockets_sockutils")
+    (synopsis "Routines for web transactions")
+    (description "Routines to process transactions using the socket system\n")
+    (license expat)))
+
 (define-public j-web-gethttp
   (package
     (name "j-web-gethttp")
@@ -1221,6 +1392,49 @@ during debugging.  The errors it looks for are the following:
  syntax errors
  sentences with no effect on execution (eg verb verb)
 See the program header for description and directives.")
+    (license expat)))
+
+(define-public j-debug-dissect
+  (package
+    (name "j-debug-dissect")
+    (version "4.6.39")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/debug_dissect.git")
+               (commit
+                 "113260c9e3bbedf8ed3707af38e2343247278b61")))
+        (sha256
+          (base32
+            "1w659x1jxwskaikqm082012s2wisn0lzxygazpbjgcsqj35zvslj"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/debug/dissect")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/debug_dissect")
+    (synopsis
+      "Run a sentence and produce a 2D display of results")
+    (description
+      "dissect runs a sentence after inserting instrumentation at the execution of each primitive.\nThen it creates a 2D display showing each word and the results of executing it.\nThe user can click on the display to probe execution.\n\n")
     (license expat)))
 
 ;;;; Demos/Labs
