@@ -1656,6 +1656,172 @@ User interfaces available for various J environments currently include:
 Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (license expat)))
 
+(define-public j-games-2048
+  (package
+    (name "j-games-2048")
+    (version "1.0.8")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/games_2048.git")
+               (commit
+                 "810f50208fd2f42ba81ca504f458d6cbf2c9c641")))
+        (sha256
+          (base32
+            "1hlbwg8ki0wpsajzw9jzd087xv8fbg34szwh9dcv6hlhz8mk2cnh"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/games/2048")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/games_2048")
+    (synopsis "2048 game")
+    (description
+      "Implentation of the 2048 game.\n\nAn example of how to implement equivalent user interfaces for different environments.\nUser interfaces available for various J environments currently include:\n  * jconsole, jQt\n\nAuthors: Ric Sherlock\n\n")
+    (license expat)))
+
+(define-public j-games-bagofnouns
+  (package
+    (name "j-games-bagofnouns")
+    (version "1.0.92")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/games_bagofnouns.git")
+               (commit
+                 "bc7f8a700f7fe8cf010f7f70db269998f739c48a")))
+        (sha256
+          (base32
+            "0s24c5dzyhh8dnjqbb70g389841h20wgpj22k77r7ki121xy9jxm"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/games/bagofnouns")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page  "https://github.com/jsoftware/games_bagofnouns")
+    (synopsis "Distributed game controller")
+    (description
+      "Lets people play a game over Zoom\n\n")
+    (license expat)))
+
+
+(define-public j-games-pousse
+  (package
+    (name "j-games-pousse")
+    (version "1.0.37")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/games_pousse.git")
+               (commit
+                 "3a8810111a0a029a2401a39b40774b7253abb2bb")))
+        (sha256
+          (base32
+            "0g53k8hjmd6rgsdd858kwvqa7i0gmrxkardnn7nw2j73mnyf90kr"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/games/pousse")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/games_pousse")
+    (synopsis "pousse")
+    (description "pousse\n")
+    (license expat)))
+
+(define-public j-games-solitaire
+  (package
+    (name "j-games-solitaire")
+    (version "1.0.48")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/games_solitaire.git")
+               (commit
+                 "7ef609f69c891779af8c7ac3ac36d70e3bf033dc")))
+        (sha256
+          (base32
+            "1c4xm6325v5ii9hmggh5xx5rj8vr325976crbjx3mannin3i6q3y"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/games/solitaire")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page  "https://github.com/jsoftware/games_solitaire")
+    (synopsis "solitaire")
+    (description "solitaire\n")
+    (license expat)))
+
+;;;; Labs
 (define-public j-labs-labs
   (package
     (name "j-labs-labs")
