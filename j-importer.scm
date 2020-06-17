@@ -1,6 +1,9 @@
 (use-modules (ice-9 popen)
 	     (ice-9 rdelim)
 	     (ice-9 pretty-print)
+	     (srfi srfi-1)
+	     (srfi srfi-26)
+	     (guix import utils)
 	     (guix build git)
 	     (guix scripts hash)
 	     (guix git))
@@ -15,11 +18,11 @@
     (if (eof-object? x)
 	(reverse xs)
 	(lp (read-line out) `(,x ,@xs)))))
-;; latest-repository-commit store url
-;; latest-repository-commit* url
 
 ;; most J addons don't have tags or releases, thence this
-(define (j-import-package name url)
+(define (j-import-package url)
+  (define name
+    (snake-case (car (last-pair (string-split url (cut char=? <> #\/))))))
   (define url.git (string-append url ".git"))
   (define-values (cache-dir commit rel)
     (update-cached-checkout url.git))
@@ -62,6 +65,12 @@
 		   (copy-recursively "." out)
 		   #t))))))
 	(home-page ,url)
-	(synopsis ,@(j-manifest manifest.ijs "CAPTION"))
-	(description ,@(j-manifest manifest.ijs "DESCRIPTION"))
+	(synopsis ,(fold-right (lambda (x s)
+				 (string-append x "\n" s))
+			       ""
+			       (j-manifest manifest.ijs "CAPTION")))
+	(description ,(fold-right (lambda (x s)
+				 (string-append x "\n" s))
+			       ""
+			       (j-manifest manifest.ijs "DESCRIPTION")))
 	(license)))))
