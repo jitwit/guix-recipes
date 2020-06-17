@@ -870,6 +870,89 @@ Contributed by Ric Sherlock.")
     (license expat)))
 
 ;;;; General Addons
+(define-public j-misc-miscutils
+  (package
+    (name "j-misc-miscutils")
+    (version "1.0.4")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/misc_miscutils.git")
+               (commit
+                 "3fea111992b16f8e5d476caa5dc4567afe885c48")))
+        (sha256
+          (base32
+            "0smd6gq1agmy0pll2vp64vbihilzl3s1g7761mnfq2sipb3ykm22"))))
+    (propagated-inputs `(("j-format-printf" ,j-format-printf)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/misc/miscutils")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/misc_miscutils")
+    (synopsis "Miscellaneous utility definitions")
+    (description
+      "langexten contains basic extensions to J.\nklutils contains function for 'keyed lists', which are tables where specified columns are 'key' and the rest are 'data'\nutils contains a grab-bag of definitions\n\n")
+    (license expat)))
+
+(define-public j-format-printf
+  (package
+    (name "j-format-printf")
+    (version "1.0.11")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/format_printf.git")
+               (commit "5fca8b8961100f3eecfa3ff1aa7eae43f433fae1")))
+        (sha256
+          (base32
+            "07yz6cr6v7lrfpv9gk80phcy6mqdibzghy4bz5scd2167kxqvi13"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           ,"/share/j/addons/format/printf")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/format_printf")
+    (synopsis "C-style printf formatting")
+    (description
+      "Printf provides verbs and adverbs for formatted printing in the manner of C's printf and sprintf.\n\n")
+    (license expat)))
+
 (define-public j-general-unittest
   (package
     (name "j-general-unittest")
@@ -993,7 +1076,7 @@ fndef.ijs Using a more literate style")
       "Routines for multiple asynchronous sockets")
     (description
       "sockmux creates a socket in its own locale and manages multiple such sockets.\nsockconnxactn calls sockmux and mediates transfer of data to an application, using callbacks to tell the application when data has been received.  Suitable for things like email or HTTP transactions.\nThere is also a file-server. \n\n")
-    (license)))
+    (license expat)))
 
 (define-public j-web-gethttp
   (package
