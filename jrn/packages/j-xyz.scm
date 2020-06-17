@@ -1066,3 +1066,40 @@ See the program header for description and directives.")
 ;;     (synopsis "qt demo")
 ;;     (description "simple demos for qt")
 ;;     (license expat)))
+
+;;;; Games
+(define-public j-games-minesweeper
+  (package
+    (name "j-games-minesweeper")
+    (version "1.0.52")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/games_minesweeper.git")
+         (commit "6578a63b9ee47d6c00dc5aacb0c61ff22de9c1d3")))
+       (sha256
+        (base32 "15jbwpsxr1hyqyzj9r8gh2ib14gwawqcahwn40cg68k6avaf0bj9"))))
+    (propagated-inputs `(("j-graphics-viewmat" ,j-graphics-viewmat)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/games/minesweeper")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/games_minesweeper")
+    (synopsis "Classic Minesweeper game")
+    (description "Implentation of classic Minesweeper game.
+Designed as an example of how to implement equivalent user interfaces for different environments.
+User interfaces available for various J environments currently include:
+  * jconsole, jQt
+Authors: Ric Sherlock, Bill Lam and Raul Miller.")
+    (license expat)))
