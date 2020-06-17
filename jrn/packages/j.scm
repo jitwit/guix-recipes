@@ -37,12 +37,6 @@
   #:use-module (gnu packages readline)
   #:use-module (gnu packages qt))
 
-;; fixme, maybe build "standard library" including profile/addons and
-;; such separately. jconsole and jqt both can be told where libraries
-;; and such are with cmdline args -lib and -jprofile so what's
-;; currenlty here is actually good enough for getting the shared
-;; object files built. this will also enable getting rid of that silly
-;; JPATH env var addition...
 (define-public j
   (package
     (name "j")
@@ -68,8 +62,7 @@
     (arguments
      `(#:modules
        ((guix build gnu-build-system)
-	(guix build utils)
-	(ice-9 match))
+	(guix build utils))
        #:phases
        (modify-phases %standard-phases
 	 (replace 'configure
@@ -97,7 +90,7 @@
 		    ;; addons visible. probably best to do full patches on
 		    ;; profile or to just provide one.
 		    (j-pre-install (string-append jbld "/" jbits "/"))
-		    (guix-profile-j-share "'share/j',~2!:5'JPATH'")
+		    (temp-j-share "'share/j',~2!:5'JPATH'")
 		    (usr-j-share
 		     (string-append "'/usr/share/j/"
 				    (substring ,version 0 1)
@@ -133,9 +126,8 @@
 		   (display "#define jlicense  ") (write "GPL3")    (newline)
 		   (display "#define jbuilder  ") (write "guix")    (newline)))
 	       ;; be able to see added addons
-	       (substitute* `(,(string-append jgit "/jlibrary/bin/profile.ijs"))
-		 ((usr-j-share)
-		  guix-profile-j-share))
+	       (substitute* '("jlibrary/bin/profile.ijs")
+		 ((usr-j-share) temp-j-share))
 	       ;; be able to use j's pcre2 regexes
 	       (substitute* `(,(string-append jgit "/jlibrary/system/main/regex.ijs"))
 		 (("pcre2dll=: f")
@@ -179,19 +171,70 @@
 	     #t))
 	 (replace 'install
  	   (lambda _
-	     (let* ((bin-in  (string-append (getenv "JPATH") "/bin/"))
-		    (bin-out (string-append (assoc-ref %outputs "out") "/bin/"))
-		    (jconsole (string-append bin-in "jconsole"))
-		    (libj.so (string-append bin-in "libj.so"))
-		    (libjavx.so (string-append bin-in "libjavx.so"))
-		    (libjavx2.so (string-append bin-in "libjavx2.so")))
+	     (let* ((bin-in  (string-append (getenv "JPATH") "/bin"))
+		    (bin-out (string-append (assoc-ref %outputs "out") "/bin"))
+		    (share-out (string-append (assoc-ref %outputs "out")
+					      "/share/j"))
+		    (jconsole (string-append bin-in "/jconsole"))
+		    (libj.so (string-append bin-in "/libj.so"))
+		    (libjavx.so (string-append bin-in "/libjavx.so"))
+		    (libjavx2.so (string-append bin-in "/libjavx2.so")))
 	       (install-file jconsole bin-out)
 	       (install-file libj.so bin-out)
 	       (when (file-exists? libjavx.so)
 		 (install-file libjavx.so bin-out))
 	       (when (file-exists? libjavx2.so)
-		 (install-file libjavx2.so bin-out)))
-	     #t)))))
+		 (install-file libjavx2.so bin-out))
+	       (copy-recursively "jlibrary/addons"
+				 (string-append share-out "/addons"))
+	       (copy-recursively "jlibrary/system"
+				 (string-append share-out "/system"))
+	       (with-output-to-file (string-append bin-out "/profile.ijs")
+		 (lambda ()
+		   (display
+		    "NB. J profile
+NB. JFE sets BINPATH_z_ and ARGV_z_
+
+jpathsep_z_=: '/'&(('\\' I.@:= ])})\n
+home=. 2!:5'HOME'\n
+BINPATH_z_=: home,'/.guix-profile/bin/jconsole'\n
+
+bin=. BINPATH
+install=. home,'/.guix-profile/share/j'
+addons=. install,'/addons'
+system=. install,'/system'
+tools=. install,'/tools'
+isroot=. 0
+userx=. '/j902-user'
+user=. home,userx
+break=. user,'/break'
+config=. user,'/config'
+snap=. user,'/snap'
+temp=. user,'/temp'
+ids=. ;:'addons bin break config home install snap system tools temp user'
+
+SystemFolders_j_=: ids,.jpathsep@\".&.>ids
+
+NB. used to create mutable j user directories for temp
+NB. files/configuring jqt/projects and so on
+md=. 3 : 0 NB. recursive makedir
+a=. jpathsep y,'/'
+if. ('root'-:2!:5'USER') +. ('//'-:2{.a)+.('/root/'-:6{.a)+.('/var/root/'-:10{.a)+.('/usr/'-:5{.a)+.('/tmp'-:a) do. return. end. NB. installed under / /root /usr
+if. -.#1!:0 }:a do.
+  for_n. I. a='/' do. 1!:5 :: [ <n{.a end.
+end.
+)
+
+NB. try to ensure user folders exist
+md user,'/projects'
+md break
+md config
+md snap
+md temp
+
+NB. boot up J and load startup.ijs if it exists
+0!:0 <jpathsep (4!:55 (;:'isroot userx ids md'), ids)]system,'/util/boot.ijs'")))
+	       #t))))))
     (synopsis "APL Dialect")
     (description "Terse, interpreted, array language originally developed by
 Ken Iverson and Roger Hui.")
@@ -214,6 +257,7 @@ Ken Iverson and Roger Hui.")
     (build-system gnu-build-system)
     (outputs '("out"))
     (inputs `(("bash" ,bash)
+	      ("j" ,j)
               ("mesa" ,mesa)
               ("pulseaudio" ,pulseaudio)
               ("qtbase" ,qtbase)
@@ -254,107 +298,17 @@ Ken Iverson and Roger Hui.")
 			 "qtwebengine"
 			 "qtmultimedia"
 			 "qtwebchannel"))))
+	     (substitute* `(,(string-append (assoc-ref outputs "out") "/bin/jqt"))
+	       (("\\$@")
+		(string-append "-lib\" \""
+			       (assoc-ref inputs "j") "/bin/libjavx2.so\" "
+			       "\"-jprofile\" \""
+			       (assoc-ref inputs "j") "/bin/profile.ijs\" "
+			       "\"$@")))
              #t)))))
-    (synopsis "QT-based ide for the J Programming Language")
-    (description "tbd")
+    (synopsis "The jqtide application is an executable, jqt, and a
+shared object, libjqt.so")
+    (description "The jqtide application is an executable, jqt, and a
+shared object, libjqt.so.")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license lgpl2.1)))
-
-(define-public j-standard-library
-  (package
-    (name "j-standard-library")
-    (version "902")
-    (source
-     (origin
-       (method git-fetch)
-       (uri
-	(git-reference
-	 (url "https://github.com/jsoftware/jsource.git")
-	 (commit "7faecfaf9c5e1f3bf4410aa61fee28142a6a44ce")))
-       (sha256
-	(base32 "0bpp5zm03z6hpdz6l2bxvk1dw5khvhh05lzv56583np8jw4ml2mg"))))
-    (build-system gnu-build-system)
-    (inputs
-     `(("bash" ,bash)
-       ("pcre2" ,pcre2)
-       ("zlib" ,zlib)))
-    (outputs '("out"))
-    (arguments
-     `(#:modules
-       ((guix build gnu-build-system)
-	(guix build utils)
-	(ice-9 match))
-       #:phases
-       (modify-phases %standard-phases
-	 (replace 'configure
-	   (lambda _
-	     ;; the environment variables J build scripts expect
-	     (let* ((jgit (getcwd))
-		    (usr-j-share
-		     (string-append "'/usr/share/j/"
-				    (substring ,version 0 1)
-				    "."
-				    (substring ,version 1)
-				    "'")))
-	       ;; be able to use j's pcre2 regexes
-	       (substitute* `("jlibrary/system/main/regex.ijs")
-		 (("pcre2dll=: f")
-		  (string-append "pcre2dll=: '"
-				 (assoc-ref %build-inputs "pcre2")
-				 "/lib/libpcre2-8.so.0'")))
-	       ;; be able to use tar in built in addons
-	       (substitute* `("jlibrary/system/util/tar.ijs")
-		 (("libz=: .+$")
-		  (string-append "zlib=: '"
-				 (assoc-ref %build-inputs "zlib")
-				 "/lib/libz.so'\n")))
-	       #t)))
-	 (delete 'check)
-	 (delete 'build)
-	 (replace 'install
- 	   (lambda _
-	     (let ((destination (string-append (assoc-ref %outputs "out")
-					       "/share/j")))
-	       (copy-recursively "jlibrary/addons"
-				 (string-append destination "/addons"))
-	       (copy-recursively "jlibrary/system"
-				 (string-append destination "/system"))
-	       #t))))))
-    (synopsis "Standard library for J")
-    (description "Standard library for J.")
-    (home-page "https://code.jsoftware.com/wiki/Main_Page")
-    (license gpl3)))
-
-(define-public jpl
-  (package
-    (name "jpl")
-    (version "902")
-    (source
-     (origin
-       (method git-fetch)
-       (uri
-	(git-reference
-	 (url "https://github.com/jitwit/jpl.git")
-	 (commit "b67316d65b1c7cd68780767f5c8552917a6b7b97")))
-       (sha256
-	(base32 "1pw8a80cm9gdpd09zwxla47lxv43k6ych122w59q4w7vql8bzq9l"))))
-    (native-inputs
-     `(("j" ,j)
-       ("jqt" ,jqt)
-       ("j-standard-library" ,j-standard-library)))
-    (build-system gnu-build-system)
-    (arguments
-     `(#:make-flags (let ((j-dir   (assoc-ref %build-inputs "j"))
-			  (jqt-dir (assoc-ref %build-inputs "jqt"))
-			  (out (assoc-ref %outputs "out")))
-		       `(,(string-append "LIBJ=" j-dir "/bin/libjavx2.so")
-			 ,(string-append "JCONSOLE=" j-dir "/bin/jconsole")
-			 ,(string-append "JQT=" jqt-dir "/bin/jqt")
-			 ,(string-append "OUT=" out)))
-       #:phases (modify-phases %standard-phases
-		  (delete 'configure))))
-    (synopsis "profile.ijs and wrappers that cooperate with guix")
-    (description "Skirting around some of the assumptions that J uses
-about it's environment to play nice with guix.")
-    (home-page "https://code.jsoftware.com/wiki/Main_Page")
-    (license gpl3)))

@@ -858,6 +858,7 @@ fndef.ijs Using a more literate style")
     (description "J interface to Wget/cURL for retrieving files using http, https or ftp protocols.")
     (license expat)))
 
+;;;; IDE addons
 (define-public j-ide-qt
   (package
     (name "j-ide-qt")
@@ -887,4 +888,77 @@ fndef.ijs Using a more literate style")
     (home-page "https://github.com/jsoftware/ide_qt/")
     (synopsis "Qt IDE")
     (description "Qt development")
+    (license expat)))
+
+;;;; Demos/Labs
+(define-public j-demos-qtdemo
+  (package
+    (name "j-demos-qtdemo")
+    (version "1.0.21")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/demos_qtdemo.git")
+         (commit "a888bce12028d2a91fa1c190662c9c61a157ab97")))
+       (sha256
+        (base32 "1y870wf21zyv9ib56pl4clhlb8kfn01nsadlldygzxpn8ap3i03n"))))
+    (propagated-inputs `(("j-api-gles" ,j-api-gles)
+			 ("j-graphics-bmp" ,j-graphics-bmp)
+			 ("j-graphics-plot" ,j-graphics-plot)
+			 ("j-graphics-viewmat" ,j-graphics-viewmat)
+			 ("j-ide-qt" ,j-ide-qt)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/demos/qtdemo")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/demos_qtdemo/")
+    (synopsis "qt demo")
+    (description "simple demos for qt")
+    (license expat)))
+
+(define-public j-demos-qtdemo
+  (package
+    (name "j-demos-qtdemo")
+    (version "1.0.21")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+        (git-reference
+         (url "https://github.com/jsoftware/demos_qtdemo.git")
+         (commit "a888bce12028d2a91fa1c190662c9c61a157ab97")))
+       (sha256
+        (base32 "1y870wf21zyv9ib56pl4clhlb8kfn01nsadlldygzxpn8ap3i03n"))))
+    (propagated-inputs `(("j-api-gles" ,j-api-gles)
+			 ("j-graphics-bmp" ,j-graphics-bmp)
+			 ("j-graphics-plot" ,j-graphics-plot)
+			 ("j-graphics-viewmat" ,j-graphics-viewmat)
+			 ("j-ide-qt" ,j-ide-qt)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules ((guix build gnu-build-system) (guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure) (delete 'check) (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append (assoc-ref %outputs "out")
+                                       "/share/j/addons/demos/qtdemo")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/demos_qtdemo/")
+    (synopsis "qt demo")
+    (description "simple demos for qt")
     (license expat)))
