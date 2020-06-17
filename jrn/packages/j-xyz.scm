@@ -75,6 +75,47 @@
       "The image kit package provides utilities for accessing 24-bit jpeg, png image files in J. The core functions allow reading and writing image files as 3-dimensional J arrays.\n\nThe addon includes several scripts. The main script, imagekit.ijs, provides J functions for the basic image reading, writing, and viewing images through other J addons. Another script, html_gallery.ijs, provides J functions that create thumbnails and image...\n\n")
     (license expat)))
 
+(define-public j-graphics-jpeg
+  (package
+    (name "j-graphics-jpeg")
+    (version "1.0.20")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/graphics_jpeg.git")
+               (commit
+                 "1234416aff49164a14a73cc73cf47d4cde634b52")))
+        (sha256
+          (base32
+            "0s2xmg6fv1kxhzkkjxvb3w424zk71iij2i9qizr1w81l76nk945j"))))
+    (propagated-inputs `(("j-graphics-pplatimg" ,j-graphics-pplatimg)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/graphics/jpeg")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/graphics_jpeg")
+    (synopsis "jpeg utilities")
+    (description "Utilities for *.jpg files\n\n")
+    (license expat)))
+
 (define-public j-graphics-bmp
   (package
     (name "j-graphics-bmp")
