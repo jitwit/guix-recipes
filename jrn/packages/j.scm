@@ -195,9 +195,9 @@
 		    "NB. J profile
 NB. JFE sets BINPATH_z_ and ARGV_z_
 
-jpathsep_z_=: '/'&(('\\' I.@:= ])})\n
-home=. 2!:5'HOME'\n
-BINPATH_z_=: home,'/.guix-profile/bin/jconsole'\n
+jpathsep_z_=: '/'&(('\\' I.@:= ])})
+home=. 2!:5'HOME'
+BINPATH_z_=: home,'/.guix-profile/bin/jconsole'
 
 bin=. BINPATH
 install=. home,'/.guix-profile/share/j'
@@ -233,7 +233,7 @@ md snap
 md temp
 
 NB. boot up J and load startup.ijs if it exists
-0!:0 <jpathsep (4!:55 (;:'isroot userx ids md'), ids)]system,'/util/boot.ijs'")))
+0!:0 <jpathsep (4!:55 (;:'isroot userx ids md'), ids)]system,'/util/boot.ijs'\n")))
 	       #t))))))
     (synopsis "APL Dialect")
     (description "Terse, interpreted, array language originally developed by
