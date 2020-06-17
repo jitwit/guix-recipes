@@ -1033,6 +1033,48 @@ test_bigfiles.ijs 	data=.bixread f;start0,start1[,len[,dirflag]]			indexed read
 fndef.ijs Using a more literate style")
     (license expat)))
 
+(define-public j-debug-jig
+  (package
+    (name "j-debug-jig")
+    (version "2.0.2")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/debug_jig.git")
+               (commit
+                 "c2413bbe58f1746573c37f1799f6fdc756328132")))
+        (sha256
+          (base32
+            "1hyamk0m10yn76240fqn9c90z50mbyzl80jlv7ig2d9v2diprq5n"))))
+    (propagated-inputs'())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/debug/jig")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/debug_jig")
+    (synopsis "Augmented Display of J results")
+    (description
+      "Jig displays an interactive SVG window that allows users to easily see the shape, type and other properties of the results of J sentences. Jig runs in the jqt environment and requires the full version of the QT ide\n\n")
+    (license expat)))
+
 ;;;; Web Addons
 (define-public j-sockets-socklib
   (package
