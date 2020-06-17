@@ -34,7 +34,7 @@
    `(define-public ,(string->symbol
 		     (string-append "j-" name))
       (package
-	(name ,name)
+	(name ,(string-append "j-" name))
 	(version ,@(j-manifest manifest.ijs "VERSION"))
 	(source
 	 (origin
@@ -79,3 +79,22 @@
 			       ""
 			       (j-manifest manifest.ijs "DESCRIPTION")))
 	(license)))))
+
+(define (import-to-file url file)
+  (with-output-to-file file
+    (lambda ()
+      (j-import-package url))))
+
+(define (j-package-latest-commit+hash url)
+  (define name
+    (snake-case (car (last-pair (string-split url (cut char=? <> #\/))))))
+  (define url.git (string-append url ".git"))
+  (define-values (cache-dir commit rel)
+    (update-cached-checkout url.git))
+  (values
+   commit
+   (substring (with-output-to-string
+		(lambda ()
+		  (guix-hash "-x" "-r" cache-dir)))
+	      0 52)))
+

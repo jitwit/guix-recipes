@@ -375,6 +375,47 @@ see jwiki http://code.jsoftware.com/wiki/OpenGL%20ES")
     (license expat)))
 
 ;;;; Mathematical Addons
+(define-public j-math-calculus
+  (package
+    (name "j-math-calculus")
+    (version "1.0.3")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+	     (url "https://github.com/jsoftware/math_calculus.git")
+	     (commit
+	      "9a5cc851423b8c25e09c3be8e3066483d1b895f2")))
+       (sha256
+	(base32
+	 "0jayryq57cxbmwh9r490q8d2dsk2400fvk8fvymbhbjhk305ryrh"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules
+       ((guix build gnu-build-system)
+	(guix build utils))
+       #:phases
+       (modify-phases
+	   %standard-phases
+	 (delete 'configure)
+	 (delete 'check)
+	 (delete 'build)
+	 (replace
+	     'install
+	   (lambda _
+	     (let ((out (string-append (assoc-ref %outputs "out")
+				       "/share/j/addons/math/calculus")))
+	       (copy-recursively "." out)
+	       #t))))))
+    (home-page
+     "https://github.com/jsoftware/math_calculus")
+    (synopsis "symbolic differentiation and integration")
+    (description
+     "Conjunctions to perform differentiation and integration of J verbs, and secant-slope approximation for verbs that cannot be handled symbolically\n\n")
+    (license expat)))
+
 (define-public j-math-fftw
   (package
     (name "j-math-fftw")
@@ -483,9 +524,9 @@ See wiki page: code.jsoftware.com/wiki/Vocabulary/LAPACK")
        (uri
         (git-reference
          (url "https://github.com/jsoftware/math_misc.git")
-         (commit "289c02d2a8781a4c810ccf783e6447508e5f5ddd")))
+         (commit "ee67a58fd84d6fe11ad636d703457cb3d7bcd4fc")))
        (sha256
-        (base32 "0rpdazacplyg8ipra19h1zksclkkgqc33q6pc45fga6a8zh3d3a4"))))
+        (base32 "0j2m90nz9r66dccivzzr215fy7k5pk4brkpwl2skqjgkqxd163ln"))))
     (inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -546,10 +587,10 @@ trig.ijs Trigonometric functions")
        (method git-fetch)
        (uri
         (git-reference
-         (url "https://github.com/jitwit/arc_zlib.git")
-         (commit "08d0738fedf1e0592347748a8b7466ea95466062")))
+         (url "https://github.com/jsoftware/arc_zlib.git")
+         (commit "be37111ffaabd9189f295f35714ffcdf7cf34de3")))
        (sha256
-        (base32 "0wwl4sf1pxwp9p3cg7pzqsnfsvvybgpsm85p1zlcfgz9c3gs1glz"))))
+        (base32 "1was81f9dwfh63kh18k1gdc9xmj16vh1cgzfcipyjjdrx93jg68x"))))
     (inputs `(("zlib" ,zlib)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -567,12 +608,13 @@ trig.ijs Trigonometric functions")
                                (assoc-ref %build-inputs "zlib")
                                "/lib/libz.so'\n")))
              #t))
-         (delete 'check) (delete 'build) (replace 'install
-                                           (lambda _
-                                             (let ((out (string-append (assoc-ref %outputs "out")
-                                                                       "/share/j/addons/arc/zlib")))
-                                               (copy-recursively "." out)
-                                               #t))))))
+         (delete 'check) (delete 'build)
+	 (replace 'install
+	   (lambda _
+	     (let ((out (string-append (assoc-ref %outputs "out")
+				       "/share/j/addons/arc/zlib")))
+	       (copy-recursively "." out)
+	       #t))))))
     (home-page "https://github.com/jsoftware/arc_zlib")
     (synopsis "Interface with zlib")
     (description "This J addon provides an interface to zlib.")
@@ -589,9 +631,9 @@ trig.ijs Trigonometric functions")
        (uri
         (git-reference
          (url "https://github.com/jsoftware/data_jmf.git")
-         (commit "af56a2ec846ef3a31720a6459de568d32bebd5fc")))
+         (commit "6ca036cab3808b352a7b08777dc47b9d76a0bc9d")))
        (sha256
-        (base32 "0q4npxs0x5agywq6x5rmjhnhzlyvvh1cmd71rqxvg8696jgm7qmv"))))
+        (base32 "1pjkm520427l1wwh4mkxpnkn4v6j9n5ki2gaiaax2ziky7v3zmvw"))))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -609,6 +651,89 @@ trig.ijs Trigonometric functions")
     (synopsis "J Memory Mapped File")
     (description "J Memory Mapped File")
     (license expat)))
+
+(define-public j-data-jfiles
+  (package
+    (name "j-data-jfiles")
+    (version "1.0.8")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/data_jfiles.git")
+               (commit "58249adde967f6c23b580625f41be8aca0ce1c40")))
+        (sha256
+          (base32 "12f1552z1v4f4mvs39qcn0dlxsrp5c3h5wc3b8msyhd4vx9pic7r"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/data/jfiles")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jsoftware/data_jfiles")
+    (synopsis "J component file and keyed file")
+    (description
+      "This script contains definitions for the J component file and\nkeyed file system.\n\nA keyed file is a J component file in which data is accessed\nusing keywords.\n\n")
+    (license expat)))
+
+(define-public j-data-jd
+  (package
+    (name "j-data-jd")
+    (version "4.4.83")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/data_jd.git")
+               (commit
+                 "4f73704ab64e9c9cb323292340c87db936f0fa14")))
+        (sha256
+          (base32
+            "0w8s1h0ji7shwqfnv3yfg8bh586h2f199l3r4dbaa58hp3h4gkwi"))))
+    (propagated-inputs
+     `(("j-convert-pjson" ,j-convert-pjson)
+       ("j-data-jfiles" ,j-data-jfiles)
+       ("j-data-jmf" ,j-data-jmf)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/data/jd")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/data_jd")
+    (synopsis "Jd")
+    (description
+      "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
+    (license 'commercial)))
 
 (define-public j-convert-pjson
   (package
@@ -826,6 +951,50 @@ fndef.ijs Using a more literate style")
     (license expat)))
 
 ;;;; Web Addons
+(define-public j-sockets-socklib
+  (package
+    (name "j-sockets-socklib")
+    (version "1.0.8")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/sockets_socklib.git")
+               (commit
+                 "53dd3d9459ec6d790d33b39da9b24e915e9a837a")))
+        (sha256
+          (base32
+            "10ah2wyf42vm2amm4w42i1pzxyvflfrbnmgcgxmhark14kxa19m5"))))
+    (propagated-inputs
+     `(("j-misc-miscutils" ,j-misc-miscutils)
+       ("j-format-printf" ,j-format-printf)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/sockets/socklib")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/sockets_socklib")
+    (synopsis
+      "Routines for multiple asynchronous sockets")
+    (description
+      "sockmux creates a socket in its own locale and manages multiple such sockets.\nsockconnxactn calls sockmux and mediates transfer of data to an application, using callbacks to tell the application when data has been received.  Suitable for things like email or HTTP transactions.\nThere is also a file-server. \n\n")
+    (license)))
+
 (define-public j-web-gethttp
   (package
     (name "j-web-gethttp")
@@ -998,6 +1167,45 @@ See the program header for description and directives.")
     (description "simple demos for qt")
     (license expat)))
 
+(define-public j-demos-wdplot
+  (package
+    (name "j-demos-wdplot")
+    (version "1.0.50")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/demos_wdplot.git")
+               (commit
+		"4ae390bb83bb66868929b5bbdaa4e2285ac245ba")))
+        (sha256
+          (base32 "0s9gk6kpyf7rv9sj1q0hsyh8br8nziif0lva4n36al2cqib751zq"))))
+    (propagated-inputs
+     `(("j-graphics-plot" ,j-graphics-plot)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/demos/wdplot")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jsoftware/demos_wdplot")
+    (synopsis "Plot demos wd emulation")
+    (description "Plot demos using wd emulation\n")
+    (license expat)))
+
 ;; many depends:
 ;; (define-public j-demos-wd
 ;;   (package
@@ -1067,3 +1275,37 @@ User interfaces available for various J environments currently include:
   * jconsole, jQt
 Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (license expat)))
+
+(define-public j-labs-labs
+  (package
+    (name "j-labs-labs")
+    (version "1.0.198")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+	      (url "https://github.com/jsoftware/labs_labs.git")
+	      (commit "cfa4b1df62ed137df2dc2ab2661f260484880ea3")))
+        (sha256 (base32 "1cgfd5j8j1r1yfy71dcjcldh8yb3l9s120ln5c253liszwii0a6w"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules
+       ((guix build gnu-build-system)
+	(guix build utils))
+       #:phases
+       (modify-phases %standard-phases
+	 (delete 'configure) (delete 'check) (delete 'build)
+	 (replace 'install
+	   (lambda _
+	     (let ((out (string-append (assoc-ref %outputs "out")
+				       "/share/j/addons/labs/labs")))
+	       (copy-recursively "." out)
+	       #t))))))
+    (home-page  "https://github.com/jsoftware/labs_labs")
+    (synopsis "LABS")
+    (description "LABS")
+    (license expat)))
+
+
