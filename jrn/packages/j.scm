@@ -67,7 +67,7 @@
        (modify-phases %standard-phases
 	 (replace 'configure
 	   (lambda _
-	     ;; the environment variables J build scripts expect
+	     ;; the environment variables J's build scripts expect
 	     (setenv "HOME" (getenv "TEMP"))
 	     (let* ((jgit  (getcwd))
 		    (jbld (string-append (getenv "HOME") "/jbld"))
@@ -84,11 +84,8 @@
 					    jsuffix " " tsu))
 		    (jmake   (string-append jgit "/make"))
 		    (out     (assoc-ref %outputs "out"))
-		    ;; this is likely not a good hack to help profile.ijs
-		    ;; point flexibly to where it ought. used when running
-		    ;; tests as well as upon installation to make installed
-		    ;; addons visible. probably best to do full patches on
-		    ;; profile or to just provide one.
+		    ;; make base standard library visible by
+		    ;; substituting in profile.ijs
 		    (j-pre-install (string-append jbld "/" jbits "/"))
 		    (temp-j-share "'share/j',~2!:5'JPATH'")
 		    (usr-j-share
@@ -101,23 +98,17 @@
 	       ;; change appropriate vars. that file is used to set
 	       ;; environment variables before calling J's build scripts. We
 	       ;; set those explicitly here instead.
-	       (setenv "jgit" jgit)
-	       (setenv "jbld" jbld)
-	       (setenv "CC" CC)
-	       (setenv "jplatform" jplatform)
-	       (setenv "jsuffix" jsuffix)
-	       (setenv "tsu" tsu)
-	       (setenv "j32" j32)
-	       (setenv "j64" j64)
-	       (setenv "j64avx" j64avx)
-	       (setenv "j64avx2" j64avx2)
-	       (setenv "jbits" jbits)
-	       (setenv "jmake" jmake)
+	       (setenv "jgit" jgit)       (setenv "jbld" jbld)
+	       (setenv "CC" CC)           (setenv "jplatform" jplatform)
+	       (setenv "jsuffix" jsuffix) (setenv "tsu" tsu)
+	       (setenv "j32" j32)         (setenv "j64" j64)
+	       (setenv "j64avx" j64avx)   (setenv "j64avx2" j64avx2)
+	       (setenv "jbits" jbits)     (setenv "jmake" jmake)
 	       (setenv "JPATH" j-pre-install)
 	       ;; make/make.txt asks us to copy jsrc/jversion-x.h to
 	       ;; jsrc/jversion.h and change the appropriate
 	       ;; variables. Instead of using substitute*, just print
-	       ;; directly to target file.
+	       ;; directly to the file.
 	       (with-output-to-file "jsrc/jversion.h"
 		 (lambda ()
 		   (display "#define jversion  ") (write ,version)  (newline)
@@ -128,21 +119,20 @@
 	       ;; be able to see added addons
 	       (substitute* '("jlibrary/bin/profile.ijs")
 		 ((usr-j-share) temp-j-share))
-	       ;; be able to use j's pcre2 regexes
+	       ;; use pcre2 regexes
 	       (substitute* `(,(string-append jgit "/jlibrary/system/main/regex.ijs"))
 		 (("pcre2dll=: f")
 		  (string-append "pcre2dll=: '"
 				 (assoc-ref %build-inputs "pcre2")
 				 "/lib/libpcre2-8.so.0'")))
-	       ;; be able to use tar in built in addons
+	       ;; use libz
 	       (substitute* `(,(string-append jgit "/jlibrary/system/util/tar.ijs"))
 		 (("libz=: .+$")
 		  (string-append "zlib=: '"
 				 (assoc-ref %build-inputs "zlib")
 				 "/lib/libz.so'\n")))
-	       ;; now, we copy over files which will be included with
-	       ;; installation. todo: should delete extraneous txt and bat
-	       ;; files.
+	       ;; copy over files which will be included with
+	       ;; installation. fixme, make sure only necessary files are copied in
 	       (mkdir-p
 		(string-append j-pre-install "/bin"))
 	       (copy-recursively
@@ -189,6 +179,11 @@
 				 (string-append share-out "/addons"))
 	       (copy-recursively "jlibrary/system"
 				 (string-append share-out "/system"))
+	       ;; rewrite of J's usual profile.ijs to play nice with
+	       ;; guix. going through $HOME/.guix-profile/share/j
+	       ;; doesn't feel totally right though... problem seems
+	       ;; to be J expects us to use pacman and to have
+	       ;; everything in mutable directory...
 	       (with-output-to-file (string-append bin-out "/profile.ijs")
 		 (lambda ()
 		   (display
@@ -260,6 +255,7 @@ Ken Iverson and Roger Hui.")
 	      ("j" ,j)
               ("mesa" ,mesa)
               ("pulseaudio" ,pulseaudio)
+	      ;; fixme figure out which of these isn't needed
               ("qtbase" ,qtbase)
               ("qtwebsockets" ,qtwebsockets)
               ("qtsvg" ,qtsvg)
