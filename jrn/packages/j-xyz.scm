@@ -31,7 +31,8 @@
   #:use-module (gnu packages gl)
   #:use-module (jrn packages j)
   #:use-module (gnu packages maths)
-  #:use-module (gnu packages curl))
+  #:use-module (gnu packages curl)
+  #:use-module (gnu packages sqlite))
 
 ;;;; Graphics Addons
 (define-public j-media-imagekit
@@ -833,6 +834,107 @@ trig.ijs Trigonometric functions")
 ;;     (license expat)))
 
 ;;;; Data Addons
+(define-public j-data-ddsqlite
+  (package
+    (name "j-data-ddsqlite")
+    (version "1.0.42")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/data_ddsqlite.git")
+               (commit
+                 "245e32800356f9d4a365c971d9ece1c534a978ce")))
+        (sha256
+          (base32
+            "18gqm8s7fva0l3wv3bqcfl0axmjyap1ixwf1jgwlnd1wppvk8v5w"))))
+    (inputs `(("sqlite" ,sqlite)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (replace 'configure
+	    (lambda _
+	      (substitute* '("ddsqlite.ijs")
+               (("libsqlite=: ")
+                (string-append "libsqlite=: '"
+                               (assoc-ref %build-inputs "sqlite")
+                               "/lib/libsqlite3.so' NB. "))
+               (("binreq=: 108") "binreq=: 008"))
+	      #t))
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/data/ddsqlite")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/data_ddsqlite")
+    (synopsis "Data driver for SQLite")
+    (description
+      "Accessing SQLite database with C API using the data driver (JDD) interface such as ddcon and ddfet.  Requires sqlite 3.6.0 or newer.\n\nSee readme.txt for shared library installation.\n\nSee wiki page http://code.jsoftware.com/wiki/JDD for help.\n\n")
+    (license expat)))
+
+;; wants to use libjsqlite3.so which is downloaded from
+;; jsoftware.so. unclear what difference is
+;; (define-public j-data-sqlite
+;;   (package
+;;     (name "j-data-sqlite")
+;;     (version "1.0.35")
+;;     (source
+;;       (origin
+;;         (method git-fetch)
+;;         (uri (git-reference
+;;                (url "https://github.com/cdburke/data_sqlite.git")
+;;                (commit
+;;                  "331e04b7a357d47284adb71cc38bcbc563572f43")))
+;;         (sha256
+;;           (base32
+;;             "0kahwwvrd1aksbr5wk7jqq2zsfr20brzflka24iqqmqqf2995p77"))))
+;;     (inputs `(("sqlite" ,sqlite)))
+;;     (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;       `(#:modules
+;;         ((guix build gnu-build-system)
+;;          (guix build utils))
+;;         #:phases
+;;         (modify-phases
+;;           %standard-phases
+;;           (replace 'configure
+;; 	    (lambda _
+;; 	      (substitute* '("sqlite.ijs")
+;;                (("libsqlite=: ")
+;;                 (string-append "libsqlite=: '"
+;;                                (assoc-ref %build-inputs "sqlite")
+;;                                "/lib/libsqlite3.so' NB. "))
+;;                (("binreq=: 108") "binreq=: 008"))
+;; 	      #t))
+;;           (delete 'check)
+;;           (delete 'build)
+;;           (replace 'install
+;;             (lambda _
+;;               (let ((out (string-append
+;;                            (assoc-ref %outputs "out")
+;;                            "/share/j/addons/data/sqlite")))
+;;                 (copy-recursively "." out)
+;;                 #t))))))
+;;     (home-page
+;;       "https://github.com/cdburke/data_sqlite")
+;;     (synopsis "Sqlite enhanced API for J")
+;;     (description
+;;       "Sqlite allows direct access to sqlite databases.\n\nSee wiki page: code.jsoftware.com/wiki/Addons/data/sqlite/Overview\n\n")
+;;     (license expat)))
+
 (define-public j-data-jmf
   (package
     (name "j-data-jmf")
