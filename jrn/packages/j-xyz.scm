@@ -414,6 +414,49 @@ Based on media/platimg developed by Oleg Kobchenko")
     (description "Viewmat displays tables of data graphically.")
     (license expat)))
 
+;; todo figure out how gnuplot binary is set to hard link... or just run...
+;;(define-public j-graphics-gnuplot
+;;  (package
+;;    (name "j-graphics-gnuplot")
+;;    (version "1.0.7")
+;;    (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;               (url "https://github.com/jsoftware/graphics_gnuplot.git")
+;;               (commit
+;;                 "1b2d3f3e9bc206d13921f16982d5b52bca44c4f7")))
+;;        (sha256
+;;          (base32
+;;            "0kz3gjykyrpkvn1agp7hc4rgzyb3kvnrs3k1jwrk20agjn2nzqn0"))))
+;;    (propagated-inputs '())
+;;    (outputs '("out"))
+;;    (build-system gnu-build-system)
+;;    (arguments
+;;      `(#:modules
+;;        ((guix build gnu-build-system)
+;;         (guix build utils))
+;;        #:phases
+;;        (modify-phases
+;;          %standard-phases
+;;          (delete 'configure)
+;;          (delete 'check)
+;;          (delete 'build)
+;;          (replace
+;;            'install
+;;            (lambda _
+;;              (let ((out (string-append
+;;                           (assoc-ref %outputs "out")
+;;                           "/share/j/addons/graphics/gnuplot")))
+;;                (copy-recursively "." out)
+;;                #t))))))
+;;    (home-page
+;;      "https://github.com/jsoftware/graphics_gnuplot")
+;;    (synopsis "Create gnuplot graphics\n")
+;;    (description
+;;      "The gnuplot addon creates gnuplot graphics from data in J.\n\nThis works with gnuplot V4.0 or later, and may work with earlier versions.\n\nThe original script was contributed by L. Fraser Jackson.\n\n")
+;;    (license expat)))
+
 (define-public j-api-gles
   (package
     (name "j-api-gles")
