@@ -2385,7 +2385,14 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
            (lambda _
              (let ((out (string-append
                          (assoc-ref %outputs "out")
-                         "/share/j/addons/docs/help")))
+                         "/share/j/addons/docs/help"))
+		   (man (string-append
+			 (assoc-ref %outputs "out")
+			 "/share/man")))
+	       (mkdir-p (string-append man "/man1"))
+	       (mkdir-p (string-append man "/man5"))
+	       (install-file "man/jconsole.1" (string-append man "/man1"))
+	       (install-file "man/editrc.5" (string-append man "/man5"))
                (copy-recursively "." out)
                #t))))))
     (home-page "https://github.com/jsoftware/docs_help")
