@@ -548,6 +548,91 @@ FFTW is available under Windows, Mac and Linux.
 ")
     (license gpl2+)))
 
+(define-public j-stats-base
+  (package
+    (name "j-stats-base")
+    (version "1.0.17")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/stats_base.git")
+               (commit
+                 "559ba502be012e425741879dce642cacdda9a46a")))
+        (sha256
+          (base32
+            "0gnsh5r6178g8sa5njfcqbi9aylrfvnhgfyk6szk1nb3s76ibmvl"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/stats/base")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/stats_base")
+    (synopsis "Basic statistics package")
+    (description
+      "Basic statistics package.\n\nMigrated from system/packages/stats.\n\n")
+    (license expat)))
+
+(define-public j-stats-distribs
+  (package
+    (name "j-stats-distribs")
+    (version "1.0.12")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/stats_distribs.git")
+               (commit
+                 "fc3bf537748fa424a580326c5789e1248ea64d58")))
+        (sha256
+          (base32
+            "0xjlnj9q0vpigp0zyhvmy9i59k6n4fzb4wwj0yw8shnpbaj9lzwc"))))
+    (propagated-inputs `(("j-stats-base" ,j-stats-base)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/stats/distribs")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/stats_distribs")
+    (synopsis
+      "Verbs for working with distributions")
+    (description
+      "Verbs for working with statistical distributions.\nCurrently covers normal and uniform distributions.\n\nAddon compiled by Ric Sherlock & Fraser Jackson from many contributions by the J community.\n\n")
+    (license expat)))
+
 ;; https://github.com/jsoftware/math_lapack2.git
 (define-public j-math-lapack2
   (package
