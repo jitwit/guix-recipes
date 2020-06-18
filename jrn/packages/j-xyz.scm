@@ -636,6 +636,50 @@ FFTW is available under Windows, Mac and Linux.
      "Verbs for working with statistical distributions.\nCurrently covers normal and uniform distributions.\n\nAddon compiled by Ric Sherlock & Fraser Jackson from many contributions by the J community.\n\n")
     (license expat)))
 
+;; does some mutation to start
+;; (define-public j-math-uu
+;;   (package
+;;     (name "j-math-uu")
+;;     (version "2.1.26")
+;;     (source
+;;       (origin
+;;         (method git-fetch)
+;;         (uri (git-reference
+;;                (url "https://github.com/earthspot/math_uu.git")
+;;                (commit
+;;                  "a2f27a49aa8041ead449723749285dca1a2d818f")))
+;;         (sha256
+;;           (base32
+;;             "1hk156ncw45j4akxim6kvgmfk19digs0vwb0n9pr5a9yfqvqrf0n"))))
+;;     (propagated-inputs `(("j-format-zulu" ,j-format-zulu)))
+;;     (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;       `(#:modules
+;;         ((guix build gnu-build-system)
+;;          (guix build utils))
+;;         #:phases
+;;         (modify-phases
+;;           %standard-phases
+;;           (delete 'configure)
+;;           (delete 'check)
+;;           (delete 'build)
+;;           (replace
+;;             'install
+;;             (lambda _
+;;               (let ((out (string-append
+;; 			  (assoc-ref %outputs "out")
+;; 			  "/share/j/addons/math/uu")))
+;;                 (copy-recursively "." out)
+;;                 #t))))))
+;;     (home-page
+;;       "https://github.com/earthspot/math_uu")
+;;     (synopsis
+;;       "Scientific units conversion package\n")
+;;     (description
+;;       "UU (units-to-units) is a scientific units conversion package\nbased on the SI system of units.\n\n")
+;;     (license expat)))
+
 ;; https://github.com/jsoftware/math_lapack2.git
 (define-public j-math-lapack2
   (package
@@ -1453,6 +1497,48 @@ Contributed by Ric Sherlock.")
     (synopsis "NCURSES/PDCURSES API\n")
     (description
       "CRT screen handling and optimization package\n\nTo install shared library/dll,\nlinux: (debian) sudo aptitude install libncurses5 (or libncursesw5 for unicode)\nwin32: download pre-compiled binary from http://pdcurses.sourceforge.net/\n\n")
+    (license expat)))
+
+(define-public j-format-zulu
+  (package
+    (name "j-format-zulu")
+    (version "0.0.13")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/format_zulu.git")
+               (commit
+                 "16273e825aae5064ffd72047cc1373c61add6fbe")))
+        (sha256
+          (base32
+            "10vf46ynrgn634i494mvyjcirmlvhl6f6f9vjn4fk9m7h24lhk8s"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+			  (assoc-ref %outputs "out")
+			  "/share/j/addons/format/zulu")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/format_zulu")
+    (synopsis "Strings conversion package\n")
+    (description
+      "Addon: zulu - is a set of stringlist conversion verbs\nplus a sandbox of sample data.\nConverts consistently between 4 supported forms of stringlist,\n  boxed        eg: 'alpha';'bravo';'charlie'\n  LF-separated eg: 'alpha',LF,'bravo',LF,'charlie'\n  open         eg: 'alpha bravo charlie'\n  matrix       eg: 3 7$'alpha  bravo  charlie'\n\n")
     (license expat)))
 
 (define-public j-format-printf
