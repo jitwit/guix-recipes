@@ -39,40 +39,40 @@
     (name "j-media-imagekit")
     (version "1.0.8")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/media_imagekit.git")
-               (commit "6de6b5eb1305427a99e0eb59285d421959b9c1bb")))
-        (sha256
-          (base32 "17i2dfdmx6bsa826a1xfw8xg9r855cw8yq8asgfiv3vcvdzqpqa8"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/media_imagekit.git")
+             (commit "6de6b5eb1305427a99e0eb59285d421959b9c1bb")))
+       (sha256
+        (base32 "17i2dfdmx6bsa826a1xfw8xg9r855cw8yq8asgfiv3vcvdzqpqa8"))))
     (propagated-inputs
      `(("j-graphics-viewmat" ,j-graphics-viewmat)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace 'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/media/imagekit")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/media/imagekit")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/media_imagekit")
+     "https://github.com/jsoftware/media_imagekit")
     (synopsis
-      "Utilities for accessing 24-bit jpeg, png, bmp image files in J")
+     "Utilities for accessing 24-bit jpeg, png, bmp image files in J")
     (description
-      "The image kit package provides utilities for accessing 24-bit jpeg, png image files in J. The core functions allow reading and writing image files as 3-dimensional J arrays.\n\nThe addon includes several scripts. The main script, imagekit.ijs, provides J functions for the basic image reading, writing, and viewing images through other J addons. Another script, html_gallery.ijs, provides J functions that create thumbnails and image...\n\n")
+     "The image kit package provides utilities for accessing 24-bit jpeg, png image files in J. The core functions allow reading and writing image files as 3-dimensional J arrays.\n\nThe addon includes several scripts. The main script, imagekit.ijs, provides J functions for the basic image reading, writing, and viewing images through other J addons. Another script, html_gallery.ijs, provides J functions that create thumbnails and image...\n\n")
     (license expat)))
 
 (define-public j-graphics-jpeg
@@ -80,38 +80,38 @@
     (name "j-graphics-jpeg")
     (version "1.0.20")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/graphics_jpeg.git")
-               (commit
-                 "1234416aff49164a14a73cc73cf47d4cde634b52")))
-        (sha256
-          (base32
-            "0s2xmg6fv1kxhzkkjxvb3w424zk71iij2i9qizr1w81l76nk945j"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/graphics_jpeg.git")
+             (commit
+              "1234416aff49164a14a73cc73cf47d4cde634b52")))
+       (sha256
+        (base32
+         "0s2xmg6fv1kxhzkkjxvb3w424zk71iij2i9qizr1w81l76nk945j"))))
     (propagated-inputs `(("j-graphics-pplatimg" ,j-graphics-pplatimg)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/graphics/jpeg")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/graphics/jpeg")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/graphics_jpeg")
+     "https://github.com/jsoftware/graphics_jpeg")
     (synopsis "jpeg utilities")
     (description "Utilities for *.jpg files\n\n")
     (license expat)))
@@ -553,41 +553,41 @@ FFTW is available under Windows, Mac and Linux.
     (name "j-stats-base")
     (version "1.0.17")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/stats_base.git")
-               (commit
-                 "559ba502be012e425741879dce642cacdda9a46a")))
-        (sha256
-          (base32
-            "0gnsh5r6178g8sa5njfcqbi9aylrfvnhgfyk6szk1nb3s76ibmvl"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/stats_base.git")
+             (commit
+              "559ba502be012e425741879dce642cacdda9a46a")))
+       (sha256
+        (base32
+         "0gnsh5r6178g8sa5njfcqbi9aylrfvnhgfyk6szk1nb3s76ibmvl"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/stats/base")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/stats/base")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/stats_base")
+     "https://github.com/jsoftware/stats_base")
     (synopsis "Basic statistics package")
     (description
-      "Basic statistics package.\n\nMigrated from system/packages/stats.\n\n")
+     "Basic statistics package.\n\nMigrated from system/packages/stats.\n\n")
     (license expat)))
 
 (define-public j-stats-distribs
@@ -595,42 +595,42 @@ FFTW is available under Windows, Mac and Linux.
     (name "j-stats-distribs")
     (version "1.0.12")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/stats_distribs.git")
-               (commit
-                 "fc3bf537748fa424a580326c5789e1248ea64d58")))
-        (sha256
-          (base32
-            "0xjlnj9q0vpigp0zyhvmy9i59k6n4fzb4wwj0yw8shnpbaj9lzwc"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/stats_distribs.git")
+             (commit
+              "fc3bf537748fa424a580326c5789e1248ea64d58")))
+       (sha256
+        (base32
+         "0xjlnj9q0vpigp0zyhvmy9i59k6n4fzb4wwj0yw8shnpbaj9lzwc"))))
     (propagated-inputs `(("j-stats-base" ,j-stats-base)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/stats/distribs")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/stats/distribs")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/stats_distribs")
+     "https://github.com/jsoftware/stats_distribs")
     (synopsis
-      "Verbs for working with distributions")
+     "Verbs for working with distributions")
     (description
-      "Verbs for working with statistical distributions.\nCurrently covers normal and uniform distributions.\n\nAddon compiled by Ric Sherlock & Fraser Jackson from many contributions by the J community.\n\n")
+     "Verbs for working with statistical distributions.\nCurrently covers normal and uniform distributions.\n\nAddon compiled by Ric Sherlock & Fraser Jackson from many contributions by the J community.\n\n")
     (license expat)))
 
 ;; https://github.com/jsoftware/math_lapack2.git
@@ -869,37 +869,37 @@ trig.ijs Trigonometric functions")
     (name "j-data-jfiles")
     (version "1.0.8")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/data_jfiles.git")
-               (commit "58249adde967f6c23b580625f41be8aca0ce1c40")))
-        (sha256
-          (base32 "12f1552z1v4f4mvs39qcn0dlxsrp5c3h5wc3b8msyhd4vx9pic7r"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/data_jfiles.git")
+             (commit "58249adde967f6c23b580625f41be8aca0ce1c40")))
+       (sha256
+        (base32 "12f1552z1v4f4mvs39qcn0dlxsrp5c3h5wc3b8msyhd4vx9pic7r"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace 'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/data/jfiles")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/data/jfiles")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page "https://github.com/jsoftware/data_jfiles")
     (synopsis "J component file and keyed file")
     (description
-      "This script contains definitions for the J component file and\nkeyed file system.\n\nA keyed file is a J component file in which data is accessed\nusing keywords.\n\n")
+     "This script contains definitions for the J component file and\nkeyed file system.\n\nA keyed file is a J component file in which data is accessed\nusing keywords.\n\n")
     (license expat)))
 
 (define-public j-data-jd
@@ -907,15 +907,15 @@ trig.ijs Trigonometric functions")
     (name "j-data-jd")
     (version "4.4.83")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/data_jd.git")
-               (commit
-                 "4f73704ab64e9c9cb323292340c87db936f0fa14")))
-        (sha256
-          (base32
-            "0w8s1h0ji7shwqfnv3yfg8bh586h2f199l3r4dbaa58hp3h4gkwi"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/data_jd.git")
+             (commit
+              "4f73704ab64e9c9cb323292340c87db936f0fa14")))
+       (sha256
+        (base32
+         "0w8s1h0ji7shwqfnv3yfg8bh586h2f199l3r4dbaa58hp3h4gkwi"))))
     (propagated-inputs
      `(("j-convert-pjson" ,j-convert-pjson)
        ("j-data-jfiles" ,j-data-jfiles)
@@ -923,28 +923,28 @@ trig.ijs Trigonometric functions")
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/data/jd")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/data/jd")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/data_jd")
+     "https://github.com/jsoftware/data_jd")
     (synopsis "Jd")
     (description
-      "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
+     "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
     (license 'commercial)))
 
 (define-public j-convert-pjson
@@ -1082,21 +1082,21 @@ Contributed by Ric Sherlock.")
     (license expat)))
 
 ;;;; General Addons
-(define-public j-misc-miscutils
+(define-public j-general-jod
   (package
-    (name "j-misc-miscutils")
-    (version "1.0.4")
+    (name "j-general-jod")
+    (version "1.0.1")
     (source
       (origin
         (method git-fetch)
         (uri (git-reference
-               (url "https://github.com/jsoftware/misc_miscutils.git")
+               (url "https://github.com/jsoftware/general_jod.git")
                (commit
-                 "3fea111992b16f8e5d476caa5dc4567afe885c48")))
+                 "28954f977e22acfd0d1470a889f0d0442d198563")))
         (sha256
           (base32
-            "0smd6gq1agmy0pll2vp64vbihilzl3s1g7761mnfq2sipb3ykm22"))))
-    (propagated-inputs `(("j-format-printf" ,j-format-printf)))
+            "1zjn757y0p7av6hsxy856q24zpg3nrr04hvm5xjikmz8gybzvzcr"))))
+    (propagated-inputs `(("j-data-jfiles" ,j-data-jfiles)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -1114,14 +1114,137 @@ Contributed by Ric Sherlock.")
             (lambda _
               (let ((out (string-append
                            (assoc-ref %outputs "out")
-                           "/share/j/addons/misc/miscutils")))
+                           "/share/j/addons/general/jod")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jsoftware/general_jod")
+    (synopsis "JOD J Object Dictionary")
+    (description
+      "JOD (J Object Dictionary) is a J programming and refactoring \ntool. JOD supports linked dictionary databases and provides \ntools for building, documenting and testing J systems. \n\nJOD requires the (data/jfiles) addon. \n\nIf you install JOD it is highly recommended that you\ninstall the related addon JODDOCUMENT. JODDOCUMENT \ninstalls detailed PDF documentation for JOD. \n\nFor more information see the JOD wiki pages (Info Button),\nrun the lab \"JOD lab JOD Introduction\" - JOD labs are under \nthe General lab category. If you do not see JOD labs listed\non the Lab menus use the Lab browse button to access:\n\n   ~addons/general/jod/jodlabs\n\nMore information is available on the JOD Page and GitHub at:\n  \n   https://analyzethedatanotthedrivel.org/the-jod-page/\n   https://github.com/bakerjd99/jod  \n\n")
+    (license expat)))
+
+(define-public j-general-joddocument
+  (package
+    (name "j-general-joddocument")
+    (version "1.0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/general_joddocument.git")
+               (commit
+                 "49ce6c6adb2e560b63b034ac675af96b0fc5bd75")))
+        (sha256
+          (base32
+	   "0ck04m508rgv3nxb6czaxa62s3vn5a4skny3mhwlyczmnwgj3gi2"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+			  (assoc-ref %outputs "out")
+			  "/share/j/addons/general/joddocument")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jsoftware/general_joddocument")
+    (synopsis "JOD Documentation")
+    (description
+      "JOD Document contains (jod.pdf) which documents the JOD system.\n\nJOD Document also contains pdf versions of Jupyter\nnotebooks that show how to use various JOD facilities.\nSee the directory:\n\njpath '~addons/general/joddocument/pdfdoc'\n\nFor more information see the JOD wiki pages\n(Info Button) or visit The JOD Page at:\n\nhttps://analyzethedatanotthedrivel.org/the-jod-page/\n\nLaTeX document source is available on GitHub at:\n\nhttps://github.com/bakerjd99/joddoc\n\nJohn Baker\nbakerjd99@gmail.com\n\n")
+    (license expat)))
+
+(define-public j-general-jodsource
+  (package
+    (name "j-general-jodsource")
+    (version "1.0.1")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/general_jodsource.git")
+               (commit
+                 "921ee10dfb4e681fc759e5040e95d4dbf9921310")))
+        (sha256
+          (base32
+            "0sxikk60w4xxih9299wnfqbkdjdn965vk00cld2zpfk9wk5d586c"))))
+    (propagated-inputs `(("j-general-jod" ,j-general-jod)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/general/jodsource")))
                 (copy-recursively "." out)
                 #t))))))
     (home-page
-      "https://github.com/jsoftware/misc_miscutils")
+      "https://github.com/jsoftware/general_jodsource")
+    (synopsis "JOD Object Dictionary Source\n")
+    (description
+      "(jodsource) contains serialized dictionary dump scripts \n(joddev,jod,utils). These dump scripts contain all the\ncode, test cases, build scripts, and documentation used\nto develop and maintain JOD and related systems.\n\nDump scripts are large J scripts that load dictionary\nobjects into JOD dictionaries when run.\n\nJOD system dictionaries are good examples of how JOD \ncan be used to build complex J systems.\n\nJOD requires the (data/jfiles) addon. \n\nJOD source dictionaries can be set up in two ways:\n\n1) Run the J script \n\n   ~addons/general/jodsource/jodsourcesetup.ijs\n\n   This is the recommended method. (jodsourcesetup.ijs) \n   can take a minute or so to run.\n \n2) Run the JOD lab \"JOD Source Code Dump Scripts.\" \n   JOD labs are in the (General) lab category. If you\n   do not see JOD labs listed on the Lab menus use the Lab\n   browse button to access:\n\n   ~addons/general/jod/jodlabs\n\nMore information is available on the JOD Page at:\n  \n   https://analyzethedatanotthedrivel.org/the-jod-page/\n\n")
+    (license expat)))
+
+(define-public j-misc-miscutils
+  (package
+    (name "j-misc-miscutils")
+    (version "1.0.4")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/misc_miscutils.git")
+             (commit
+              "3fea111992b16f8e5d476caa5dc4567afe885c48")))
+       (sha256
+        (base32
+         "0smd6gq1agmy0pll2vp64vbihilzl3s1g7761mnfq2sipb3ykm22"))))
+    (propagated-inputs `(("j-format-printf" ,j-format-printf)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/misc/miscutils")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page
+     "https://github.com/jsoftware/misc_miscutils")
     (synopsis "Miscellaneous utility definitions")
     (description
-      "langexten contains basic extensions to J.\nklutils contains function for 'keyed lists', which are tables where specified columns are 'key' and the rest are 'data'\nutils contains a grab-bag of definitions\n\n")
+     "langexten contains basic extensions to J.\nklutils contains function for 'keyed lists', which are tables where specified columns are 'key' and the rest are 'data'\nutils contains a grab-bag of definitions\n\n")
     (license expat)))
 
 (define-public j-format-printf
@@ -1129,40 +1252,40 @@ Contributed by Ric Sherlock.")
     (name "j-format-printf")
     (version "1.0.11")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/format_printf.git")
-               (commit "5fca8b8961100f3eecfa3ff1aa7eae43f433fae1")))
-        (sha256
-          (base32
-            "07yz6cr6v7lrfpv9gk80phcy6mqdibzghy4bz5scd2167kxqvi13"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/format_printf.git")
+             (commit "5fca8b8961100f3eecfa3ff1aa7eae43f433fae1")))
+       (sha256
+        (base32
+         "07yz6cr6v7lrfpv9gk80phcy6mqdibzghy4bz5scd2167kxqvi13"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/format/printf")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/format/printf")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/format_printf")
+     "https://github.com/jsoftware/format_printf")
     (synopsis "C-style printf formatting")
     (description
-      "Printf provides verbs and adverbs for formatted printing in the manner of C's printf and sprintf.\n\n")
+     "Printf provides verbs and adverbs for formatted printing in the manner of C's printf and sprintf.\n\n")
     (license expat)))
 
 (define-public j-general-dirutils
@@ -1170,41 +1293,41 @@ Contributed by Ric Sherlock.")
     (name "j-general-dirutils")
     (version "1.0.14")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/general_dirutils.git")
-               (commit
-                 "8221d58878d2926dde42a7a1330ae5e994410c53")))
-        (sha256
-          (base32
-            "12jl7mi6wm5s3116gkv8j1x04dzxfhws7824jhpcdv97siafymdy"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/general_dirutils.git")
+             (commit
+              "8221d58878d2926dde42a7a1330ae5e994410c53")))
+       (sha256
+        (base32
+         "12jl7mi6wm5s3116gkv8j1x04dzxfhws7824jhpcdv97siafymdy"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/general/dirutils")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/general/dirutils")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/general_dirutils")
+     "https://github.com/jsoftware/general_dirutils")
     (synopsis "Additional directory utilities")
     (description
-      "Directory utilities in addition to those in dir.ijs.\nIncluding test for existence of directory, create all non-existing\ndirectories in a path.\nContributed by Ric Sherlock\n\n")
+     "Directory utilities in addition to those in dir.ijs.\nIncluding test for existence of directory, create all non-existing\ndirectories in a path.\nContributed by Ric Sherlock\n\n")
     (license expat)))
 
 (define-public j-general-unittest
@@ -1292,41 +1415,41 @@ fndef.ijs Using a more literate style")
     (name "j-debug-jig")
     (version "2.0.2")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/debug_jig.git")
-               (commit
-                 "c2413bbe58f1746573c37f1799f6fdc756328132")))
-        (sha256
-          (base32
-            "1hyamk0m10yn76240fqn9c90z50mbyzl80jlv7ig2d9v2diprq5n"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/debug_jig.git")
+             (commit
+              "c2413bbe58f1746573c37f1799f6fdc756328132")))
+       (sha256
+        (base32
+         "1hyamk0m10yn76240fqn9c90z50mbyzl80jlv7ig2d9v2diprq5n"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/debug/jig")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/debug/jig")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/debug_jig")
+     "https://github.com/jsoftware/debug_jig")
     (synopsis "Augmented Display of J results")
     (description
-      "Jig displays an interactive SVG window that allows users to easily see the shape, type and other properties of the results of J sentences. Jig runs in the jqt environment and requires the full version of the QT ide\n\n")
+     "Jig displays an interactive SVG window that allows users to easily see the shape, type and other properties of the results of J sentences. Jig runs in the jqt environment and requires the full version of the QT ide\n\n")
     (license expat)))
 
 ;;;; Web Addons
@@ -1335,43 +1458,43 @@ fndef.ijs Using a more literate style")
     (name "j-sockets-socklib")
     (version "1.0.8")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/sockets_socklib.git")
-               (commit
-                 "53dd3d9459ec6d790d33b39da9b24e915e9a837a")))
-        (sha256
-          (base32
-            "10ah2wyf42vm2amm4w42i1pzxyvflfrbnmgcgxmhark14kxa19m5"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/sockets_socklib.git")
+             (commit
+              "53dd3d9459ec6d790d33b39da9b24e915e9a837a")))
+       (sha256
+        (base32
+         "10ah2wyf42vm2amm4w42i1pzxyvflfrbnmgcgxmhark14kxa19m5"))))
     (propagated-inputs
      `(("j-misc-miscutils" ,j-misc-miscutils)
        ("j-format-printf" ,j-format-printf)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace 'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/sockets/socklib")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/sockets/socklib")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/sockets_socklib")
+     "https://github.com/jsoftware/sockets_socklib")
     (synopsis
-      "Routines for multiple asynchronous sockets")
+     "Routines for multiple asynchronous sockets")
     (description
-      "sockmux creates a socket in its own locale and manages multiple such sockets.\nsockconnxactn calls sockmux and mediates transfer of data to an application, using callbacks to tell the application when data has been received.  Suitable for things like email or HTTP transactions.\nThere is also a file-server. \n\n")
+     "sockmux creates a socket in its own locale and manages multiple such sockets.\nsockconnxactn calls sockmux and mediates transfer of data to an application, using callbacks to tell the application when data has been received.  Suitable for things like email or HTTP transactions.\nThere is also a file-server. \n\n")
     (license expat)))
 
 (define-public j-sockets-sockutils
@@ -1379,40 +1502,40 @@ fndef.ijs Using a more literate style")
     (name "j-sockets-sockutils")
     (version "1.0.4")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/sockets_sockutils.git")
-               (commit
-                 "3cd63f5de3124eeafe47de379a12a16cf89631eb")))
-        (sha256
-          (base32
-            "1mwrc92dn4zmdqzkb30agd1y1zcam9sdg2bbk44zp9p3g9c88yv8"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/sockets_sockutils.git")
+             (commit
+              "3cd63f5de3124eeafe47de379a12a16cf89631eb")))
+       (sha256
+        (base32
+         "1mwrc92dn4zmdqzkb30agd1y1zcam9sdg2bbk44zp9p3g9c88yv8"))))
     (propagated-inputs
      `(("j-misc-miscutils" ,j-misc-miscutils)
        ("j-sockets-socklib" ,j-sockets-socklib)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/sockets/sockutils")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/sockets/sockutils")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/sockets_sockutils")
+     "https://github.com/jsoftware/sockets_sockutils")
     (synopsis "Routines for web transactions")
     (description "Routines to process transactions using the socket system\n")
     (license expat)))
@@ -1525,42 +1648,42 @@ See the program header for description and directives.")
     (name "j-debug-dissect")
     (version "4.6.39")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/debug_dissect.git")
-               (commit
-                 "113260c9e3bbedf8ed3707af38e2343247278b61")))
-        (sha256
-          (base32
-            "1w659x1jxwskaikqm082012s2wisn0lzxygazpbjgcsqj35zvslj"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/debug_dissect.git")
+             (commit
+              "113260c9e3bbedf8ed3707af38e2343247278b61")))
+       (sha256
+        (base32
+         "1w659x1jxwskaikqm082012s2wisn0lzxygazpbjgcsqj35zvslj"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/debug/dissect")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/debug/dissect")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/debug_dissect")
+     "https://github.com/jsoftware/debug_dissect")
     (synopsis
-      "Run a sentence and produce a 2D display of results")
+     "Run a sentence and produce a 2D display of results")
     (description
-      "dissect runs a sentence after inserting instrumentation at the execution of each primitive.\nThen it creates a 2D display showing each word and the results of executing it.\nThe user can click on the display to probe execution.\n\n")
+     "dissect runs a sentence after inserting instrumentation at the execution of each primitive.\nThen it creates a 2D display showing each word and the results of executing it.\nThe user can click on the display to probe execution.\n\n")
     (license expat)))
 
 ;;;; Demos/Labs
@@ -1637,35 +1760,35 @@ See the program header for description and directives.")
     (name "j-demos-wdplot")
     (version "1.0.50")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/demos_wdplot.git")
-               (commit
-		"4ae390bb83bb66868929b5bbdaa4e2285ac245ba")))
-        (sha256
-          (base32 "0s9gk6kpyf7rv9sj1q0hsyh8br8nziif0lva4n36al2cqib751zq"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/demos_wdplot.git")
+             (commit
+              "4ae390bb83bb66868929b5bbdaa4e2285ac245ba")))
+       (sha256
+        (base32 "0s9gk6kpyf7rv9sj1q0hsyh8br8nziif0lva4n36al2cqib751zq"))))
     (propagated-inputs
      `(("j-graphics-plot" ,j-graphics-plot)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace 'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/demos/wdplot")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/demos/wdplot")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page "https://github.com/jsoftware/demos_wdplot")
     (synopsis "Plot demos wd emulation")
     (description "Plot demos using wd emulation\n")
@@ -1746,41 +1869,41 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (name "j-games-2048")
     (version "1.0.8")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/games_2048.git")
-               (commit
-                 "810f50208fd2f42ba81ca504f458d6cbf2c9c641")))
-        (sha256
-          (base32
-            "1hlbwg8ki0wpsajzw9jzd087xv8fbg34szwh9dcv6hlhz8mk2cnh"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/games_2048.git")
+             (commit
+              "810f50208fd2f42ba81ca504f458d6cbf2c9c641")))
+       (sha256
+        (base32
+         "1hlbwg8ki0wpsajzw9jzd087xv8fbg34szwh9dcv6hlhz8mk2cnh"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/games/2048")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/games/2048")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/games_2048")
+     "https://github.com/jsoftware/games_2048")
     (synopsis "2048 game")
     (description
-      "Implentation of the 2048 game.\n\nAn example of how to implement equivalent user interfaces for different environments.\nUser interfaces available for various J environments currently include:\n  * jconsole, jQt\n\nAuthors: Ric Sherlock\n\n")
+     "Implentation of the 2048 game.\n\nAn example of how to implement equivalent user interfaces for different environments.\nUser interfaces available for various J environments currently include:\n  * jconsole, jQt\n\nAuthors: Ric Sherlock\n\n")
     (license expat)))
 
 (define-public j-games-bagofnouns
@@ -1788,80 +1911,79 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (name "j-games-bagofnouns")
     (version "1.0.92")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/games_bagofnouns.git")
-               (commit
-                 "bc7f8a700f7fe8cf010f7f70db269998f739c48a")))
-        (sha256
-          (base32
-            "0s24c5dzyhh8dnjqbb70g389841h20wgpj22k77r7ki121xy9jxm"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/games_bagofnouns.git")
+             (commit
+              "bc7f8a700f7fe8cf010f7f70db269998f739c48a")))
+       (sha256
+        (base32
+         "0s24c5dzyhh8dnjqbb70g389841h20wgpj22k77r7ki121xy9jxm"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/games/bagofnouns")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/games/bagofnouns")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page  "https://github.com/jsoftware/games_bagofnouns")
     (synopsis "Distributed game controller")
     (description
-      "Lets people play a game over Zoom\n\n")
+     "Lets people play a game over Zoom\n\n")
     (license expat)))
-
 
 (define-public j-games-pousse
   (package
     (name "j-games-pousse")
     (version "1.0.37")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/games_pousse.git")
-               (commit
-                 "3a8810111a0a029a2401a39b40774b7253abb2bb")))
-        (sha256
-          (base32
-            "0g53k8hjmd6rgsdd858kwvqa7i0gmrxkardnn7nw2j73mnyf90kr"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/games_pousse.git")
+             (commit
+              "3a8810111a0a029a2401a39b40774b7253abb2bb")))
+       (sha256
+        (base32
+         "0g53k8hjmd6rgsdd858kwvqa7i0gmrxkardnn7nw2j73mnyf90kr"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/games/pousse")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/games/pousse")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page
-      "https://github.com/jsoftware/games_pousse")
+     "https://github.com/jsoftware/games_pousse")
     (synopsis "pousse")
     (description "pousse\n")
     (license expat)))
@@ -1871,36 +1993,36 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (name "j-games-solitaire")
     (version "1.0.48")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-               (url "https://github.com/jsoftware/games_solitaire.git")
-               (commit
-                 "7ef609f69c891779af8c7ac3ac36d70e3bf033dc")))
-        (sha256
-          (base32
-            "1c4xm6325v5ii9hmggh5xx5rj8vr325976crbjx3mannin3i6q3y"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/games_solitaire.git")
+             (commit
+              "7ef609f69c891779af8c7ac3ac36d70e3bf033dc")))
+       (sha256
+        (base32
+         "1c4xm6325v5ii9hmggh5xx5rj8vr325976crbjx3mannin3i6q3y"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
-      `(#:modules
-        ((guix build gnu-build-system)
-         (guix build utils))
-        #:phases
-        (modify-phases
-          %standard-phases
-          (delete 'configure)
-          (delete 'check)
-          (delete 'build)
-          (replace
-            'install
-            (lambda _
-              (let ((out (string-append
-                           (assoc-ref %outputs "out")
-                           "/share/j/addons/games/solitaire")))
-                (copy-recursively "." out)
-                #t))))))
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace
+             'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/games/solitaire")))
+               (copy-recursively "." out)
+               #t))))))
     (home-page  "https://github.com/jsoftware/games_solitaire")
     (synopsis "solitaire")
     (description "solitaire\n")
@@ -1912,12 +2034,12 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (name "j-labs-labs")
     (version "1.0.198")
     (source
-      (origin
-        (method git-fetch)
-        (uri (git-reference
-	      (url "https://github.com/jsoftware/labs_labs.git")
-	      (commit "cfa4b1df62ed137df2dc2ab2661f260484880ea3")))
-        (sha256 (base32 "1cgfd5j8j1r1yfy71dcjcldh8yb3l9s120ln5c253liszwii0a6w"))))
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/labs_labs.git")
+             (commit "cfa4b1df62ed137df2dc2ab2661f260484880ea3")))
+       (sha256 (base32 "1cgfd5j8j1r1yfy71dcjcldh8yb3l9s120ln5c253liszwii0a6w"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -1939,4 +2061,79 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (description "LABS")
     (license expat)))
 
+(define-public j-docs-help
+  (package
+    (name "j-docs-help")
+    (version "1.0.75")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/jsoftware/docs_help.git")
+             (commit "a33ca7b508877a958371aa8a2b9f6447d4569944")))
+       (sha256
+        (base32
+         "0v98j3h9w5ggfh5xz70yin764afrgfqjkm7i3y49ybv557c7kq07"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+     `(#:modules
+       ((guix build gnu-build-system)
+        (guix build utils))
+       #:phases
+       (modify-phases
+           %standard-phases
+         (delete 'configure)
+         (delete 'check)
+         (delete 'build)
+         (replace 'install
+           (lambda _
+             (let ((out (string-append
+                         (assoc-ref %outputs "out")
+                         "/share/j/addons/docs/help")))
+               (copy-recursively "." out)
+               #t))))))
+    (home-page "https://github.com/jsoftware/docs_help")
+    (synopsis "J Help Files")
+    (description "J Help Files\n\n")
+    (license expat)))
+
+(define-public j-dev-fold
+  (package
+    (name "j-dev-fold")
+    (version "1.0.7")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/dev_fold.git")
+               (commit "97bda88fbc383e3c097d9928d7e3feea005bdd88")))
+        (sha256
+	 (base32
+	  "01fx8ypals0r29w5xkc31zx20rhm8v3ixmjl9klhm70b1w2bnjjj"))))
+    (propagated-inputs '())
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace 'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/dev/fold")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jsoftware/dev_fold")
+    (synopsis "Fold implementation in J")
+    (description "J emulations of the Fold primitives\n\n")
+    (license expat)))
 
