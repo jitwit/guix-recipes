@@ -32,7 +32,9 @@
   #:use-module (jrn packages j)
   #:use-module (gnu packages maths)
   #:use-module (gnu packages curl)
-  #:use-module (gnu packages sqlite))
+  #:use-module (gnu packages sqlite)
+  #:use-module (gnu packages databases)
+  #:use-module (gnu packages ncurses))
 
 ;;;; Graphics Addons
 (define-public j-media-imagekit
@@ -834,6 +836,54 @@ trig.ijs Trigonometric functions")
 ;;     (license expat)))
 
 ;;;; Data Addons
+(define-public j-data-ddmysql
+  (package
+    (name "j-data-ddmysql")
+    (version "1.0.15")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/data_ddmysql.git")
+               (commit
+                 "94ee53df3d0f3f7df06c4798446a71fb5dd90a39")))
+        (sha256
+          (base32
+            "09as7zry3kwlh9n10xgxp5xbqdqbvdgl9fdnjl3icsc6fmkd186a"))))
+    (inputs `(("mysql" ,mysql)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (replace 'configure
+	    (lambda _
+	      (substitute* '("ddmysql.ijs")
+		(("libmysqlclient.so.18")
+		 (string-append (assoc-ref %build-inputs "mysql")
+				"/lib/libmysqlclient.so")))
+	      #t))
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/data/ddmysql")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/data_ddmysql")
+    (synopsis "Data driver for MySQL")
+    (description
+      "Accessing MySQL server with native C API using the data driver (JDD) interface such ddcon and ddfet.  Requires MySQL client library or Connector/C.\n\nFor Linux, install libmysqlclient (or similar) from your distro repository.  Or download from http://www.mysql.com/downloads.html\n\nSee wiki page http://code.jsoftware.com/wiki/JDD for help.\n\n")
+    (license expat)))
+
 (define-public j-data-ddsqlite
   (package
     (name "j-data-ddsqlite")
@@ -864,8 +914,7 @@ trig.ijs Trigonometric functions")
                (("libsqlite=: ")
                 (string-append "libsqlite=: '"
                                (assoc-ref %build-inputs "sqlite")
-                               "/lib/libsqlite3.so' NB. "))
-               (("binreq=: 108") "binreq=: 008"))
+                               "/lib/libsqlite3.so' NB. ")))
 	      #t))
           (delete 'check)
           (delete 'build)
@@ -878,7 +927,7 @@ trig.ijs Trigonometric functions")
                 (copy-recursively "." out)
                 #t))))))
     (home-page
-      "https://github.com/jsoftware/data_ddsqlite")
+     "https://github.com/jsoftware/data_ddsqlite")
     (synopsis "Data driver for SQLite")
     (description
       "Accessing SQLite database with C API using the data driver (JDD) interface such as ddcon and ddfet.  Requires sqlite 3.6.0 or newer.\n\nSee readme.txt for shared library installation.\n\nSee wiki page http://code.jsoftware.com/wiki/JDD for help.\n\n")
@@ -1347,6 +1396,63 @@ Contributed by Ric Sherlock.")
     (synopsis "Miscellaneous utility definitions")
     (description
      "langexten contains basic extensions to J.\nklutils contains function for 'keyed lists', which are tables where specified columns are 'key' and the rest are 'data'\nutils contains a grab-bag of definitions\n\n")
+    (license expat)))
+
+(define-public j-api-ncurses
+  (package
+    (name "j-api-ncurses")
+    (version "1.0.8")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jsoftware/api_ncurses.git")
+               (commit
+                 "88d3543be292a3cb79d22a02af9fb972bc014636")))
+        (sha256
+          (base32
+            "0zcr3knh1hlvr0ydslhmlb5z8jpr91w7rzyaxq4zrbk65ydsbzl2"))))
+    (propagated-inputs `(("ncurses" ,ncurses)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (replace 'configure
+	    (lambda _
+	      (substitute* '("ncurses.ijs")
+		(("libncurses.so.5")
+		 (string-append (assoc-ref %build-inputs "ncurses")
+				"/lib/libncurses.so"))
+		(("libncursesw.so.5")
+		 (string-append (assoc-ref %build-inputs "ncurses")
+				"/lib/libncursesw.so"))
+		(("libpanel.so.5")
+		 (string-append (assoc-ref %build-inputs "ncurses")
+				"/lib/libpanel.so"))
+		(("libpanelw.so.5")
+		 (string-append (assoc-ref %build-inputs "ncurses")
+				"/lib/libpanelw.so")))
+	      #t))
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+			   "/share/j/addons/api/ncurses")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page
+      "https://github.com/jsoftware/api_ncurses")
+    (synopsis "NCURSES/PDCURSES API\n")
+    (description
+      "CRT screen handling and optimization package\n\nTo install shared library/dll,\nlinux: (debian) sudo aptitude install libncurses5 (or libncursesw5 for unicode)\nwin32: download pre-compiled binary from http://pdcurses.sourceforge.net/\n\n")
     (license expat)))
 
 (define-public j-format-printf
