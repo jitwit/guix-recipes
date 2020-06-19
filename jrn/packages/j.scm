@@ -259,7 +259,9 @@ Ken Iverson and Roger Hui.")
               ("qtbase" ,qtbase)
               ("qtwebsockets" ,qtwebsockets)
               ("qtsvg" ,qtsvg)
+	      ("qtwebkit" ,qtwebkit)
               ("qtdeclarative" ,qtdeclarative)
+	      ("qtquickcontrols" ,qtquickcontrols)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
 	      ("qtwebengine" ,qtwebengine)))
@@ -290,8 +292,10 @@ Ken Iverson and Roger Hui.")
                        '("qtbase"
 			 "qtdeclarative"
 			 "qtwebsockets"
+			 "qtwebkit"
 			 "qtsvg"
 			 "qtwebengine"
+			 "qtquickcontrols"
 			 "qtmultimedia"
 			 "qtwebchannel")))
 	       `("QTWEBENGINEPROCESS_PATH" =
