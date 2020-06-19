@@ -259,7 +259,7 @@ Ken Iverson and Roger Hui.")
               ("qtbase" ,qtbase)
               ("qtwebsockets" ,qtwebsockets)
               ("qtsvg" ,qtsvg)
-	      ("qtwebkit" ,qtwebkit)
+	      ;; ("qtwebkit" ,qtwebkit)
               ("qtdeclarative" ,qtdeclarative)
 	      ("qtquickcontrols" ,qtquickcontrols)
               ("qtwebchannel" ,qtwebchannel)
@@ -292,7 +292,7 @@ Ken Iverson and Roger Hui.")
                        '("qtbase"
 			 "qtdeclarative"
 			 "qtwebsockets"
-			 "qtwebkit"
+			 ;; "qtwebkit"
 			 "qtsvg"
 			 "qtwebengine"
 			 "qtquickcontrols"
@@ -300,7 +300,7 @@ Ken Iverson and Roger Hui.")
 			 "qtwebchannel")))
 	       `("QTWEBENGINEPROCESS_PATH" =
 		 (,(string-append  (assoc-ref inputs "qtwebengine")
-				   "lib/qt5/libexec/QtWebEngineProcess"))))
+				   "/lib/qt5/libexec/QtWebEngineProcess"))))
 	     (substitute* `(,(string-append (assoc-ref outputs "out") "/bin/jqt"))
 	       (("\\$@")
 		(string-append "-lib\" \""
