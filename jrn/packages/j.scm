@@ -262,7 +262,7 @@ Ken Iverson and Roger Hui.")
               ("qtdeclarative" ,qtdeclarative)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
-              ("qtwebengine" ,qtwebengine)))
+	      ("qtwebengine" ,qtwebengine)))
     (arguments
      `(#:modules ((guix build gnu-build-system) (guix build utils))
        #:tests? #f
@@ -293,7 +293,10 @@ Ken Iverson and Roger Hui.")
 			 "qtsvg"
 			 "qtwebengine"
 			 "qtmultimedia"
-			 "qtwebchannel"))))
+			 "qtwebchannel")))
+	       `("QTWEBENGINEPROCESS_PATH" =
+		 (,(string-append  (assoc-ref inputs "qtwebengine")
+				   "lib/qt5/libexec/QtWebEngineProcess"))))
 	     (substitute* `(,(string-append (assoc-ref outputs "out") "/bin/jqt"))
 	       (("\\$@")
 		(string-append "-lib\" \""
