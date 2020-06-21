@@ -597,17 +597,15 @@ FFTW is available under Windows, Mac and Linux.
 (define-public j-stats-base
   (package
     (name "j-stats-base")
-    (version "1.0.17")
+    (version "1.0.18")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/stats_base.git")
-             (commit
-              "559ba502be012e425741879dce642cacdda9a46a")))
+             (commit "ad7ffc494cd5a51d715dffa32e01dc1974adc992")))
        (sha256
-        (base32
-         "0gnsh5r6178g8sa5njfcqbi9aylrfvnhgfyk6szk1nb3s76ibmvl"))))
+        (base32 "11zyj473fb7k5708hybkvz7mnlr1zln8rhaqhzkznqcq5l6hhqjn"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
