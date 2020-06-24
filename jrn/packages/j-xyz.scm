@@ -23,7 +23,7 @@
   #:use-module (guix utils)
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
-  #:use-module ((guix licenses) :select (expat gpl2+))
+  #:use-module ((guix licenses) :select (expat gpl2+ asl2.0))
   #:use-module (gnu packages algebra)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
@@ -2479,3 +2479,48 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (description "J emulations of the Fold primitives\n\n")
     (license expat)))
 
+
+(define-public j-stats-bonsai
+  (package
+    (name "j-stats-bonsai")
+    (version "1.0.0")
+    (source
+      (origin
+        (method git-fetch)
+        (uri (git-reference
+               (url "https://github.com/jitwit/bonsai.git")
+               (commit
+		"3940f43519f921827c4f6c81d3d00936c6672e72")))
+        (sha256
+          (base32
+	   "1flymgsqb2rzmsgz65vf3g76vhcsxb04whaklcfkjjgvgzw5paj8"))))
+    (propagated-inputs
+     `(("j-stats-base" ,j-stats-base)
+       ("j-stats-distribs" ,j-stats-distribs)
+       ("j-graphics-plot" ,j-graphics-plot)))
+    (outputs '("out"))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/stats/bonsai")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jitwit/bonsai")
+    (synopsis
+      "statistical benchmarks with confidence\n")
+    (description
+     "bootstrapping benchmarks in J for confidence\n\ninspired by https://hackage.haskell.org/package/criterion\n\ninformed by https://projecteuclid.org/download/pdf_1/euclid.ss/1177013815 and https://web.stanford.edu/~hastie/CASI/\n\n")
+    (license asl2.0)))
