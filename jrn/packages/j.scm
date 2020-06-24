@@ -67,123 +67,58 @@
        (modify-phases %standard-phases
 	 (replace 'configure
 	   (lambda _
-	     ;; the environment variables J's build scripts expect
-	     (setenv "HOME" (getenv "TEMP"))
 	     (let* ((jgit  (getcwd))
-		    (jbld (string-append (getenv "HOME") "/jbld"))
 		    (jplatform ,(if (target-arm?) "raspberry" "linux"))
-		    (jbits ,(if (target-64bit?) "j64" "j32"))
-		    (jsuffix "so")
-		    (CC "gcc")
+		    (jbits ,(if (target-64bit?) "j64avx2" "j32"))
 		    (tsu (string-append jgit "/test/tsu.ijs"))
-		    (j32 (string-append jbld "/j32/bin/jconsole " tsu))
-		    (j64 (string-append jbld "/j64/bin/jconsole " tsu))
-		    (j64avx  (string-append jbld "/j64/bin/jconsole -lib libjavx."
-					    jsuffix " " tsu))
-		    (j64avx2 (string-append jbld "/j64/bin/jconsole -lib libjavx2."
-					    jsuffix " " tsu))
-		    (jmake   (string-append jgit "/make"))
-		    (out     (assoc-ref %outputs "out"))
-		    ;; make base standard library visible by
-		    ;; substituting in profile.ijs
-		    (j-pre-install (string-append jbld "/" jbits "/"))
-		    (temp-j-share "'share/j',~2!:5'JPATH'")
-		    (usr-j-share
-		     (string-append "'/usr/share/j/"
-				    (substring ,version 0 1)
-				    "."
-				    (substring ,version 1)
-				    "'")))
-	       ;; make/make.txt asks us to copy make/jvars.sh to ~ and
-	       ;; change appropriate vars. that file is used to set
-	       ;; environment variables before calling J's build scripts. We
-	       ;; set those explicitly here instead.
-	       (setenv "jgit" jgit)       (setenv "jbld" jbld)
-	       (setenv "CC" CC)           (setenv "jplatform" jplatform)
-	       (setenv "jsuffix" jsuffix) (setenv "tsu" tsu)
-	       (setenv "j32" j32)         (setenv "j64" j64)
-	       (setenv "j64avx" j64avx)   (setenv "j64avx2" j64avx2)
-	       (setenv "jbits" jbits)     (setenv "jmake" jmake)
-	       (setenv "JPATH" j-pre-install)
-	       ;; make/make.txt asks us to copy jsrc/jversion-x.h to
-	       ;; jsrc/jversion.h and change the appropriate
-	       ;; variables. Instead of using substitute*, just print
-	       ;; directly to the file.
+		    (jconsole (string-append "/bin/" jplatform "/" jbits " " tsu))
+		    (out     (assoc-ref %outputs "out")))
 	       (with-output-to-file "jsrc/jversion.h"
 		 (lambda ()
 		   (display "#define jversion  ") (write ,version)  (newline)
 		   (display "#define jplatform ") (write jplatform) (newline)
 		   (display "#define jtype     ") (write "beta")    (newline)
 		   (display "#define jlicense  ") (write "GPL3")    (newline)
-		   (display "#define jbuilder  ") (write "guix")    (newline)))
-	       ;; be able to see added addons
-	       (substitute* '("jlibrary/bin/profile.ijs")
-		 ((usr-j-share) temp-j-share))
+		   (display "#define jbuilder  ") (write "guix.gnu.org")
+		   (newline)))
 	       ;; use pcre2 regexes
-	       (substitute* `(,(string-append jgit "/jlibrary/system/main/regex.ijs"))
+	       (substitute* `("jlibrary/system/main/regex.ijs")
 		 (("pcre2dll=: f")
 		  (string-append "pcre2dll=: '"
 				 (assoc-ref %build-inputs "pcre2")
 				 "/lib/libpcre2-8.so.0'")))
 	       ;; use libz
-	       (substitute* `(,(string-append jgit "/jlibrary/system/util/tar.ijs"))
+	       (substitute* `("jlibrary/system/util/tar.ijs")
 		 (("libz=: .+$")
 		  (string-append "zlib=: '"
 				 (assoc-ref %build-inputs "zlib")
 				 "/lib/libz.so'\n")))
-	       ;; copy over files which will be included with
-	       ;; installation. fixme, make sure only necessary files are copied in
-	       (mkdir-p
-		(string-append j-pre-install "/bin"))
-	       (copy-recursively
-		(string-append jgit "/jlibrary")
-		(string-append j-pre-install "/share/j"))
-	       (install-file
-		(string-append jgit "/jlibrary/bin/profile.ijs")
-		(string-append j-pre-install "/bin"))
 	       #t)))
 	 (replace 'build
 	   (lambda _
-	     (let ((jbits (getenv "jbits")))
-	       (invoke "cat" "jsrc/jversion.h")
-	       (invoke "make/build_jconsole.sh" jbits)
-	       (invoke "make/build_tsdll.sh" jbits)
-	       (invoke "make/build_libj.sh" jbits)
-	       (when (string=? jbits "j64")
-		 (invoke "make/build_libj.sh" "j64avx")
-		 (invoke "make/build_libj.sh" "j64avx2")))
+	     (chdir "make2")
+	     (system "jplatform=linux j64x=j64avx2 USE_SLEEF=1 ./build_libj.sh")
+	     (system "jplatform=linux j64x=j64avx2 USE_SLEEF=1 ./build_jconsole.sh")
+	     (chdir "..")
 	     #t))
-	 (replace 'check
-	   (lambda _
-	     (if (string=? (getenv "jbits") "j64")
-		 (system "echo \"RECHO ddall\" | $j64avx2")
-		 (system "echo \"RECHO ddall\" | $j32"))
-	     #t))
+	 (delete 'check)
 	 (replace 'install
  	   (lambda _
-	     (let* ((bin-in  (string-append (getenv "JPATH") "/bin"))
+	     (let* ((bin-in  "bin/linux/j64avx2")
 		    (bin-out (string-append (assoc-ref %outputs "out") "/bin"))
 		    (share-out (string-append (assoc-ref %outputs "out")
 					      "/share/j"))
 		    (jconsole (string-append bin-in "/jconsole"))
-		    (libj.so (string-append bin-in "/libj.so"))
-		    (libjavx.so (string-append bin-in "/libjavx.so"))
-		    (libjavx2.so (string-append bin-in "/libjavx2.so")))
+		    (libj.so (string-append bin-in "/libj.so")))
 	       (install-file jconsole bin-out)
 	       (install-file libj.so bin-out)
-	       (when (file-exists? libjavx.so)
-		 (install-file libjavx.so bin-out))
-	       (when (file-exists? libjavx2.so)
-		 (install-file libjavx2.so bin-out))
 	       (copy-recursively "jlibrary/addons"
 				 (string-append share-out "/addons"))
 	       (copy-recursively "jlibrary/system"
 				 (string-append share-out "/system"))
 	       ;; rewrite of J's usual profile.ijs to play nice with
 	       ;; guix. going through $HOME/.guix-profile/share/j
-	       ;; doesn't feel totally right though... problem seems
-	       ;; to be J expects us to use pacman and to have
-	       ;; everything in mutable directory...
+	       ;; doesn't feel totally right though...
 	       (with-output-to-file (string-append bin-out "/profile.ijs")
 		 (lambda ()
 		   (display
@@ -304,7 +239,7 @@ Ken Iverson and Roger Hui.")
 	     (substitute* `(,(string-append (assoc-ref outputs "out") "/bin/jqt"))
 	       (("\\$@")
 		(string-append "-lib\" \""
-			       (assoc-ref inputs "j") "/bin/libjavx2.so\" "
+			       (assoc-ref inputs "j") "/bin/libj.so\" "
 			       "\"-jprofile\" \""
 			       (assoc-ref inputs "j") "/bin/profile.ijs\" "
 			       "\"$@")))
