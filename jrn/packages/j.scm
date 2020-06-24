@@ -110,7 +110,7 @@
 	       ;; following directions in make2/make.txt
 	       (copy-recursively jbld "jlibrary/bin")
 	       (chdir "jlibrary/bin")
-	       (system "echo \"RECHO ddall\" | jconsole ../../test/tsu.ijs")
+	       (system "echo \"RUN ddall\" | ./jconsole ../../test/tsu.ijs")
 	       (chdir "../..")
 	       #t)))
 	 (replace 'install
