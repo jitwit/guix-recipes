@@ -66,12 +66,8 @@
        #:phases
        (modify-phases %standard-phases
 	 (replace 'configure
-	   (lambda _
-	     (let* ((jgit  (getcwd))
-		    (jplatform ,(if (target-arm?) "raspberry" "linux"))
-		    (jbits ,(if (target-64bit?) "j64avx2" "j32"))
-		    (tsu (string-append jgit "/test/tsu.ijs"))
-		    (jconsole (string-append "/bin/" jplatform "/" jbits " " tsu))
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let* ((jplatform ,(if (target-arm?) "raspberry" "linux"))
 		    (out     (assoc-ref %outputs "out")))
 	       (with-output-to-file "jsrc/jversion.h"
 		 (lambda ()
@@ -93,21 +89,37 @@
 				 "/lib/libz.so'\n")))
 	       #t)))
 	 (replace 'build
-	   (lambda _
-	     (chdir "make2")
-	     (system "jplatform=linux j64x=j64avx2 USE_SLEEF=1 ./build_libj.sh")
-	     (system "jplatform=linux j64x=j64avx2 USE_SLEEF=1 ./build_jconsole.sh")
-	     (chdir "..")
-	     #t))
-	 (delete 'check)
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
+		   (j64x ,(if (target-64bit?) "j64avx2" "j32")))
+	       (chdir "make2")
+	       (system (format #f "jplatform=~a j64x=~a USE_SLEEF=1 ./build_jconsole.sh"
+			       jplatform j64x))
+	       (system (format #f "jplatform=~a j64x=~a USE_SLEEF=1 ./build_tsdll.sh"
+			       jplatform j64x))
+	       (system (format #f "jplatform=~a j64x=~a USE_SLEEF=1 ./build_libj.sh"
+			       jplatform j64x))
+	       (chdir "..")
+	       #t)))
+	 (replace 'check
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let* ((jplatform ,(if (target-arm?) "raspberry" "linux"))
+		    (j64x ,(if (target-64bit?) "j64avx2" "j32"))
+		    (tsu (string-append (getcwd) "/test/tsu.ijs"))
+		    (jbld (string-append "bin/" jplatform "/" j64x)))
+	       ;; following directions in make2/make.txt
+	       (copy-recursively jbld "jlibrary/bin")
+	       (chdir "jlibrary/bin")
+	       (system "echo \"RECHO ddall\" | jconsole ../../test/tsu.ijs")
+	       (chdir "../..")
+	       #t)))
 	 (replace 'install
- 	   (lambda _
-	     (let* ((bin-in  "bin/linux/j64avx2")
-		    (bin-out (string-append (assoc-ref %outputs "out") "/bin"))
+ 	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let* ((bin-out (string-append (assoc-ref %outputs "out") "/bin"))
 		    (share-out (string-append (assoc-ref %outputs "out")
 					      "/share/j"))
-		    (jconsole (string-append bin-in "/jconsole"))
-		    (libj.so (string-append bin-in "/libj.so")))
+		    (jconsole "jlibrary/bin/jconsole")
+		    (libj.so  "jlibrary/bin/libj.so"))
 	       (install-file jconsole bin-out)
 	       (install-file libj.so bin-out)
 	       (copy-recursively "jlibrary/addons"
@@ -205,12 +217,12 @@ Ken Iverson and Roger Hui.")
        (modify-phases %standard-phases
          (delete 'configure)
          (replace 'build
-           (lambda _
+           (lambda* (#:key inputs outputs #:allow-other-keys)
              (with-directory-excursion "lib"  (invoke "qmake") (invoke "make"))
              (with-directory-excursion "main" (invoke "qmake") (invoke "make"))
              #t))
          (replace 'install
-           (lambda _
+           (lambda* (#:key inputs outputs #:allow-other-keys)
              (copy-recursively "bin/linux-x86_64/release"
                                (string-append (assoc-ref %outputs "out")
                                               "/bin"))
