@@ -1,29 +1,14 @@
+(use-modules (ice-9 popen)
+	     (ice-9 rdelim)
+	     (ice-9 pretty-print)
+	     (srfi srfi-1)
+	     (srfi srfi-26)
+	     (guix import utils)
+	     (guix build git)
+	     (guix scripts hash)
+	     (guix git))
 
-(define-module (guix import j)
-  #:use-module (ice-9 popen)
-  #:use-module (ice-9 pretty-print)
-  #:use-module (ice-9 rdelim)
-  #:use-module (srfi srfi-26)
-  #:use-module (srfi srfi-1)
-  #:use-module (guix import utils)
-  #:use-module (guix build git)
-  #:use-module (guix scripts hash)
-  #:use-module (guix git)
-  #:export (j-manifest
-	    j-import-package
-	    j-import-to-file
-	    j-package-latest-commit+hash))
-;; (use-modules 
-;; 	     (ice-9 rdelim)
-;; 	     (ice-9 pretty-print)
-;; 	     (srfi srfi-1)
-;; 	     (srfi srfi-26)
-;; 	     (guix import utils)
-;; 	     (guix build git)
-;; 	     (guix scripts hash)
-;; 	     (guix git))
-;; 
-(define-public (j-manifest where what)
+(define (j-manifest where what)
   (define cmd
     (format #f "jconsole -js \"load '~a'\" \"echo ~a\" \"exit 0\""
 	    where
@@ -35,7 +20,7 @@
 	(lp (read-line out) `(,x ,@xs)))))
 
 ;; most J addons don't have tags or releases, thence this
-(define-public (j-import-package url)
+(define (j-import-package url)
   (define name
     (snake-case (car (last-pair (string-split url (cut char=? <> #\/))))))
   (define url.git (string-append url ".git"))
@@ -95,21 +80,20 @@
 			       (j-manifest manifest.ijs "DESCRIPTION")))
 	(license)))))
 
-(define-public (j-import-to-file url file)
+(define (import-to-file url file)
   (with-output-to-file file
     (lambda ()
       (j-import-package url))))
 
-(define-public (j-package-latest-commit+hash url)
+(define (j-package-latest-commit+hash url)
   (define name
     (snake-case (car (last-pair (string-split url (cut char=? <> #\/))))))
   (define url.git (string-append url ".git"))
   (define-values (cache-dir commit rel)
     (update-cached-checkout url.git))
-  (values
-   commit
-   (substring (with-output-to-string
-		(lambda ()
-		  (guix-hash "-x" "-r" cache-dir)))
-	      0 52)))
+  (list commit
+	(substring (with-output-to-string
+		     (lambda ()
+		       (guix-hash "-x" "-r" cache-dir)))
+		   0 52)))
 
