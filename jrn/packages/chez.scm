@@ -1,48 +1,24 @@
-(define-module
-  (jrn packages chez)
-  #:use-module
-  (gnu packages)
-  #:use-module
-  ((guix licenses)
-   #:select
-   (gpl2+ gpl3+ lgpl2.0+ lgpl2.1+ asl2.0 bsd-3 expat
-          public-domain))
-  #:use-module
-  (guix packages)
-  #:use-module
-  (guix download)
-  #:use-module
-  (guix git-download)
-  #:use-module
-  (guix utils)
-  #:use-module
-  (guix build-system gnu)
-  #:use-module
-  (gnu packages compression)
-  #:use-module
-  (gnu packages ncurses)
-  #:use-module
-  (gnu packages ghostscript)
-  #:use-module
-  (gnu packages linux)
-  #:use-module
-  (gnu packages netpbm)
-  #:use-module
-  (gnu packages tex)
-  #:use-module
-  (gnu packages compression)
-  #:use-module
-  (gnu packages image)
-  #:use-module
-  (gnu packages xorg)
-  #:use-module
-  ((gnu packages chez)
-   #:select
-   (chez-scheme))
-  #:use-module
-  (ice-9 match)
-  #:use-module
-  (srfi srfi-1))
+(define-module (jrn packages chez)
+  #:use-module (gnu packages)
+  #:use-module ((guix licenses)
+   #:select (gpl2+ gpl3+ lgpl2.0+ lgpl2.1+ asl2.0 bsd-3 expat public-domain))
+  #:use-module (guix packages)
+  #:use-module (guix download)
+  #:use-module (guix git-download)
+  #:use-module (guix utils)
+  #:use-module (guix build-system gnu)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages ncurses)
+  #:use-module (gnu packages ghostscript)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages netpbm)
+  #:use-module (gnu packages tex)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages image)
+  #:use-module (gnu packages xorg)
+  #:use-module ((gnu packages chez) #:select (chez-scheme))
+  #:use-module (ice-9 match)
+  #:use-module (srfi srfi-1))
 
 (define-public chez-srfi
   (package
@@ -148,7 +124,6 @@ required to port the program @code{Scmutils} to Chez Scheme.")
    (build-system gnu-build-system)
    (inputs
     `(("chez-srfi" ,chez-srfi)))
-					; for tests
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (propagated-inputs
@@ -235,6 +210,42 @@ Scmutils program to Chez Scheme.  The port consists of a set of
 libraries providing most of the functionality of the original.")
    (license gpl3+)))
 
+(define-public chez-matchable
+  (package
+    (name "chez-matchable")
+    (version "20160306")
+    (home-page "https://github.com/fedeinthemix/chez-matchable")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url home-page)
+             (commit (string-append "v" version))))
+       (sha256
+        (base32 "02qn7x348p23z1x5lwhkyj7i8z6mgwpzpnwr8dyina0yzsdkr71s"))
+       (file-name (git-file-name name version))))
+    (build-system gnu-build-system)
+    (inputs
+     `(("chez-srfi" ,chez-srfi))) ; for tests
+    (native-inputs
+     `(("chez-scheme" ,chez-scheme)))
+    (arguments
+     `(#:make-flags (let ((out (assoc-ref %outputs "out")))
+		      `(,(string-append "PREFIX=" out)))
+       #:tests? #f
+       #:phases (modify-phases %standard-phases
+                  (delete 'configure))))
+   (native-search-paths
+    `(,(search-path-specification
+	(variable "CHEZSCHEMELIBDIRS")
+	(files
+	 `(,(string-append "lib/csv-site"))))))
+    (synopsis "Portable hygienic pattern matcher for Scheme")
+    (description "This package provides a superset of the popular Scheme
+@code{match} package by Andrew Wright, written in fully portable
+@code{syntax-rules} and thus preserving hygiene.")
+    (license public-domain)))
+
 (define-public chez-hemlock
   (package
    (name "chez-hemlock")
@@ -270,8 +281,7 @@ libraries providing most of the functionality of the original.")
    (native-search-paths
     `(,(search-path-specification
 	(variable "CHEZSCHEMELIBDIRS")
-	(files
-	 `(,(string-append "lib/csv-site"))))))
+	(files `(,(string-append "lib/csv-site"))))))
    (home-page "https://github.com/jitwit/chez-hemlock")
    (synopsis "Datastructures for chez scheme")
    (description "Patricia trees, KD trees, heaps, algebraic graphs, queues")
