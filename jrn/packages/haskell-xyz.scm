@@ -361,3 +361,157 @@
     (description
      "For examples and an introduction to the library please take a look at the <https://github.com/CRogers/should-not-typecheck#should-not-typecheck- README> on github.")
     (license license:bsd-3)))
+
+(define-public ghc-servant-client
+  (package
+    (name "ghc-servant-client")
+    (version "0.17")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/servant-client/servant-client-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "0161v6kfj4mm5rixw5lbm8sc2dng300xbwgdhi4d0fqxrx12kij7"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-servant" ,ghc-servant)
+       ("ghc-servant-client-core"
+	,ghc-servant-client-core)
+       ("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-http-client" ,ghc-http-client)
+       ("ghc-http-media" ,ghc-http-media)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-exceptions" ,ghc-exceptions)
+       ("ghc-kan-extensions" ,ghc-kan-extensions)
+       ("ghc-monad-control" ,ghc-monad-control)
+       ("ghc-semigroupoids" ,ghc-semigroupoids)
+       ("ghc-transformers-base" ,ghc-transformers-base)
+       ("ghc-transformers-compat"
+	,ghc-transformers-compat)))
+    (native-inputs
+     `(("ghc-aeson" ,ghc-aeson)
+       ("ghc-http-api-data" ,ghc-http-api-data)
+       ("ghc-wai" ,ghc-wai)
+       ("ghc-warp" ,ghc-warp)
+       ("ghc-entropy" ,ghc-entropy)
+       ("ghc-hspec" ,ghc-hspec)
+       ("hspec-discover" ,hspec-discover)
+       ("ghc-hunit" ,ghc-hunit)
+       ("ghc-network" ,ghc-network)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-servant-server" ,ghc-servant-server)
+       ("ghc-tdigest" ,ghc-tdigest)
+       ("ghc-markdown-unlit" ,ghc-markdown-unlit)))
+    (home-page "http://docs.servant.dev/")
+    (synopsis
+     "Automatic derivation of querying functions for servant")
+    (description
+     "This library lets you derive automatically Haskell functions that let you query each endpoint of a <http://hackage.haskell.org/package/servant servant> webservice. . See <http://docs.servant.dev/en/stable/tutorial/Client.html the client section of the tutorial>. . <https://github.com/haskell-servant/servant/blob/master/servant-client/CHANGELOG.md CHANGELOG>")
+    (license license:bsd-3)))
+
+(define-public ghc-servant-client-core
+  (package
+    (name "ghc-servant-client-core")
+    (version "0.17")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/servant-client-core/servant-client-core-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "1xskvmdr4998hj19wvhyb5rs5x193792f1b6ia7r21qdzp9garff"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-servant" ,ghc-servant)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-base64-bytestring" ,ghc-base64-bytestring)
+       ("ghc-exceptions" ,ghc-exceptions)
+       ("ghc-free" ,ghc-free)
+       ("ghc-http-media" ,ghc-http-media)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-network-uri" ,ghc-network-uri)
+       ("ghc-safe" ,ghc-safe)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("hspec-discover" ,hspec-discover)
+       ("ghc-quickcheck" ,ghc-quickcheck)))
+    (home-page "http://docs.servant.dev/")
+    (synopsis
+     "Core functionality and class for client function generation for servant APIs")
+    (description
+     "This library provides backend-agnostic generation of client functions. For more information, see the README.")
+    (license license:bsd-3)))
+
+(define-public ghc-tdigest
+  (package
+    (name "ghc-tdigest")
+    (version "0.2.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/tdigest/tdigest-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "0kmqmzjcs406hv2fv9bkfayxpsd41dbry8bpkhy4y1jdgh33hvnl"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-reducers" ,ghc-reducers)
+       ("ghc-semigroupoids" ,ghc-semigroupoids)
+       ("ghc-vector" ,ghc-vector)
+       ("ghc-vector-algorithms" ,ghc-vector-algorithms)))
+    (native-inputs
+     `(("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-tasty" ,ghc-tasty)
+       ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+       ("ghc-doctest" ,ghc-doctest)
+       ("ghc-cabal-doctest" ,ghc-cabal-doctest)))
+    (arguments
+     `(#:cabal-revision
+       ("5"
+	"1crjfhxhs8ihbl2xn1dqr5w19g7w74mcf2w889my6zb935l7lyjs")))
+    (home-page
+     "https://github.com/futurice/haskell-tdigest#readme")
+    (synopsis
+     "On-line accumulation of rank-based statistics")
+    (description
+     "A new data structure for accurate on-line accumulation of rank-based statistics such as quantiles and trimmed means. . See original paper: \"Computing extremely accurate quantiles using t-digest\" by Ted Dunning and Otmar Ertl for more details <https://github.com/tdunning/t-digest/blob/07b8f2ca2be8d0a9f04df2feadad5ddc1bb73c88/docs/t-digest-paper/histo.pdf>.")
+    (license license:bsd-3)))
+
+(define-public ghc-cabal-doctest
+  (package
+    (name "ghc-cabal-doctest")
+    (version "1.0.8")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/cabal-doctest/cabal-doctest-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "03if74imlhhk7m56nci5f1wclniwqdmwl4hl177040j1gnlac9i0"))))
+    (build-system haskell-build-system)
+    (arguments
+     `(#:cabal-revision
+       ("1"
+	"0z0r7h2y5six2zgfylcwr9g4j78qph35zqglk9lz4za1klvgdprl")))
+    (home-page
+     "https://github.com/phadej/cabal-doctest")
+    (synopsis
+     "A Setup.hs helper for doctests running")
+    (description
+     "Currently (beginning of 2017), there isn't @cabal doctest@ command. Yet, to properly work doctest needs plenty of configuration. This library provides the common bits for writing custom Setup.hs See <https://github.com/haskell/cabal/issues/2327 Cabal/2327> for the progress of @cabal doctest@, i.e. whether this library is obsolete.")
+    (license license:bsd-3)))
