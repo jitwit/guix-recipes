@@ -65,6 +65,7 @@
        ("ghc-vault" ,ghc-vault)))
     (native-inputs
      `(("ghc-hspec" ,ghc-hspec)
+       ("hspec-discover" ,hspec-discover)
        ("ghc-quickcheck-instances"
 	,ghc-quickcheck-instances)))
     (home-page "http://docs.servant.dev/")
@@ -153,8 +154,8 @@
     (inputs `(("ghc-utf8-string" ,ghc-utf8-string)))
     (native-inputs
      `(("ghc-hspec" ,ghc-hspec)
-       ("ghc-quickcheck-instances"
-	,ghc-quickcheck-instances)
+       ("hspec-discover" ,hspec-discover)
+       ("ghc-quickcheck-instances" ,ghc-quickcheck-instances)
        ("ghc-quickcheck" ,ghc-quickcheck)))
     (home-page
      "https://github.com/soenkehahn/string-conversions#readme")
