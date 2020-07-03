@@ -515,3 +515,120 @@
     (description
      "Currently (beginning of 2017), there isn't @cabal doctest@ command. Yet, to properly work doctest needs plenty of configuration. This library provides the common bits for writing custom Setup.hs See <https://github.com/haskell/cabal/issues/2327 Cabal/2327> for the progress of @cabal doctest@, i.e. whether this library is obsolete.")
     (license license:bsd-3)))
+
+(define-public ghc-servant-blaze
+  (package
+    (name "ghc-servant-blaze")
+    (version "0.9")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/servant-blaze/servant-blaze-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "1pfnpc6m7i8knndc1734fbzpfgmvdcpkd8cj0jyw139b70siz63r"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-servant" ,ghc-servant)
+       ("ghc-http-media" ,ghc-http-media)
+       ("ghc-blaze-html" ,ghc-blaze-html)))
+    (native-inputs
+     `(("ghc-servant-server" ,ghc-servant-server)
+       ("ghc-wai" ,ghc-wai)
+       ("ghc-warp" ,ghc-warp)))
+    (arguments
+     `(#:cabal-revision
+       ("3"
+	"0pn9ca2jmx71clz0j9nlz1lwmr2xv39zqfda10al11am9mc4j8n4")))
+    (home-page
+     "http://haskell-servant.readthedocs.org/")
+    (synopsis "Blaze-html support for servant")
+    (description
+     "Servant support for blaze-html . 'HTML' content type which will use `ToMarkup` class.")
+    (license license:bsd-3)))
+
+(define-public ghc-lens-aeson
+  (package
+    (name "ghc-lens-aeson")
+    (version "1.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/lens-aeson/lens-aeson-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "03n9dkdyqkkf15h8k4c4bjwgjcbbs2an2cf6z8x54nvkjmprrg7p"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-lens" ,ghc-lens)
+       ("ghc-vector" ,ghc-vector)
+       ("ghc-unordered-containers"
+	,ghc-unordered-containers)
+       ("ghc-attoparsec" ,ghc-attoparsec)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-scientific" ,ghc-scientific)))
+    (native-inputs
+     `(("ghc-doctest" ,ghc-doctest)
+       ("ghc-generic-deriving" ,ghc-generic-deriving)
+       ("ghc-semigroups" ,ghc-semigroups)
+       ("ghc-simple-reflect" ,ghc-simple-reflect)
+       ("ghc-cabal-doctest" ,ghc-cabal-doctest)))
+    (arguments
+     `(#:cabal-revision
+       ("2"
+	"1ivxsj7igrrrzkwhw7ipcxnnr721797is6yfsrh3mha9dl8985sf")))
+    (home-page "http://github.com/lens/lens-aeson/")
+    (synopsis "Law-abiding lenses for aeson")
+    (description "Law-abiding lenses for aeson.")
+    (license expat)))
+
+(define-public ghc-directory
+  (package
+    (name "ghc-directory")
+    (version "1.3.6.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/directory/directory-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "00cr2sshzjmn57rpvjj8wvgr60x2mk8c7w1nd40wxqs8s9xaa1bi"))))
+    (build-system haskell-build-system)
+    (home-page
+     "http://hackage.haskell.org/package/directory")
+    (synopsis
+     "Platform-agnostic library for filesystem operations")
+    (description
+     "This library provides a basic set of operations for manipulating files and directories in a portable way.")
+    (license license:bsd-3)))
+
+(define-public ghc-process
+  (package
+    (name "ghc-process")
+    (version "1.6.10.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/process/process-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "01c50qhrsvymbifa3lzyq6g4hmj6jl3awjp1jmbhdkmfdfaq3v16"))))
+    (build-system haskell-build-system)
+    (home-page
+     "http://hackage.haskell.org/package/process")
+    (synopsis "Process libraries")
+    (description
+     "This package contains libraries for dealing with system processes. . The typed-process package is a more recent take on a process API, which uses this package internally. It features better binary support, easier concurrency, and a more composable API. You can read more about it at <https://github.com/fpco/typed-process/#readme>.")
+    (license license:bsd-3)))
