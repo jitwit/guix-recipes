@@ -190,3 +190,174 @@
      "This package provides a @Dec@ type. . @ type Neg a = a -> Void . data Dec a \\    = Yes a \\    | No (Neg a) @")
     (license license:bsd-3)))
 
+(define-public ghc-servant-server
+  (package
+    (name "ghc-servant-server")
+    (version "0.17")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/servant-server/servant-server-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "11y7cb8r8bzkx3fb2cd5cbazxy87n0f4wm14qdxsz2g81k262k5l"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-servant" ,ghc-servant)
+       ("ghc-http-api-data" ,ghc-http-api-data)
+       ("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-base64-bytestring" ,ghc-base64-bytestring)
+       ("ghc-exceptions" ,ghc-exceptions)
+       ("ghc-http-media" ,ghc-http-media)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-network-uri" ,ghc-network-uri)
+       ("ghc-monad-control" ,ghc-monad-control)
+       ("ghc-network" ,ghc-network)
+       ("ghc-string-conversions"
+	,ghc-string-conversions)
+       ("ghc-resourcet" ,ghc-resourcet)
+       ("ghc-tagged" ,ghc-tagged)
+       ("ghc-transformers-base" ,ghc-transformers-base)
+       ("ghc-wai" ,ghc-wai)
+       ("ghc-wai-app-static" ,ghc-wai-app-static)
+       ("ghc-word8" ,ghc-word8)
+       ("ghc-aeson" ,ghc-aeson)
+       ("ghc-warp" ,ghc-warp)))
+    (native-inputs
+     `(("ghc-safe" ,ghc-safe)
+       ("ghc-transformers-compat"
+	,ghc-transformers-compat)
+       ("ghc-hspec" ,ghc-hspec)
+       ("hspec-discover" ,hspec-discover)
+       ("ghc-hspec-wai" ,ghc-hspec-wai)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-should-not-typecheck"
+	,ghc-should-not-typecheck)
+       ("ghc-temporary" ,ghc-temporary)
+       ("ghc-wai-extra" ,ghc-wai-extra)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+	"1kbdga7bi7slgcskqc3sb1xwmwif52dj8gvkxcskaw0b9xbdynhs")))
+    (home-page "http://docs.servant.dev/")
+    (synopsis
+     "A family of combinators for defining webservices APIs and serving them")
+    (description
+     "A family of combinators for defining webservices APIs and serving them . You can learn about the basics in the <http://docs.servant.dev/en/stable/tutorial/index.html tutorial>. . <https://github.com/haskell-servant/servant/blob/master/servant-server/example/greet.hs Here> is a runnable example, with comments, that defines a dummy API and implements a webserver that serves this API, using this package. . <https://github.com/haskell-servant/servant/blob/master/servant-server/CHANGELOG.md CHANGELOG>")
+    (license license:bsd-3)))
+
+(define-public ghc-wai-app-static
+  (package
+    (name "ghc-wai-app-static")
+    (version "3.1.7.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/wai-app-static/wai-app-static-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "10k6jb450p89r6dgpnwh428gg0wfw2qbx9n126jkvbchcjr1f4v8"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-wai" ,ghc-wai)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-unix-compat" ,ghc-unix-compat)
+       ("ghc-old-locale" ,ghc-old-locale)
+       ("ghc-file-embed" ,ghc-file-embed)
+       ("ghc-cryptonite" ,ghc-cryptonite)
+       ("ghc-memory" ,ghc-memory)
+       ("ghc-http-date" ,ghc-http-date)
+       ("ghc-blaze-html" ,ghc-blaze-html)
+       ("ghc-blaze-markup" ,ghc-blaze-markup)
+       ("ghc-mime-types" ,ghc-mime-types)
+       ("ghc-unordered-containers"
+	,ghc-unordered-containers)
+       ("ghc-zlib" ,ghc-zlib)
+       ("ghc-wai-extra" ,ghc-wai-extra)
+       ("ghc-optparse-applicative"
+	,ghc-optparse-applicative)
+       ("ghc-warp" ,ghc-warp)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-network" ,ghc-network)
+       ("ghc-temporary" ,ghc-temporary)
+       ("ghc-mockery" ,ghc-mockery)))
+    (arguments
+     `(#:cabal-revision
+       ("1"
+	"0bkmml30rzifvb7nxddj3pxczk0kniahra19mjn0qrkzy1n5752p")))
+    (home-page
+     "http://www.yesodweb.com/book/web-application-interface")
+    (synopsis "WAI application for static serving")
+    (description
+     "API docs and the README are available at <http://www.stackage.org/package/wai-app-static>.")
+    (license expat)))
+
+(define-public ghc-hspec-wai
+  (package
+    (name "ghc-hspec-wai")
+    (version "0.10.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/hspec-wai/hspec-wai-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "05jv0cz8r8bf63ma5byjb2gkj9vwgnls4n9mks99qc525n055ckz"))))
+    (build-system haskell-build-system)
+    (inputs
+     `(("ghc-quickcheck" ,ghc-quickcheck)
+       ("ghc-base-compat" ,ghc-base-compat)
+       ("ghc-case-insensitive" ,ghc-case-insensitive)
+       ("ghc-hspec-core" ,ghc-hspec-core)
+       ("ghc-hspec-expectations"
+	,ghc-hspec-expectations)
+       ("ghc-http-types" ,ghc-http-types)
+       ("ghc-wai" ,ghc-wai)
+       ("ghc-wai-extra" ,ghc-wai-extra)))
+    (native-inputs `(("ghc-hspec" ,ghc-hspec)
+		     ("hspec-discover" ,hspec-discover)))
+    (home-page
+     "https://github.com/hspec/hspec-wai#readme")
+    (synopsis
+     "Experimental Hspec support for testing WAI applications")
+    (description
+     "Experimental Hspec support for testing WAI applications")
+    (license expat)))
+
+(define-public ghc-should-not-typecheck
+  (package
+    (name "ghc-should-not-typecheck")
+    (version "2.1.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://hackage.haskell.org/package/should-not-typecheck/should-not-typecheck-"
+             version
+             ".tar.gz"))
+       (sha256
+        (base32
+	 "14fmv0mv2v4fqzynamlrmdj6d1l65aw1srf1wv19nrq7rrqaqf7m"))))
+    (build-system haskell-build-system)
+    (inputs `(("ghc-hunit" ,ghc-hunit)))
+    (native-inputs
+     `(("ghc-hspec" ,ghc-hspec)
+       ("ghc-hspec-expectations"
+	,ghc-hspec-expectations)))
+    (home-page
+     "http://github.com/CRogers/should-not-typecheck")
+    (synopsis
+     "A HUnit/hspec assertion library to verify that an expression does not typecheck")
+    (description
+     "For examples and an introduction to the library please take a look at the <https://github.com/CRogers/should-not-typecheck#should-not-typecheck- README> on github.")
+    (license license:bsd-3)))
