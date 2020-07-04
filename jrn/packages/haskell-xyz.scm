@@ -658,30 +658,30 @@
      "Random shuffle implementation, on immutable lists. Based on `perfect shuffle' implementation by Oleg Kiselyov, available on http://okmij.org/ftp/Haskell/perfect-shuffle.txt")
     (license license:bsd-3)))
 
-(define-public ghc-diagrams
-  (package
-    (name "ghc-diagrams")
-    (version "1.4")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (string-append
-             "https://hackage.haskell.org/package/diagrams/diagrams-"
-             version
-             ".tar.gz"))
-       (sha256
-        (base32
-	 "0fcik4vwm2zah5m3yf6p1dlf0vbs7h1jri77zfwl731bd3xgc246"))))
-    (build-system haskell-build-system)
-    (inputs
-     `(("ghc-diagrams-core" ,ghc-diagrams-core)
-       ("ghc-diagrams-lib" ,ghc-diagrams-lib)
-       ("ghc-diagrams-contrib" ,ghc-diagrams-contrib)
-       ("ghc-diagrams-svg" ,ghc-diagrams-svg)))
-    (home-page
-     "http://projects.haskell.org/diagrams")
-    (synopsis
-     "Embedded domain-specific language for declarative vector graphics")
-    (description
-     "Diagrams is a full-featured framework and embedded domain-specific langauge for creating declarative vector graphics and animations. . This package is just a convenient wrapper around the @diagrams-core@, @diagrams-lib@ and @diagrams-contrib@ packages, so they can be installed with a single @cabal install diagrams@ command. . The package also comes with flags to enable six different backends. A Haskell-native SVG backend (the @diagrams-svg@ package) can be selected with @-fsvg@. This flag is enabled by default, so if you do /not/ want the SVG backend, you must explicitly disable it with @-f-svg@.  The SVG backend does not yet quite support all the features of the cairo backend: text alignment and embedded images are the two main missing features at this point, and of course it can only produce SVG images. It is, however, much easier to install, so it is the out-of-the-box default. . There is also a cairo backend (the @diagrams-cairo@ package) which can be selected with the @-fcairo@ flag. It is fully-featured and can produce PNG, PS, PDF, SVG, or animated GIF output; however, due to its dependencies it can be difficult to install on some platforms (notably OS X). . In addition, there is a GTK backend based on the cairo backend, for rendering diagrams directly to GTK windows. You can enable it with the @-fgtk@ flag. . The Haskell-native postscript backend (the @diagrams-postscript@ package) can be selected with the @-fpostscript@ flag.  The only feature it does not support is transparency. . There is a Rasterific backend which is also Haskell-native (the @diagrams-rasterific@ package) which can be selected with the @-frasterific@ flag. This is a fully featured backend with the ability to produce PNG, JPG, TIFF, BMP and animated GIF output. . Finally there is a Canvas backend, also haskell native, which can be selected with the @-fcanvas@ flag. This backend allows users to write interactive images onto their web browsers. . For more information, including a gallery of examples, tutorial, and user manual, see the diagrams website: <http://projects.haskell.org/diagrams>.  For help, join the @#diagrams@ IRC channel on Freenode or the mailing list: <http://groups.google.com/group/diagrams-discuss>.")
-    (license license:bsd-3)))
+;; (define-public ghc-diagrams
+;;   (package
+;;     (name "ghc-diagrams")
+;;     (version "1.4")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (string-append
+;;              "https://hackage.haskell.org/package/diagrams/diagrams-"
+;;              version
+;;              ".tar.gz"))
+;;        (sha256
+;;         (base32
+;; 	 "0fcik4vwm2zah5m3yf6p1dlf0vbs7h1jri77zfwl731bd3xgc246"))))
+;;     (build-system haskell-build-system)
+;;     (inputs
+;;      `(("ghc-diagrams-core" ,ghc-diagrams-core)
+;;        ("ghc-diagrams-lib" ,ghc-diagrams-lib)
+;;        ("ghc-diagrams-contrib" ,ghc-diagrams-contrib)
+;;        ("ghc-diagrams-svg" ,ghc-diagrams-svg)))
+;;     (home-page
+;;      "http://projects.haskell.org/diagrams")
+;;     (synopsis
+;;      "Embedded domain-specific language for declarative vector graphics")
+;;     (description
+;;      "Diagrams is a full-featured framework and embedded domain-specific langauge for creating declarative vector graphics and animations. . This package is just a convenient wrapper around the @diagrams-core@, @diagrams-lib@ and @diagrams-contrib@ packages, so they can be installed with a single @cabal install diagrams@ command. . The package also comes with flags to enable six different backends. A Haskell-native SVG backend (the @diagrams-svg@ package) can be selected with @-fsvg@. This flag is enabled by default, so if you do /not/ want the SVG backend, you must explicitly disable it with @-f-svg@.  The SVG backend does not yet quite support all the features of the cairo backend: text alignment and embedded images are the two main missing features at this point, and of course it can only produce SVG images. It is, however, much easier to install, so it is the out-of-the-box default. . There is also a cairo backend (the @diagrams-cairo@ package) which can be selected with the @-fcairo@ flag. It is fully-featured and can produce PNG, PS, PDF, SVG, or animated GIF output; however, due to its dependencies it can be difficult to install on some platforms (notably OS X). . In addition, there is a GTK backend based on the cairo backend, for rendering diagrams directly to GTK windows. You can enable it with the @-fgtk@ flag. . The Haskell-native postscript backend (the @diagrams-postscript@ package) can be selected with the @-fpostscript@ flag.  The only feature it does not support is transparency. . There is a Rasterific backend which is also Haskell-native (the @diagrams-rasterific@ package) which can be selected with the @-frasterific@ flag. This is a fully featured backend with the ability to produce PNG, JPG, TIFF, BMP and animated GIF output. . Finally there is a Canvas backend, also haskell native, which can be selected with the @-fcanvas@ flag. This backend allows users to write interactive images onto their web browsers. . For more information, including a gallery of examples, tutorial, and user manual, see the diagrams website: <http://projects.haskell.org/diagrams>.  For help, join the @#diagrams@ IRC channel on Freenode or the mailing list: <http://groups.google.com/group/diagrams-discuss>.")
+;;     (license license:bsd-3)))
