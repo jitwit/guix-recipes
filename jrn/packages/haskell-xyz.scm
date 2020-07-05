@@ -658,30 +658,313 @@
      "Random shuffle implementation, on immutable lists. Based on `perfect shuffle' implementation by Oleg Kiselyov, available on http://okmij.org/ftp/Haskell/perfect-shuffle.txt")
     (license license:bsd-3)))
 
-;; (define-public ghc-diagrams
-;;   (package
-;;     (name "ghc-diagrams")
-;;     (version "1.4")
-;;     (source
-;;      (origin
-;;        (method url-fetch)
-;;        (uri (string-append
-;;              "https://hackage.haskell.org/package/diagrams/diagrams-"
-;;              version
-;;              ".tar.gz"))
-;;        (sha256
-;;         (base32
-;; 	 "0fcik4vwm2zah5m3yf6p1dlf0vbs7h1jri77zfwl731bd3xgc246"))))
-;;     (build-system haskell-build-system)
-;;     (inputs
-;;      `(("ghc-diagrams-core" ,ghc-diagrams-core)
-;;        ("ghc-diagrams-lib" ,ghc-diagrams-lib)
-;;        ("ghc-diagrams-contrib" ,ghc-diagrams-contrib)
-;;        ("ghc-diagrams-svg" ,ghc-diagrams-svg)))
-;;     (home-page
-;;      "http://projects.haskell.org/diagrams")
-;;     (synopsis
-;;      "Embedded domain-specific language for declarative vector graphics")
-;;     (description
-;;      "Diagrams is a full-featured framework and embedded domain-specific langauge for creating declarative vector graphics and animations. . This package is just a convenient wrapper around the @diagrams-core@, @diagrams-lib@ and @diagrams-contrib@ packages, so they can be installed with a single @cabal install diagrams@ command. . The package also comes with flags to enable six different backends. A Haskell-native SVG backend (the @diagrams-svg@ package) can be selected with @-fsvg@. This flag is enabled by default, so if you do /not/ want the SVG backend, you must explicitly disable it with @-f-svg@.  The SVG backend does not yet quite support all the features of the cairo backend: text alignment and embedded images are the two main missing features at this point, and of course it can only produce SVG images. It is, however, much easier to install, so it is the out-of-the-box default. . There is also a cairo backend (the @diagrams-cairo@ package) which can be selected with the @-fcairo@ flag. It is fully-featured and can produce PNG, PS, PDF, SVG, or animated GIF output; however, due to its dependencies it can be difficult to install on some platforms (notably OS X). . In addition, there is a GTK backend based on the cairo backend, for rendering diagrams directly to GTK windows. You can enable it with the @-fgtk@ flag. . The Haskell-native postscript backend (the @diagrams-postscript@ package) can be selected with the @-fpostscript@ flag.  The only feature it does not support is transparency. . There is a Rasterific backend which is also Haskell-native (the @diagrams-rasterific@ package) which can be selected with the @-frasterific@ flag. This is a fully featured backend with the ability to produce PNG, JPG, TIFF, BMP and animated GIF output. . Finally there is a Canvas backend, also haskell native, which can be selected with the @-fcanvas@ flag. This backend allows users to write interactive images onto their web browsers. . For more information, including a gallery of examples, tutorial, and user manual, see the diagrams website: <http://projects.haskell.org/diagrams>.  For help, join the @#diagrams@ IRC channel on Freenode or the mailing list: <http://groups.google.com/group/diagrams-discuss>.")
-;;     (license license:bsd-3)))
+(define-public ghc-microstache
+  (package
+    (name "ghc-microstache")
+    (version "1.0.1.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/microstache/microstache-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0851sqr1ppdj6m822635pa3j6qzdf25gyrhkjs25zdry6518bsax"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-aeson" ,ghc-aeson)
+        ("ghc-unordered-containers"
+         ,ghc-unordered-containers)
+        ("ghc-vector" ,ghc-vector)))
+    (native-inputs
+      `(("ghc-hspec" ,ghc-hspec)
+        ("ghc-hspec" ,ghc-hspec)))
+    (arguments
+      `(#:cabal-revision
+        ("7"
+         "05ia18kywpmk01sqnywflfq0ck3yivh8rc178f575py1zrdpn3l7")))
+    (home-page
+      "https://github.com/phadej/microstache")
+    (synopsis "Mustache templates for Haskell")
+    (description
+      "Mustache templates for Haskell. . Based on @stache@ library, which uses @megaparsec@. This library uses @parsec@, thus the name: @microstache@.")
+    (license license:bsd-3)))
+
+(define-public ghc-criterion-measurement
+  (package
+    (name "ghc-criterion-measurement")
+    (version "0.1.2.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/criterion-measurement/criterion-measurement-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "03p71mfnnfjx9dnf0yhrhdcr30zc2nwn5f8lql48cabccpd3793l"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-aeson" ,ghc-aeson)
+        ("ghc-base-compat" ,ghc-base-compat)
+        ("ghc-vector" ,ghc-vector)))
+    (home-page "https://github.com/bos/criterion")
+    (synopsis
+      "Criterion measurement functionality and associated types")
+    (description
+      "Measurement-related functionality extracted from Criterion, with minimal dependencies. The rationale for this is to enable alternative analysis front-ends.")
+    (license license:bsd-3)))
+
+(define-public ghc-only
+  (package
+    (name "ghc-only")
+    (version "0.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/Only/Only-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0rdj3a629fk2vp121jq8mf2smkblrz5w3cxhlsyx6my2x29s2ymb"))))
+    (build-system haskell-build-system)
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "1ahk7p34kmh041mz7lyc10nhcxgv2i4z8nvzxvqm2x34gslmsbzr")))
+    (home-page
+      "http://hackage.haskell.org/package/Only")
+    (synopsis
+      "The 1-tuple type or single-value \"collection\"")
+    (description
+      "This package provides a canonical anonymous 1-tuple type missing from Haskell for attaching typeclass instances. . NOTE: There is also the </package/OneTuple OneTuple package> which by using a boxed @data@-type provides a 1-tuple type which has laziness properties which are more faithful to the ones of Haskell's native tuples; whereas the primary purpose of 'Only' is to provide the traditionally so named type-wrapper for attaching typeclass instances.")
+    (license license:bsd-3)))
+
+(define-public ghc-cassava
+  (package
+    (name "ghc-cassava")
+    (version "0.5.2.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/cassava/cassava-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "01h1zrdqb313cjd4rqm1107azzx4czqi018c2djf66a5i7ajl3dk"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-attoparsec" ,ghc-attoparsec)
+        ("ghc-hashable" ,ghc-hashable)
+        ("ghc-scientific" ,ghc-scientific)
+        ("ghc-unordered-containers"
+	 ,ghc-unordered-containers)
+        ("ghc-vector" ,ghc-vector)
+        ("ghc-only" ,ghc-only)
+        ("ghc-bytestring-builder"
+         ,ghc-bytestring-builder)))
+    (native-inputs
+      `(("ghc-hunit" ,ghc-hunit)
+        ("ghc-quickcheck" ,ghc-quickcheck)
+	("ghc-text-short"
+         ,ghc-text-short)
+        ("ghc-quickcheck-instances"
+         ,ghc-quickcheck-instances)
+        ("ghc-test-framework" ,ghc-test-framework)
+        ("ghc-test-framework-hunit"
+         ,ghc-test-framework-hunit)
+        ("ghc-test-framework-quickcheck2"
+         ,ghc-test-framework-quickcheck2)))
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "1ph8rf91z4nf1ryrh9s4gd1kq98jlgk2manwddkpch8k0n9xvfk4")))
+    (home-page "https://github.com/hvr/cassava")
+    (synopsis "A CSV parsing and encoding library")
+    (description
+      "@cassava@ is a library for parsing and encoding [RFC 4180](https://tools.ietf.org/html/rfc4180)
+compliant [comma-separated values (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) data,
+which is a textual line-oriented format commonly used for exchanging tabular data.
+.
+@cassava@'s API includes support for
+.
+- Index-based record-conversion
+- Name-based record-conversion
+- Typeclass directed conversion of fields and records
+- Built-in field-conversion instances for standard types
+- Customizable record-conversion instance derivation via GHC generics
+- Low-level [bytestring](https://hackage.haskell.org/package/bytestring) builders (see \"Data.Csv.Builder\")
+- Incremental decoding and encoding API (see \"Data.Csv.Incremental\")
+- Streaming API for constant-space decoding (see \"Data.Csv.Streaming\")
+.
+Moreover, this library is designed to be easy to use; for instance, here's a
+very simple example of encoding CSV data:
+.
+>>> Data.Csv.encode [(\"John\",27),(\"Jane\",28)]
+\"John,27\\r\
+Jane,28\\r\
+\"
+.
+Please refer to the documentation in \"Data.Csv\" and the included [README](#readme) for more usage examples.")
+    (license license:bsd-3)))
+
+(define-public ghc-binary-orphans
+  (package
+    (name "ghc-binary-orphans")
+    (version "1.0.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/binary-orphans/binary-orphans-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0gbmn5rpvyxhw5bxjmxwld6918lslv03b2f6hshssaw1il5x86j3"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-quickcheck-instances"
+         ,ghc-quickcheck-instances)
+        ("ghc-tagged" ,ghc-tagged)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (arguments
+      `(#:cabal-revision
+        ("4"
+         "07jwyndphnfr20ihagncpl8rr7i62hxf0b9m2bdahyzvz0yzdsl2")))
+    (home-page
+      "http://hackage.haskell.org/package/binary-orphans")
+    (synopsis
+      "Compatibility package for binary; provides instances")
+    (description
+      "This package provides instances defined in later versions of @binary@ package . Prior version 1 this packages provided instances for other packages. That functionality is moved to [binary-instances](https://hackage.haskell.org/package/binary-instances) package.")
+    (license license:bsd-3)))
+
+(define-public ghc-criterion
+  (package
+    (name "ghc-criterion")
+    (version "1.5.6.2")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/criterion/criterion-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0jv8457b7pxav3h8bpf5p4fj5rp05nbs1r5jz7ysxf78q8f17j9p"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-aeson" ,ghc-aeson)
+        ("ghc-ansi-wl-pprint" ,ghc-ansi-wl-pprint)
+        ("ghc-base-compat-batteries"
+         ,ghc-base-compat-batteries)
+        ("ghc-binary-orphans" ,ghc-binary-orphans)
+        ("ghc-cassava" ,ghc-cassava)
+        ("ghc-code-page" ,ghc-code-page)
+        ("ghc-criterion-measurement"
+         ,ghc-criterion-measurement)
+        ("ghc-exceptions" ,ghc-exceptions)
+        ("ghc-glob" ,ghc-glob)
+        ("ghc-microstache" ,ghc-microstache)
+        ("ghc-js-flot" ,ghc-js-flot)
+        ("ghc-js-jquery" ,ghc-js-jquery)
+        ("ghc-mwc-random" ,ghc-mwc-random)
+        ("ghc-optparse-applicative"
+         ,ghc-optparse-applicative)
+        ("ghc-statistics" ,ghc-statistics)
+        ("ghc-transformers-compat"
+         ,ghc-transformers-compat)
+        ("ghc-vector" ,ghc-vector)
+        ("ghc-vector-algorithms" ,ghc-vector-algorithms)))
+    (native-inputs
+      `(("ghc-hunit" ,ghc-hunit)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+        ("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-hunit" ,ghc-hunit)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+        ("ghc-hunit" ,ghc-hunit)
+        ("ghc-base-compat" ,ghc-base-compat)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)))
+    (home-page "http://www.serpentine.com/criterion")
+    (synopsis
+      "Robust, reliable performance measurement and analysis")
+    (description
+      "This library provides a powerful but simple way to measure software performance.  It provides both a framework for executing and analysing benchmarks and a set of driver functions that makes it easy to build and run benchmarks, and to analyse their results. . The fastest way to get started is to read the <http://www.serpentine.com/criterion/tutorial.html online tutorial>, followed by the documentation and examples in the \"Criterion.Main\" module. . For examples of the kinds of reports that criterion generates, see <http://www.serpentine.com/criterion the home page>.")
+    (license license:bsd-3)))
+
+(define-public ghc-only
+  (package
+    (name "ghc-only")
+    (version "0.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/Only/Only-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0rdj3a629fk2vp121jq8mf2smkblrz5w3cxhlsyx6my2x29s2ymb"))))
+    (build-system haskell-build-system)
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "1ahk7p34kmh041mz7lyc10nhcxgv2i4z8nvzxvqm2x34gslmsbzr")))
+    (home-page
+      "http://hackage.haskell.org/package/Only")
+    (synopsis
+      "The 1-tuple type or single-value \"collection\"")
+    (description
+      "This package provides a canonical anonymous 1-tuple type missing from Haskell for attaching typeclass instances. . NOTE: There is also the </package/OneTuple OneTuple package> which by using a boxed @data@-type provides a 1-tuple type which has laziness properties which are more faithful to the ones of Haskell's native tuples; whereas the primary purpose of 'Only' is to provide the traditionally so named type-wrapper for attaching typeclass instances.")
+    (license license:bsd-3)))
+
+(define-public ghc-text-short
+  (package
+    (name "ghc-text-short")
+    (version "0.1.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/text-short/text-short-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0xyrxlb602z8bc9sr2y1fag0x56a20yj5qrkvy7iwc6hnznrynxz"))))
+    (build-system haskell-build-system)
+    (inputs `(("ghc-hashable" ,ghc-hashable)))
+    (native-inputs
+      `(("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+        ("ghc-quickcheck-instances"
+         ,ghc-quickcheck-instances)))
+    (arguments
+      `(#:cabal-revision
+        ("2"
+         "17cb7p0qywf2dsrq3g8qb3ssknd9wl5k0nc2pxz9gc3l8rxpkw51")))
+    (home-page
+      "http://hackage.haskell.org/package/text-short")
+    (synopsis
+      "Memory-efficient representation of Unicode text strings")
+    (description
+      "This package provides the 'ShortText' type which is suitable for keeping many short strings in memory. This is similiar to how 'ShortByteString' relates to 'ByteString'. . The main difference between 'Text' and 'ShortText' is that 'ShortText' uses UTF-8 instead of UTF-16 internally and also doesn't support zero-copy slicing (thereby saving 2 words). Consequently, the memory footprint of a (boxed) 'ShortText' value is 4 words (2 words when unboxed) plus the length of the UTF-8 encoded payload.")
+    (license license:bsd-3)))
+
