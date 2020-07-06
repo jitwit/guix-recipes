@@ -20,9 +20,9 @@
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1))
 
-(define-public chez-srfi
+(define-public cs-srfi
   (package
-   (name "chez-srfi")
+   (name "cs-srfi")
    (version "1.0")
    (source
     (origin
@@ -60,9 +60,9 @@
     "This package provides a collection of SRFI libraries for Chez Scheme.")
    (license expat)))
 
-(define-public chez-mit
+(define-public cs-mit
   (package
-   (name "chez-mit")
+   (name "cs-mit")
    (version "0.1")
    (home-page "https://github.com/fedeinthemix/chez-mit")
    (source
@@ -79,8 +79,7 @@
       (git-file-name name version))))
    (build-system gnu-build-system)
    (inputs
-    `(("chez-srfi" ,chez-srfi)))
-					; for tests
+    `(("cs-srfi" ,cs-srfi)))
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (native-search-paths
@@ -104,9 +103,9 @@ libraries for Chez Scheme.  The main goal was to provide the functionality
 required to port the program @code{Scmutils} to Chez Scheme.")
    (license gpl3+)))
 
-(define-public chez-scmutils
+(define-public cs-scmutils
   (package
-   (name "chez-scmutils")
+   (name "cs-scmutils")
    (version "0.1")
    (home-page "https://github.com/fedeinthemix/chez-scmutils")
    (source
@@ -123,12 +122,12 @@ required to port the program @code{Scmutils} to Chez Scheme.")
       (git-file-name name version))))
    (build-system gnu-build-system)
    (inputs
-    `(("chez-srfi" ,chez-srfi)))
+    `(("cs-srfi" ,cs-srfi)))
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (propagated-inputs
-    `(("chez-srfi" ,chez-srfi)
-      ("chez-mit" ,chez-mit)))
+    `(("cs-srfi" ,cs-srfi)
+      ("cs-mit" ,cs-mit)))
    (native-search-paths
     `(,(search-path-specification
 	(variable "CHEZSCHEMELIBDIRS")
@@ -210,9 +209,9 @@ Scmutils program to Chez Scheme.  The port consists of a set of
 libraries providing most of the functionality of the original.")
    (license gpl3+)))
 
-(define-public chez-matchable
+(define-public cs-matchable
   (package
-    (name "chez-matchable")
+    (name "cs-matchable")
     (version "20160306")
     (home-page "https://github.com/fedeinthemix/chez-matchable")
     (source
@@ -226,7 +225,7 @@ libraries providing most of the functionality of the original.")
        (file-name (git-file-name name version))))
     (build-system gnu-build-system)
     (inputs
-     `(("chez-srfi" ,chez-srfi))) ; for tests
+     `(("cs-srfi" ,cs-srfi))) ; for tests
     (native-inputs
      `(("chez-scheme" ,chez-scheme)))
     (arguments
@@ -246,9 +245,9 @@ libraries providing most of the functionality of the original.")
 @code{syntax-rules} and thus preserving hygiene.")
     (license public-domain)))
 
-(define-public chez-hemlock
+(define-public cs-hemlock
   (package
-   (name "chez-hemlock")
+   (name "cs-hemlock")
    (version "0.0")
    (source
     (origin
@@ -287,9 +286,9 @@ libraries providing most of the functionality of the original.")
    (description "Patricia trees, KD trees, heaps, algebraic graphs, queues")
    (license gpl3+)))
 
-(define-public chez-euler
+(define-public cs-euler
   (package
-   (name "chez-euler")
+   (name "cs-euler")
    (version "0.0")
    (source
     (origin
@@ -304,8 +303,8 @@ libraries providing most of the functionality of the original.")
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (propagated-inputs
-    `(("chez-srfi" ,chez-srfi)
-      ("chez-hemlock" ,chez-hemlock)))
+    `(("cs-srfi" ,cs-srfi)
+      ("cs-hemlock" ,cs-hemlock)))
    (arguments
     `(#:make-flags `(,(string-append "prefix" "=" (assoc-ref %outputs "out")))
       #:tests? #f
