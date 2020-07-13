@@ -330,3 +330,36 @@ libraries providing most of the functionality of the original.")
    (synopsis "Numerical Procedures for chez scheme")
    (description "Primes, Permutations, Combinations, and so on")
    (license gpl3+)))
+
+(define-public cs-intcode
+  (package
+   (name "cs-intcode")
+   (version "0.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri
+      (git-reference
+       (url "https://github.com/jitwit/intcode.git")
+       (commit "ee7696497e57280f1d77bfe8a6525e440121748b")))
+     (sha256
+      (base32 "0qbpi253d7y5wmsjz041dspwzy8fkfchv1q1h91niwfh4cxfg4ss"))))
+   (build-system gnu-build-system)
+   (native-inputs
+    `(("chez-scheme" ,chez-scheme)))
+   (arguments
+    `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")
+				     "/lib/csv-site"))
+      #:tests? #f
+      #:phases
+      (modify-phases %standard-phases
+	(delete 'configure) (delete 'check))))
+   (native-search-paths
+    `(,(search-path-specification
+	(variable "CHEZSCHEMELIBDIRS")
+	(files
+	 `(,(string-append "lib/csv-site"))))))
+   (home-page "https://github.com/jitwit/intcode")
+   (synopsis "intcode interpreter for advent of code puzzles")
+   (description "intcode interpreter for advent of code puzzles")
+   (license asl2.0)))
