@@ -341,9 +341,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/intcode.git")
-       (commit "ee7696497e57280f1d77bfe8a6525e440121748b")))
+       (commit "cc76d14475e46235f6e4f1c4e766ae52ec86770e")))
      (sha256
-      (base32 "0qbpi253d7y5wmsjz041dspwzy8fkfchv1q1h91niwfh4cxfg4ss"))))
+      (base32 "0s4xm5hhkm3qq9h1xznrv8v90gg4kjcd7v5k4m2xq3l6mbpkw9bv"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
