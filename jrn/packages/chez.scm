@@ -255,28 +255,17 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "d26beffa520c7ae91c1f4d9c1aaa0b0708a2a41b")))
+       (commit "26f7652c566d3444718f14f54ee3f65c27a30434")))
      (sha256
-      (base32 "0mylkcvi3cdyw95vhn8is4df0p6a31wyc4v1g8a0lv8lwzpi042y"))))
+      (base32 "1z5n2c5y7q2jhp9abgxxkara3wcg6whamk5kj77rlv2b15lic680"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (arguments
-    `(#:make-flags `(,(string-append "prefix" "=" (assoc-ref %outputs "out")))
+    `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")
+				     "/lib/csv-site"))
       #:tests? #f
-      #:phases
-      (modify-phases %standard-phases
-	(delete 'configure)
-	(replace 'install
-	  (lambda* (#:key outputs #:allow-other-keys)
-	    (let ((out (string-append
-			(assoc-ref %outputs "out")
-			"/lib/csv-site")))
-	      (mkdir-p out)
-	      (for-each (lambda (so)
-			  (install-file so out))
-			(find-files "." "\\.so"))
-	      #t))))))
+      #:phases (modify-phases %standard-phases (delete 'configure))))
    (native-search-paths
     `(,(search-path-specification
 	(variable "CHEZSCHEMELIBDIRS")
@@ -284,7 +273,7 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/chez-hemlock")
    (synopsis "Datastructures for chez scheme")
    (description "Patricia trees, KD trees, heaps, algebraic graphs, queues")
-   (license gpl3+)))
+   (license asl2.0)))
 
 (define-public cs-euler
   (package
@@ -329,7 +318,7 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/chez-euler")
    (synopsis "Numerical Procedures for chez scheme")
    (description "Primes, Permutations, Combinations, and so on")
-   (license gpl3+)))
+   (license asl2.0)))
 
 (define-public cs-intcode
   (package
