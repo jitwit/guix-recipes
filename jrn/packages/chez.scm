@@ -16,6 +16,7 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages image)
   #:use-module (gnu packages xorg)
+  #:use-module (jrn packages j)
   #:use-module ((gnu packages chez) #:select (chez-scheme))
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1))
@@ -351,4 +352,50 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/intcode")
    (synopsis "intcode interpreter for advent of code puzzles")
    (description "intcode interpreter for advent of code puzzles")
+   (license asl2.0)))
+
+(define-public cs-juniper
+  (package
+   (name "cs-juniper")
+   (version "0.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri
+      (git-reference
+       (url "https://github.com/jitwit/juniper.git")
+       (commit "390bb3ae6aec2748c2906ae707fd82be3d17b367")))
+     (sha256
+      (base32 "0q13h6bhh8n85ps0857mmcljy6kni6p29p099kv2ni0vixfdyzi4"))))
+   (build-system gnu-build-system)
+   (native-inputs `(("chez-scheme" ,chez-scheme)))
+   (inputs `(("j" ,j)))
+   (arguments
+    `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")
+				     "/lib/csv-site")
+		     ,(string-append "libj" "=" (assoc-ref %build-inputs "j") "/bin/libj.so"))
+      #:tests? #f
+      #:phases
+      (modify-phases
+       %standard-phases
+       (replace 'configure
+	 (lambda* (#:key outputs #:allow-other-keys)
+		  (let* ((j-path (assoc-ref %build-inputs "j"))
+			 (libj.so (string-append j-path "/bin/libj.so")))
+		    (substitute* `("juniper.sls")
+				 (("libj.so") libj.so)
+				 (("\"profile.ijs\"")
+				  (string-append "\"" j-path "/bin/profile.ijs\""))
+				 (("^;;")
+				  (string-append "(load-shared-object \""
+						 libj.so "\") ;;")))
+		    #t))))))
+   (native-search-paths
+    `(,(search-path-specification
+	(variable "CHEZSCHEMELIBDIRS")
+	(files
+	 `(,(string-append "lib/csv-site"))))))
+   (home-page "https://github.com/jitwit/juniper")
+   (synopsis "interface with J from scheme")
+   (description "interface with J from scheme")
    (license asl2.0)))
