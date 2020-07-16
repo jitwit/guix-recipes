@@ -364,9 +364,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/juniper.git")
-       (commit "390bb3ae6aec2748c2906ae707fd82be3d17b367")))
+       (commit "d8b9963e8a6e57de721cf7f97167263e38d80847")))
      (sha256
-      (base32 "0q13h6bhh8n85ps0857mmcljy6kni6p29p099kv2ni0vixfdyzi4"))))
+      (base32 "0jm8xkwkwc3hx3w2hwm3nagm1cxwcysmqc5yad56f6hgrl0h514w"))))
    (build-system gnu-build-system)
    (native-inputs `(("chez-scheme" ,chez-scheme)))
    (inputs `(("j" ,j)))
@@ -398,4 +398,4 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/juniper")
    (synopsis "interface with J from scheme")
    (description "interface with J from scheme")
-   (license asl2.0)))
+   (license gpl3+)))
