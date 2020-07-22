@@ -75,10 +75,10 @@
 	 "1h39113rfxwxhdwvadrdfz23h9hs7rsg2xa063n4bnly88nvcjd7"))))
     (build-system gnu-build-system)
     (inputs
-     `(("gmp" ,gmp)))
+     `(("gmp" ,gmp)
+       ("ats-anairiats" ,ats-anairiats)))
     (arguments
      `(#:modules ((guix build gnu-build-system) (guix build utils))
-       #:tests? #f
        #:phases
        (modify-phases %standard-phases
 	 (add-before 'configure 'setup-env
@@ -90,6 +90,7 @@
 				    (getenv "PWD")
 				    "/bin"))
 	     #t))
+	 (delete 'check)
 	 (replace 'build
 	   (lambda* (#:key inputs outputs #:allow-other-keys)
 	     (invoke "make" "-f" "Makefile_dist" "all")
@@ -97,7 +98,7 @@
 	 (add-after 'install 'ats-emacs
 	   (lambda* (#:key inputs outputs #:allow-other-keys)
 	     (let ((emacs-ats2 (string-append (assoc-ref %outputs "out")
-					      "/share/emacs/site-lisp/ats2")))
+					      "/share/emacs/site-lisp")))
 	       (mkdir-p emacs-ats2)
 	       (copy-recursively "utils/emacs" emacs-ats2)
 	       #t)))
