@@ -80,7 +80,29 @@
      `(#:modules ((guix build gnu-build-system) (guix build utils))
        #:tests? #f
        #:phases
-       (modify-phases %standard-phases)))
+       (modify-phases %standard-phases
+	 (add-before 'configure 'setup-env
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (setenv "PATSHOME" (getenv "PWD"))
+	     (setenv "PATH"
+		     (string-append (getenv "PATH")
+				    ":"
+				    (getenv "PWD")
+				    "/bin"))
+	     #t))
+	 (replace 'build
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (invoke "make" "-f" "Makefile_dist" "all")
+	     #t))
+	 (add-after 'install 'ats-emacs
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let ((emacs-ats2 (string-append (assoc-ref %outputs "out")
+					      "/share/emacs/site-lisp/ats2")))
+	       (mkdir-p emacs-ats2)
+	       (copy-recursively "utils/emacs" emacs-ats2)
+	       #t)))
+	 ;; fixme: missing file raises exception
+	 (delete 'validate-runpath))))
     (home-page "http://www.ats-lang.org")
     (synopsis
      "Functional programming language with dependent types")
