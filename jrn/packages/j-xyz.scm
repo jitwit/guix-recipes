@@ -2479,6 +2479,8 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (description "J emulations of the Fold primitives\n\n")
     (license expat)))
 
+
+
 (define-public j-stats-bonsai
   (package
     (name "j-stats-bonsai")
@@ -2490,10 +2492,10 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
 	      (commit
-	       "ecbb3407e6738c0d5ee332eb110b3eb57c9fd3b0")))
+	       "8b3a91447d150b9279c93eefecb92036e0d277c5")))
         (sha256
           (base32
-	   "1csabkj0065hd07wzzal085cbzshqnfd7vnf3v5g5v434v2j59xq"))))
+	   "1vvkr4r52y3fhrbppf79gs2h1a6bz67wafmxgpxzdfvn7mkdi88n"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
