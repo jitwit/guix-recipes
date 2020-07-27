@@ -256,9 +256,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "26f7652c566d3444718f14f54ee3f65c27a30434")))
+       (commit "3e5447241cf62fc2437d81ffe9e7b8b29b445dd0")))
      (sha256
-      (base32 "1z5n2c5y7q2jhp9abgxxkara3wcg6whamk5kj77rlv2b15lic680"))))
+      (base32 "09hqhkgg1c6hfnf5h9d9iqgznwy76kldjmra6h5jvwlbfsw17i53"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
@@ -286,9 +286,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/chez-euler.git")
-       (commit "cf3a3aa79fb7abb836aa4db4672918e0a499dd26")))
+       (commit "f796ce1313e8c6937f422e66f6d4798316e57625")))
      (sha256
-      (base32 "0y6l0c1v729gmpbcv5rlq8r7qzrdlqfr033a3byi68wr682z0yjs"))))
+      (base32 "0bhq80aq3adkdbr6d36akjrlrnbh8jmk9sf5yif0qqdf4h6qqhsm"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
@@ -297,7 +297,6 @@ libraries providing most of the functionality of the original.")
       ("cs-hemlock" ,cs-hemlock)))
    (arguments
     `(#:make-flags `(,(string-append "prefix" "=" (assoc-ref %outputs "out")))
-      #:tests? #f
       #:phases
       (modify-phases %standard-phases
 	(delete 'configure)
