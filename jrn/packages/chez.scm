@@ -256,9 +256,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "3e5447241cf62fc2437d81ffe9e7b8b29b445dd0")))
+       (commit "20c60fc70a6f366b98c6c15b789260e2469506f8")))
      (sha256
-      (base32 "09hqhkgg1c6hfnf5h9d9iqgznwy76kldjmra6h5jvwlbfsw17i53"))))
+      (base32 "0m8kjdi7wb5q4v6cpcrwk74nrra6kn5l7hg10s31wxfrzzh5pdnp"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
@@ -286,9 +286,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/chez-euler.git")
-       (commit "f796ce1313e8c6937f422e66f6d4798316e57625")))
+       (commit "5a50517ceecdbf9c0f0e252c8b2e5d4dd59048ac")))
      (sha256
-      (base32 "0bhq80aq3adkdbr6d36akjrlrnbh8jmk9sf5yif0qqdf4h6qqhsm"))))
+      (base32 "1g0kyb5sr7swm490h95r16kmgjjaz0n7ri6x97vjd40apfp63rjj"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
