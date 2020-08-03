@@ -60,7 +60,7 @@
 (define-public ats-postiats
   (package
     (name "ats-postiats")
-    (version "0.4.0")
+    (version "0.4.1")
     (source
      (origin
        (method url-fetch)
@@ -72,7 +72,7 @@
 	     ".tgz/download"))
        (sha256
 	(base32
-	 "1h39113rfxwxhdwvadrdfz23h9hs7rsg2xa063n4bnly88nvcjd7"))))
+	 "0g5a7823739pbkicv8dmzliwxnkd6h5vz91j9ii34rzp0mrbzx03"))))
     (build-system gnu-build-system)
     (inputs
      `(("gmp" ,gmp)
