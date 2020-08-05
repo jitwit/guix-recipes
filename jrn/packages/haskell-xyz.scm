@@ -968,4 +968,38 @@ Please refer to the documentation in \"Data.Csv\" and the included [README](#rea
      "This package provides the 'ShortText' type which is suitable for keeping many short strings in memory. This is similiar to how 'ShortByteString' relates to 'ByteString'. . The main difference between 'Text' and 'ShortText' is that 'ShortText' uses UTF-8 instead of UTF-16 internally and also doesn't support zero-copy slicing (thereby saving 2 words). Consequently, the memory footprint of a (boxed) 'ShortText' value is 4 words (2 words when unboxed) plus the length of the UTF-8 encoded payload.")
     (license license:bsd-3)))
 
+(define-public ghc-packed-dawg
+  (package
+    (name "ghc-packed-dawg")
+    (version "0.2.0.8")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/packed-dawg/packed-dawg-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "1z6a75i0ma7cs8hsiqz9pqwycrw61ph4rvc1w6iczbjmmjgns13r"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-unordered-containers"
+         ,ghc-unordered-containers)
+        ("ghc-vector" ,ghc-vector)
+        ("ghc-vector-binary-instances"
+         ,ghc-vector-binary-instances)))
+    (native-inputs
+      `(("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-hunit" ,ghc-hunit)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)))
+    (home-page
+      "http://hackage.haskell.org/package/packed-dawg")
+    (synopsis
+      "Generation and traversal of highly compressed directed acyclic word graphs.")
+    (description
+      "Generation and traversal of highly compressed directed acyclic word graphs.")
+    (license license:bsd-3)))
 

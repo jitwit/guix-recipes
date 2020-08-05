@@ -256,9 +256,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "6fff1f25725d415403e93a7350526e2abf7a91e2")))
+       (commit "56d0eaab6c0d2985672067e851155009789fdab3")))
      (sha256
-      (base32 "1ml4pczlilz9rh86a58cmsh7w0lcjamv5ni5yv8ksjpm4180yq2s"))))
+      (base32 "0ghldibz09mbq9w8iagz0kavimw4kfwkmamrj9hlnxbdz06nyy0l"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
@@ -398,3 +398,37 @@ libraries providing most of the functionality of the original.")
    (synopsis "interface with J from scheme")
    (description "interface with J from scheme")
    (license gpl3+)))
+
+(define-public cs-delimcc
+  (package
+   (name "cs-delimcc")
+   (version "1.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri
+      (git-reference
+       (url "https://github.com/jitwit/oleg-delimcc.git")
+       (commit "b2153bf700c1a4f3e08f3c72f6c58433c660412b")))
+     (sha256
+      (base32 "19bkisj0avdnpp72jr2zsrih7mk1vy14g7sjg42b5zqhlf0z7sgz"))))
+   (build-system gnu-build-system)
+   (native-inputs
+    `(("chez-scheme" ,chez-scheme)))
+   (arguments
+    `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")
+				     "/lib/csv-site"))
+      #:phases
+      (modify-phases %standard-phases
+	(delete 'configure))))
+   (native-search-paths
+    `(,(search-path-specification
+	(variable "CHEZSCHEMELIBDIRS")
+	(files
+	 `(,(string-append "lib/csv-site"))))))
+   (home-page "https://github.com/jitwit/oleg-delimcc")
+   (synopsis "Oleg Kiselyov's delimcc scheme library")
+   (description "Oleg Kiselyov's delimcc scheme library")
+   ;; I think?
+   (license expat)))
+

@@ -346,16 +346,16 @@ Based on media/platimg developed by Oleg Kobchenko")
 (define-public j-graphics-plot
   (package
     (name "j-graphics-plot")
-    (version "1.0.193")
+    (version "1.0.194")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/graphics_plot.git")
-         (commit "900efc7c70923f8b2592e6d0ecefa77b00b8ece2")))
+         (commit "ba25cc4e6522b7fb40643c22ed076a255bb52b9c")))
        (sha256
-        (base32 "04n07988gp5a424sgpasivs2mb3yiqfaxnkp4gw0xf5gqx8v3ams"))))
+        (base32 "0aymwaavzn64lgb5v8g5k9nsc3mmkkw7l0b98v4qsh8iffmpjx5k"))))
     (propagated-inputs `(("j-graphics-afm" ,j-graphics-afm)
 			 ("j-graphics-bmp" ,j-graphics-bmp)
 			 ("j-graphics-color" ,j-graphics-color)
