@@ -128,7 +128,8 @@
 				 (string-append share-out "/system"))
 	       ;; rewrite of J's usual profile.ijs to play nice with
 	       ;; guix. going through $HOME/.guix-profile/share/j
-	       ;; doesn't feel totally right though...
+	       ;; isn't great, but it allows us to install addons
+	       ;; independently
 	       (with-output-to-file (string-append bin-out "/profile.ijs")
 		 (lambda ()
 		   (display
