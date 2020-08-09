@@ -1003,3 +1003,33 @@ Please refer to the documentation in \"Data.Csv\" and the included [README](#rea
       "Generation and traversal of highly compressed directed acyclic word graphs.")
     (license license:bsd-3)))
 
+(define-public ghc-parsec
+  (package
+    (name "ghc-parsec")
+    (version "3.1.14.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/parsec/parsec-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "132waj2cpn892midbhpkfmb74qq83v0zv29v885frlp1gvh94b67"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-hunit" ,ghc-hunit)
+        ("ghc-test-framework" ,ghc-test-framework)
+        ("ghc-test-framework-hunit"
+         ,ghc-test-framework-hunit)))
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "0dhg5xwqnig83hbkpawqi1k2prrps7jhkj4gb3ccram2drfmb933")))
+    (home-page "https://github.com/haskell/parsec")
+    (synopsis "Monadic parser combinators")
+    (description
+      "Parsec is designed from scratch as an industrial-strength parser library.  It is simple, safe, well documented (on the package homepage), has extensive libraries, good error messages, and is fast.  It is defined as a monad transformer that can be stacked on arbitrary monads, and it is also parametric in the input stream type. . The main entry point is the \"Text.Parsec\" module which provides defaults for parsing 'Char'acter data. . The \"Text.ParserCombinators.Parsec\" module hierarchy contains the legacy @parsec-2@ API and may be removed at some point in the future.")
+    (license license:bsd-3)))
+
