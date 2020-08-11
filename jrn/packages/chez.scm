@@ -274,7 +274,7 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/chez-hemlock")
    (synopsis "Datastructures for chez scheme")
    (description "Patricia trees, KD trees, heaps, algebraic graphs, queues")
-   (license asl2.0)))
+   (license gpl3+)))
 
 (define-public cs-euler
   (package
@@ -318,7 +318,7 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/chez-euler")
    (synopsis "Numerical Procedures for chez scheme")
    (description "Primes, Permutations, Combinations, and so on")
-   (license asl2.0)))
+   (license gpl3+)))
 
 (define-public cs-intcode
   (package

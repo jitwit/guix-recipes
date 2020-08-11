@@ -2525,4 +2525,4 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
       "statistical benchmarks with confidence\n")
     (description
      "bootstrapping benchmarks in J for confidence\n\ninspired by https://hackage.haskell.org/package/criterion\n\ninformed by https://projecteuclid.org/download/pdf_1/euclid.ss/1177013815 and https://web.stanford.edu/~hastie/CASI/\n\n")
-    (license asl2.0)))
+    (license gpl3+)))
