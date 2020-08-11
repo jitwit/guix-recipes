@@ -23,7 +23,7 @@
   #:use-module (guix utils)
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
-  #:use-module ((guix licenses) :select (expat gpl2+ asl2.0))
+  #:use-module ((guix licenses) :select (expat gpl2+ asl2.0 gpl3+))
   #:use-module (gnu packages algebra)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
