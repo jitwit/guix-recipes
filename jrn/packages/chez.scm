@@ -256,9 +256,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "87b54d08bde872fb6c0e9823d3366eeebe4d7a50")))
+       (commit "c7e69d2d6e3de2db899774a14c1773f7d33411d5")))
      (sha256
-      (base32 "1zikm6gidkj8n4z1z1hgidlkmya96c00fjq5qhrhpmylxclcbx6s"))))
+      (base32 "1rhkn2brvp7z6mymakiai3kv984znvw62q8ln7svqkpbc83dibv1"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
@@ -293,8 +293,7 @@ libraries providing most of the functionality of the original.")
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
    (propagated-inputs
-    `(("cs-srfi" ,cs-srfi)
-      ("cs-hemlock" ,cs-hemlock)))
+    `(("cs-hemlock" ,cs-hemlock)))
    (arguments
     `(#:make-flags `(,(string-append "prefix" "=" (assoc-ref %outputs "out")))
       #:phases
@@ -318,6 +317,49 @@ libraries providing most of the functionality of the original.")
    (home-page "https://github.com/jitwit/chez-euler")
    (synopsis "Numerical Procedures for chez scheme")
    (description "Primes, Permutations, Combinations, and so on")
+   (license gpl3+)))
+
+(define-public cs-cobble
+  (package
+   (name "cs-cobble")
+   (version "0.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri
+      (git-reference
+       (url "https://github.com/jitwit/cobble.git")
+       (commit "4b144e11c7e81dcc0c3a5e43ffd72f5e6bf12778")))
+     (sha256
+      (base32 "1h8jvkra9ndh310qgjsh7n3k28ain9rl4z2v69ljsi910djrbm45"))))
+   (build-system gnu-build-system)
+   (native-inputs
+    `(("chez-scheme" ,chez-scheme)))
+   (propagated-inputs
+    `(("cs-hemlock" ,cs-hemlock)
+      ("cs-srfi" ,cs-srfi)
+      ("cs-euler" ,cs-euler)
+      ("cs-matchable" ,cs-matchable)))
+   (arguments
+    `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")))
+      #:tests? #f
+      #:phases
+      (modify-phases %standard-phases
+       (replace 'configure
+	 (lambda* (#:key outputs #:allow-other-keys)
+		  (let ((gobbler.so (string-append (assoc-ref %outputs "out")
+						   "/bin/gobbler.so")))
+		    (substitute* `("gobbler")
+				 (("gobbler.so") gobbler.so))
+		    #t))))))
+   (native-search-paths
+    `(,(search-path-specification
+	(variable "CHEZSCHEMELIBDIRS")
+	(files
+	 `(,(string-append "lib/csv-site"))))))
+   (home-page "https://github.com/jitwit/cobble")
+   (synopsis "boggle command line solver and scheme library")
+   (description "boggle command line solver and scheme library")
    (license gpl3+)))
 
 (define-public cs-intcode
