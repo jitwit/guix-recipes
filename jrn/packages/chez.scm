@@ -256,9 +256,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "99351b53703876178f0d24c30965d06cf5bf2a55")))
+       (commit "87b54d08bde872fb6c0e9823d3366eeebe4d7a50")))
      (sha256
-      (base32 "133bamchh9kwrirj33fp4ck2p8ggs0nkimw0al4bjdbngl38qli0"))))
+      (base32 "1zikm6gidkj8n4z1z1hgidlkmya96c00fjq5qhrhpmylxclcbx6s"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
