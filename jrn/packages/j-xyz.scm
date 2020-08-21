@@ -1921,6 +1921,7 @@ fndef.ijs Using a more literate style")
          (commit "e306a3898e89a3215c94075d70d360a7deb477d2")))
        (sha256
         (base32 "0vnx2dhi9wjimnk8s3l17fz6ywxx7rkcd905a0swhgbr32w5ajxs"))))
+    (inputs `(("jqt" ,jqt)))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -1931,7 +1932,13 @@ fndef.ijs Using a more literate style")
          (replace 'install
            (lambda _
              (let ((out (string-append (assoc-ref %outputs "out")
-                                       "/share/j/addons/ide/qt")))
+                                       "/share/j/addons/ide/qt"))
+		   (jqt-loc (assoc-ref %build-inputs "jqt")))
+	       (substitute* `("qtlib.ijs")
+		 (("RGBSEQ=:")
+		  (string-append "libjqt=: '"
+				 jqt-loc
+				 "/bin/libjqt.so.1' [ RGBSEQ=:")))
                (copy-recursively "." out)
                #t))))))
     (home-page "https://github.com/jsoftware/ide_qt/")
@@ -2484,18 +2491,17 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
 (define-public j-stats-bonsai
   (package
     (name "j-stats-bonsai")
-    (version "1.0.0")
+    (version "1.0.3")
     (source
       (origin
        (method git-fetch)
-       
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
 	      (commit
-	       "7494282c11aded61e85760964d91595555cd0dc2")))
+	       "90808e4b18c9e15c8aae2ab7a67d437dd3133d0f")))
         (sha256
           (base32
-	   "187fds4bxva6dg14ws0gjj7g8p1n57a4qp7zl3ijrk98yx2bhvks"))))
+	   "0gyj18sy0956q5a6dcxd1b5sqvqwvs8mabd4vb9h1889k2jx72wa"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
