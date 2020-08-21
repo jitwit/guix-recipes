@@ -3,15 +3,15 @@ and add them to Guix.
 
 The best stuff is of course the [[file:jrn/packages/j.scm][J]] stuff. Building base J spits out a
 custom ~profile.ijs~ file that points addons to
-~~/.guix-profile/share/j/addons/~. This allows addon scripts to be
+~\~/.guix-profile/share/j/addons/~. This allows addon scripts to be
 added without depending on J. Granted, it also doesn't seem like the
 right solution, but it works. The addons I know link to shared objects
 have been modified to link to the appropriate libraries in the gnu
 store (like image addons, gl, tar, fftw, etc), though I'm sure I've
 missed a few.
 
-Getting a hold of these package definitions may be done through
-linking here in your ~~/.config/guix/channels.scm~ file:
+Getting a hold of these package definitions may be done by linking
+here in your ~\~/.config/guix/channels.scm~ file:
 
 #+begin_src scheme :session
 `(,(channel
