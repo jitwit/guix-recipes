@@ -602,10 +602,10 @@ FFTW is available under Windows, Mac and Linux.
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/jsoftware/stats_base.git")
-             (commit "ad7ffc494cd5a51d715dffa32e01dc1974adc992")))
+             (url "https://github.com/jitwit/stats_base.git")
+             (commit "05ad80846f0a9d7c057136053329d871f870bed0")))
        (sha256
-        (base32 "11zyj473fb7k5708hybkvz7mnlr1zln8rhaqhzkznqcq5l6hhqjn"))))
+        (base32 "0yyl50c2mi73ml0w2cxrii4wwxwj08wpw3ddfvz6ns0631rkgmi6"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -2498,10 +2498,10 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
 	      (commit
-	       "4243a3e59896eb8bf4b648e2bef15c119b853609")))
+	       "c413ba89f8db906895486807ef2fe65f4abf43c9")))
         (sha256
           (base32
-	   "1sn4by003iqb85ni3kfhl8c52qkhv68xnccyhhcydvv2fw9aphrw"))))
+	   "0j0a7gxif1y95mjy8xjjl6j0vhlhwj6fiwxgbajymw5fw1s0j0ml"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
