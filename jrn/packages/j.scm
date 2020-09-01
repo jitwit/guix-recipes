@@ -46,7 +46,7 @@
        (method git-fetch)
        (uri
         (git-reference
-         (url "https://github.com/jsoftware/jsource.git")
+         (url "https://github.com/jsoftware/jsource")
          (commit "59324abbc6c9c3709d39096f5a41e0a4ef28e9f6")))
        (sha256
         (base32 "031mncgbnn89s9k34aml7jn9pr3cfmvfm06v8785br483jmdmn20"))))
@@ -114,7 +114,7 @@
                     (j64x "j64avx2")
                     (tsu (string-append (getcwd) "/test/tsu.ijs"))
                     (jbld (string-append "bin/" jplatform "/" j64x)))
-               ;; following directions in make2/make.txt
+               ; following instructions from make2/make.txt
                (copy-recursively jbld "jlibrary/bin")
                (chdir "jlibrary/bin")
                (system "echo \"RUN ddall\" | ./jconsole ../../test/tsu.ijs")
@@ -133,17 +133,14 @@
                                  (string-append share-out "/addons"))
                (copy-recursively "jlibrary/system"
                                  (string-append share-out "/system"))
-               ;; custom profile.ijs to play nice with guix
-               ;; locations. going through $HOME/.guix-profile/share/j
-               ;; isn't great, but it allows us to include addons
-               ;; independently of J
+               ; custom profile.ijs to work with guix
                (with-output-to-file (string-append bin-out "/profile.ijs")
                  (lambda ()
                    (display
                     "NB. J profile
 NB. JFE sets BINPATH_z_ and ARGV_z_
 
-jpathsep_z_=: '/'&(('\\' I.@:= ])})
+jpathsep_z_=: ]
 home=. 2!:5'HOME'
 BINPATH_z_=: home,'/.guix-profile/bin/jconsole'
 
