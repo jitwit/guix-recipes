@@ -47,9 +47,9 @@
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "5dd55d55f569f5837fc3544373e7ed9081d8b609")))
+         (commit "c0d9f300514ccb7e1ea6e7e6e21c2b34a978762f")))
        (sha256
-        (base32 "1fa0q49d89syv6ldk9b6c4k0wxd0w5mn2kgzbrsb2g4k1rr7zfif"))))
+        (base32 "18bfpib5qcbkjrrm5gs0qflm29g3rl3bik1szzzcxzn3qxsyzfsi"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
