@@ -47,9 +47,9 @@
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "c0d9f300514ccb7e1ea6e7e6e21c2b34a978762f")))
+         (commit "51a231ed38a86f3e9bcbcdd6f6489b2810fa736b")))
        (sha256
-        (base32 "18bfpib5qcbkjrrm5gs0qflm29g3rl3bik1szzzcxzn3qxsyzfsi"))))
+        (base32 "1jp5c3n85jcqxaac7rj899rbkx9iyqxbrkyq5jxnf6068wpk6hby"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -58,24 +58,27 @@
        ("libedit" ,libedit)
        ("pcre2" ,pcre2)
        ("zlib" ,zlib)))
-    (outputs '("out"))
     (arguments
-     `(#:modules
-       ((guix build gnu-build-system)
-        (guix build utils))
-       #:phases
+     `(#:phases
        (modify-phases %standard-phases
          (replace 'configure
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let* ((jplatform "linux")
-                    (out (assoc-ref %outputs "out")))
+             (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
+                   (j64x ,(if (target-64bit?) "j64" "j32"))
+                   (out (assoc-ref %outputs "out")))
+               (set! j64x "j64avx2")
+               (setenv "jplatform" jplatform)
+               (setenv "j64x" j64x)
+               (setenv "USE_SLEEF" "1")
                (with-output-to-file "jsrc/jversion.h"
                  (lambda ()
                    (display "#define jversion  ") (write ,version)  (newline)
                    (display "#define jplatform ") (write jplatform) (newline)
                    (display "#define jtype     ") (write "beta")    (newline)
                    (display "#define jlicense  ") (write "GPL3")    (newline)
-                   (display "#define jbuilder  ") (write "guix")    (newline)))
+                   (display "#define jbuilder  ") (write "guix.gnu.org")))
+               (invoke "cat"
+                       "jsrc/jversion.h")
                (substitute* `("jlibrary/system/main/regex.ijs")
                  (("pcre2dll=: f")
                   (string-append "pcre2dll=: '"
@@ -89,102 +92,75 @@
                #t)))
          (replace 'build
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let ((jplatform "linux")
-                   (j64x "j64avx2"))
-               (chdir "make2")
-               (system
-                (format #f
-                        "jplatform=~a j64x=~a USE_SLEEF=1 ./build_jconsole.sh"
-                        jplatform j64x))
-               (system
-                (format #f
-                        "jplatform=~a j64x=~a USE_SLEEF=1 ./build_tsdll.sh"
-                        jplatform j64x))
-               (system
-                (format #f
-                        "jplatform=~a j64x=~a USE_SLEEF=1 ./build_libj.sh"
-                        jplatform
-                        j64x))
-               (chdir "..")
-               #t)))
+             (chdir "make2")
+             (invoke "./build_jconsole.sh")
+             (invoke "./build_tsdll.sh")
+             (invoke "./build_libj.sh")
+             (chdir "..")
+             #t))
          (replace 'check
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let* ((jplatform "linux")
-                    (j64x "j64avx2")
-                    (tsu (string-append (getcwd) "/test/tsu.ijs"))
-                    (jbld (string-append "bin/" jplatform "/" j64x)))
+             (let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
+                   (jbld
+                    (string-append "bin/"
+                                   (getenv "jplatform")
+                                   "/"
+                                   (getenv "j64x"))))
                ; following instructions from make2/make.txt
                (copy-recursively jbld "jlibrary/bin")
+               (with-output-to-file "profile.ijs"
+                 (lambda ()
+                   (display ,(profile.ijs "'jlibrary'" version))))
                (chdir "jlibrary/bin")
-               (system "echo \"RUN ddall\" | ./jconsole ../../test/tsu.ijs")
+               (invoke "./jconsole"
+		       "-js"
+                       "load '../../test/tsu.ijs'"
+		       "RECHO ddall"
+                       "exit 0")
                (chdir "../..")
                #t)))
          (replace 'install
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let* ((bin-out (string-append (assoc-ref %outputs "out") "/bin"))
-                    (share-out (string-append (assoc-ref %outputs "out")
-                                              "/share/j"))
-                    (jconsole "jlibrary/bin/jconsole")
-                    (libj.so  "jlibrary/bin/libj.so"))
-               (install-file jconsole bin-out)
-               (install-file libj.so bin-out)
+             (let ((bin (string-append (assoc-ref %outputs "out") "/bin"))
+                   (share (string-append (assoc-ref %outputs "out")
+                                         "/share/j"))
+                   (jconsole "jlibrary/bin/jconsole")
+                   (libj.so  "jlibrary/bin/libj.so"))
+               (install-file jconsole bin)
+               (install-file libj.so bin)
                (copy-recursively "jlibrary/addons"
-                                 (string-append share-out "/addons"))
+                                 (string-append share "/addons"))
                (copy-recursively "jlibrary/system"
-                                 (string-append share-out "/system"))
+                                 (string-append share "/system"))
                ; custom profile.ijs to work with guix
-               (with-output-to-file (string-append bin-out "/profile.ijs")
+               (with-output-to-file (string-append bin "/profile.ijs")
                  (lambda ()
                    (display
-                    "NB. J profile
-NB. JFE sets BINPATH_z_ and ARGV_z_
-
-jpathsep_z_=: ]
-home=. 2!:5'HOME'
-BINPATH_z_=: home,'/.guix-profile/bin/jconsole'
-
-bin=. BINPATH
-install=. home,'/.guix-profile/share/j'
-addons=. install,'/addons'
-system=. install,'/system'
-tools=. install,'/tools'
-isroot=. 0
-userx=. '/j902-user'
-user=. home,userx
-break=. user,'/break'
-config=. user,'/config'
-snap=. user,'/snap'
-temp=. user,'/temp'
-ids=. ;:'addons bin break config home install snap system tools temp user'
-
-SystemFolders_j_=: ids,.jpathsep@\".&.>ids
-
-NB. used to create mutable j user directories for temp
-NB. files/configuring jqt/projects and so on
-md=. 3 : 0 NB. recursive makedir
-a=. jpathsep y,'/'
-if. -.#1!:0 }:a do.
-  for_n. I. a='/' do. 1!:5 :: [ <n{.a end.
-end.
-)
-
-NB. try to ensure user folders exist
-md user,'/projects'
-md break
-md config
-md snap
-md temp
-
-NB. boot up J and load startup.ijs if it exists
-0!:0 <jpathsep (4!:55 (;:'isroot userx ids md'), ids)]system,'/util/boot.ijs'
-")))
+                    ,(profile.ijs "home,'/.guix-profile/share/j'" version))))
                #t))))))
-    (synopsis "APL Dialect")
-    (description "J is a programming language that works with arrays,
-verbs, adverbs, and conjunctions.  For example, +/x sums array x and
-/:~x sorts it.")
+    (synopsis "Dialect of the APL programming language")
+    (description "J is a programming language that works with arrays, verbs,
+adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
+@code{/:~x} sorts it.")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license gpl3)))
+
+(define (profile.ijs install version)
+  (string-append "NB. J profile
+jpathsep_z_=: '/'&(('\\' I.@:= ])})
+bin =. BINPATH_z_ =. '~/.guix-profile/bin',~home=. 2!:5'HOME'
+install=." install "
+'addons system tools'=. install&, &.> '/addons';'/system';'/tools'
+user=. home,userx=. '/j" version "-user'
+'break config snap temp'=. user&, &.> '/break';'/config';'/snap';'/temp'
+ids=. ;:'addons bin break config home install snap system tools temp user'
+SystemFolders_j_=: ids,.jpathsep@\".&.>ids
+md=. 3 : 0
+if. -.#1!:0 }:a=.y,'/' do. for_n. I. a='/' do. 1!:5 :: [ <n{.a end. end.
+)
+md &.> (user,'/projects');break;config;snap;temp
+0!:0 <jpathsep (4!:55 (;:'userx ids md'), ids)]system,'/util/boot.ijs'
+"))
 
 (define-public jqt
   (package
