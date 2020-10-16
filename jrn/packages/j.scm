@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "51a231ed38a86f3e9bcbcdd6f6489b2810fa736b")))
+         (commit "j902-beta-f")))
        (sha256
-        (base32 "1jp5c3n85jcqxaac7rj899rbkx9iyqxbrkyq5jxnf6068wpk6hby"))))
+        (base32 "15arh28gd6xxp59h1aj84zi41wr6dbkvhwp89y1i6mzv3gnha50p"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -148,7 +148,6 @@ md &.> (user,'/projects');break;config;snap;temp
                                  (string-append share "/addons"))
                (copy-recursively "jlibrary/system"
                                  (string-append share "/system"))
-               ; custom profile.ijs to work with guix
                (with-output-to-file (string-append bin "/profile.ijs")
                  (lambda ()
                    (display
