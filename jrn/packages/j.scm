@@ -18,7 +18,6 @@
 
 (define-module (jrn packages j)
   #:use-module (guix packages)
-  #:use-module (guix download)
   #:use-module (guix utils)
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
@@ -28,14 +27,30 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages algebra)
   #:use-module (gnu packages compression)
-  #:use-module (gnu packages maths)
-  #:use-module (gnu packages gcc)
-  #:use-module (gnu packages gl)
   #:use-module (gnu packages libedit)
   #:use-module (gnu packages pcre)
-  #:use-module (gnu packages pulseaudio)
   #:use-module (gnu packages readline)
+  #:use-module (gnu packages pulseaudio)
+  #:use-module (gnu packages maths)
+  #:use-module (gnu packages gl)
   #:use-module (gnu packages qt))
+
+(define (profile.ijs install version)
+  (string-append "NB. J profile
+jpathsep_z_=: '/'&(('\\' I.@:= ])})
+bin =. BINPATH_z_ =. '/.guix-profile/bin',~home=. 2!:5'HOME'
+install=." install "
+'addons system tools'=. install&, &.> '/addons';'/system';'/tools'
+user=. home,userx=. '/j" version "-user'
+'break config snap temp'=. user&, &.> '/break';'/config';'/snap';'/temp'
+ids=. ;:'addons bin break config home install snap system tools temp user'
+SystemFolders_j_=: ids,.jpathsep@\".&.>ids
+md=. 3 : 0
+if. -.#1!:0 }:a=.y,'/' do. for_n. I. a='/' do. 1!:5 :: [ <n{.a end. end.
+)
+md &.> (user,'/projects');break;config;snap;temp
+0!:0 <jpathsep (4!:55 (;:'userx ids md'), ids)]system,'/util/boot.ijs'
+"))
 
 (define-public j
   (package
@@ -64,12 +79,10 @@
          (replace 'configure
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
-                   (j64x ,(if (target-64bit?) "j64" "j32"))
+                   (j64x ,(if (target-64bit?) "j64avx2" "j32"))
                    (out (assoc-ref %outputs "out")))
-               (set! j64x "j64avx2")
                (setenv "jplatform" jplatform)
                (setenv "j64x" j64x)
-               (setenv "USE_SLEEF" "1")
                (with-output-to-file "jsrc/jversion.h"
                  (lambda ()
                    (display "#define jversion  ") (write ,version)  (newline)
@@ -94,38 +107,41 @@
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (chdir "make2")
              (invoke "./build_jconsole.sh")
-             (invoke "./build_tsdll.sh")
              (invoke "./build_libj.sh")
+             (invoke "./build_tsdll.sh")
              (chdir "..")
              #t))
          (replace 'check
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
                    (jbld
-                    (string-append "bin/"
-                                   (getenv "jplatform")
-                                   "/"
-                                   (getenv "j64x"))))
-               ; following instructions from make2/make.txt
-               (copy-recursively jbld "jlibrary/bin")
+		    (canonicalize-path
+                     (string-append "bin/"
+                                    (getenv "jplatform")
+                                    "/"
+                                    (getenv "j64x")))))
+               ; following instructions from make2/make.txt with temp profile.ijs
                (with-output-to-file "profile.ijs"
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
-               (chdir "jlibrary/bin")
-               (invoke "./jconsole"
-		       "-js"
-                       "load '../../test/tsu.ijs'"
-		       "RECHO ddall"
-                       "exit 0")
-               (chdir "../..")
+               (invoke (string-append jbld "/jconsole")
+		       "-lib" (string-append jbld "/libj.so")
+		       "-jprofile" "profile.ijs"
+		       "./test/tsu.ijs"
+		       "-js" "exit 0 [ RECHO ddall")
                #t)))
          (replace 'install
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (let ((bin (string-append (assoc-ref %outputs "out") "/bin"))
-                   (share (string-append (assoc-ref %outputs "out")
-                                         "/share/j"))
-                   (jconsole "jlibrary/bin/jconsole")
-                   (libj.so  "jlibrary/bin/libj.so"))
+             (let* ((bin (string-append (assoc-ref %outputs "out") "/bin"))
+                    (share (string-append (assoc-ref %outputs "out")
+                                          "/share/j"))
+		    (jbld
+                     (string-append "bin/"
+                                    (getenv "jplatform")
+				    "/"
+                                    (getenv "j64x")))
+                    (jconsole (string-append jbld "/jconsole"))
+                    (libj.so  (string-append jbld "/libj.so")))
                (install-file jconsole bin)
                (install-file libj.so bin)
                (copy-recursively "jlibrary/addons"
@@ -145,23 +161,6 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license gpl3)))
 
-(define (profile.ijs install version)
-  (string-append "NB. J profile
-jpathsep_z_=: '/'&(('\\' I.@:= ])})
-bin =. BINPATH_z_ =. '~/.guix-profile/bin',~home=. 2!:5'HOME'
-install=." install "
-'addons system tools'=. install&, &.> '/addons';'/system';'/tools'
-user=. home,userx=. '/j" version "-user'
-'break config snap temp'=. user&, &.> '/break';'/config';'/snap';'/temp'
-ids=. ;:'addons bin break config home install snap system tools temp user'
-SystemFolders_j_=: ids,.jpathsep@\".&.>ids
-md=. 3 : 0
-if. -.#1!:0 }:a=.y,'/' do. for_n. I. a='/' do. 1!:5 :: [ <n{.a end. end.
-)
-md &.> (user,'/projects');break;config;snap;temp
-0!:0 <jpathsep (4!:55 (;:'userx ids md'), ids)]system,'/util/boot.ijs'
-"))
-
 (define-public jqt
   (package
     (name "jqt")
@@ -176,7 +175,6 @@ md &.> (user,'/projects');break;config;snap;temp
        (sha256
         (base32 "0qanmh4863mn0aryl3k1yg38a78mc2cv26xxyhlr11xhc3a7ck73"))))
     (build-system gnu-build-system)
-    (outputs '("out"))
     (inputs `(("bash" ,bash)
               ("j" ,j)
               ("mesa" ,mesa)
