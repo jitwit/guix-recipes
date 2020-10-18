@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "j902-beta-f")))
+         (commit "5c1cb19b63be6cd00b7a518b1ce5294e2c001ca4")))
        (sha256
-        (base32 "15arh28gd6xxp59h1aj84zi41wr6dbkvhwp89y1i6mzv3gnha50p"))))
+        (base32 "1y4krjzll1ix99b18a64vrjwpsycjdpq942ddn9igm8fdhhwrzwn"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -115,7 +115,7 @@ md &.> (user,'/projects');break;config;snap;temp
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
                    (jbld
-		    (canonicalize-path
+                    (canonicalize-path
                      (string-append "bin/"
                                     (getenv "jplatform")
                                     "/"
@@ -125,20 +125,25 @@ md &.> (user,'/projects');break;config;snap;temp
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
                (invoke (string-append jbld "/jconsole")
-		       "-lib" (string-append jbld "/libj.so")
-		       "-jprofile" "profile.ijs"
-		       "./test/tsu.ijs"
-		       "-js" "exit 0 [ RECHO ddall")
+                       "-lib" (string-append jbld "/libj.so")
+                       "-js"
+		       "(+/ *: i. 10) (1!:2) 2"
+		       "2!:55 ''")
+	       (invoke (string-append jbld "/jconsole")
+                       "-lib" (string-append jbld "/libj.so")
+                       "-jprofile" "profile.ijs"
+                       "./test/tsu.ijs"
+                       "-js" "exit 0 [ RECHO ddall")
                #t)))
          (replace 'install
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let* ((bin (string-append (assoc-ref %outputs "out") "/bin"))
                     (share (string-append (assoc-ref %outputs "out")
                                           "/share/j"))
-		    (jbld
+                    (jbld
                      (string-append "bin/"
                                     (getenv "jplatform")
-				    "/"
+                                    "/"
                                     (getenv "j64x")))
                     (jconsole (string-append jbld "/jconsole"))
                     (libj.so  (string-append jbld "/libj.so")))
