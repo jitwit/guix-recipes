@@ -2496,10 +2496,10 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
 	      (commit
-	       "1562512316237ee45e58c7c4403611b79f6b9beb")))
+	       "f4b101cd6e93d05636dc98b9068bb718def0f5fd")))
         (sha256
           (base32
-	   "1m8shmm536pgz9b8kq27sqsmhzjsmmxc7vd4h6a1v21v1shv2jd9"))))
+	   "0c0g6p4xnpk86pmwg7wcvplxqvg5j4ilidxlc9gc2416mp8bp45f"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
