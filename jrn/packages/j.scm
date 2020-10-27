@@ -175,9 +175,9 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
        (uri
         (git-reference
          (url "https://github.com/jsoftware/qtide.git")
-         (commit "5638f9d91b32ed4d2083296236e41371b79821e0")))
+         (commit "812f83ad875c55f09c39df0057eb6bcd78a18e9d")))
        (sha256
-        (base32 "0qanmh4863mn0aryl3k1yg38a78mc2cv26xxyhlr11xhc3a7ck73"))))
+        (base32 "0kgahn508nk24fmaz8s1sbqqdbvyhr4w7jbx0ww864fldv3bwmy8"))))
     (build-system gnu-build-system)
     (inputs `(("bash" ,bash)
               ("j" ,j)
