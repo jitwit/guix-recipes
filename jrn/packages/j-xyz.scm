@@ -725,16 +725,16 @@ FFTW is available under Windows, Mac and Linux.
 (define-public j-math-lapack2
   (package
     (name "j-math-lapack2")
-    (version "1.0.08")
+    (version "1.0.09")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/math_lapack2.git")
-         (commit "1eaec0d8a39dd687195dcf5b925ccd73ddab1b4c")))
+         (commit "5e247085941a319831398108811dd50a1966d989")))
        (sha256
-        (base32 "0gjkbk9n9gc5fc063wxqmwdw37fb4m8cdsalqwjbdq8yijsqrv6k"))))
+        (base32 "1b4fny0g2fl8q3y50fk6f8fmbl0i9nh3mglwppm5mwr7d6hpy0a9"))))
     (inputs `(("lapack" ,lapack)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -772,16 +772,16 @@ See wiki page: code.jsoftware.com/wiki/Vocabulary/LAPACK")
 (define-public j-math-misc
   (package
     (name "j-math-misc")
-    (version "1.2.3")
+    (version "1.2.4")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/math_misc.git")
-         (commit "ee67a58fd84d6fe11ad636d703457cb3d7bcd4fc")))
+         (commit "13265887496085f8f74a3ffd35210b648579b11e")))
        (sha256
-        (base32 "0j2m90nz9r66dccivzzr215fy7k5pk4brkpwl2skqjgkqxd163ln"))))
+        (base32 "192ggvyws9sria84m9asxjg7fj1q9fl31xdhxhrzr662qjwv7343"))))
     (inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -1072,16 +1072,16 @@ trig.ijs Trigonometric functions")
 (define-public j-data-jmf
   (package
     (name "j-data-jmf")
-    (version "1.0.33")
+    (version "1.0.36")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/data_jmf.git")
-         (commit "6ca036cab3808b352a7b08777dc47b9d76a0bc9d")))
+         (commit "7e1e41ce005c6bdad491bc83ff0f342d97921d95")))
        (sha256
-        (base32 "1pjkm520427l1wwh4mkxpnkn4v6j9n5ki2gaiaax2ziky7v3zmvw"))))
+        (base32 "1cwiivsbxbcxfnb72hwacjw18szlhhm6bxpmm95s2q2sxia8b4bd"))))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -1141,17 +1141,15 @@ trig.ijs Trigonometric functions")
 (define-public j-data-jd
   (package
     (name "j-data-jd")
-    (version "4.4.83")
+    (version "4.4.87")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/data_jd.git")
-             (commit
-              "4f73704ab64e9c9cb323292340c87db936f0fa14")))
+             (commit "2bf3ea34c60438fc2351c8ad4701219094730f08")))
        (sha256
-        (base32
-         "0w8s1h0ji7shwqfnv3yfg8bh586h2f199l3r4dbaa58hp3h4gkwi"))))
+        (base32 "09bqh9llhx5352az38lj1bbaysicnc1kydf56flkiifpqrm18y69"))))
     (propagated-inputs
      `(("j-convert-pjson" ,j-convert-pjson)
        ("j-data-jfiles" ,j-data-jfiles)
@@ -1444,17 +1442,15 @@ Contributed by Ric Sherlock.")
 (define-public j-misc-miscutils
   (package
     (name "j-misc-miscutils")
-    (version "1.0.4")
+    (version "1.0.5")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/misc_miscutils.git")
-             (commit
-              "3fea111992b16f8e5d476caa5dc4567afe885c48")))
+             (commit "f3f696f2426cae09d2506e79737022150b7ee7df")))
        (sha256
-        (base32
-         "0smd6gq1agmy0pll2vp64vbihilzl3s1g7761mnfq2sipb3ykm22"))))
+        (base32 "09r900w2lvw7d6qwhax0d1zka49s3f3zv6q83l8kvva3nkh1jbhw"))))
     (propagated-inputs `(("j-format-printf" ,j-format-printf)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -1585,16 +1581,17 @@ Contributed by Ric Sherlock.")
 (define-public j-format-printf
   (package
     (name "j-format-printf")
-    (version "1.0.11")
+    (version "1.0.12")
     (source
      (origin
        (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jsoftware/format_printf.git")
-             (commit "5fca8b8961100f3eecfa3ff1aa7eae43f433fae1")))
+       (uri
+	(git-reference
+         (url "https://github.com/jsoftware/format_printf.git")
+         (commit "202b58e9ba15ef17a6bffd30091f68f755675ee6")))
        (sha256
         (base32
-         "07yz6cr6v7lrfpv9gk80phcy6mqdibzghy4bz5scd2167kxqvi13"))))
+         "1cmshick90zm5p1mzyf36i87krvn2fsm4xx5pinqb61zmf2na1jy"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -2032,16 +2029,16 @@ See the program header for description and directives.")
 (define-public j-demos-qtdemo
   (package
     (name "j-demos-qtdemo")
-    (version "1.0.21")
+    (version "1.0.22")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/demos_qtdemo.git")
-         (commit "a888bce12028d2a91fa1c190662c9c61a157ab97")))
+         (commit "164421344ff9b47bad212aed1e7a9dc8cfc6ff43")))
        (sha256
-        (base32 "1y870wf21zyv9ib56pl4clhlb8kfn01nsadlldygzxpn8ap3i03n"))))
+        (base32 "0an15b0zv7zxm40zwvb2gapn90jx73hf2kjscpmrsg14iz8246dy"))))
     (propagated-inputs `(("j-api-gles" ,j-api-gles)
 			 ("j-graphics-bmp" ,j-graphics-bmp)
 			 ("j-graphics-plot" ,j-graphics-plot)
@@ -2068,16 +2065,16 @@ See the program header for description and directives.")
 (define-public j-demos-isigraph
   (package
     (name "j-demos-isigraph")
-    (version "1.0.71")
+    (version "1.0.72")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/demos_isigraph.git")
-         (commit "301d390b932f8751613d149333cdc91e409e4461")))
+         (commit "6a8d03d18d884d037af594a0b5be6d234aa9d17e")))
        (sha256
-        (base32 "0vhkz89f09fkdrxi5ilb59n3dqvjm2w1xvpjm1fwrfpyilwdgzhi"))))
+        (base32 "1yj5nl8yalr7b6n8yh6mddyx89015z4i37gpl1cdrcyrb6ybx7f8"))))
     (propagated-inputs `(("j-graphics-viewmat" ,j-graphics-viewmat)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -2374,14 +2371,14 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
 (define-public j-labs-labs
   (package
     (name "j-labs-labs")
-    (version "1.0.198")
+    (version "1.0.202")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/labs_labs.git")
-             (commit "cfa4b1df62ed137df2dc2ab2661f260484880ea3")))
-       (sha256 (base32 "1cgfd5j8j1r1yfy71dcjcldh8yb3l9s120ln5c253liszwii0a6w"))))
+             (commit "a12e5b14487006ecddb229cde9acce21892d741d")))
+       (sha256 (base32 "0qxcan489rfy202vg0zbh5xqfr3lqlgfn39ffq70vb427wxfgz1s"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -2530,3 +2527,6 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
     (description
      "bootstrapping benchmarks in J for confidence\n\ninspired by https://hackage.haskell.org/package/criterion\n\ninformed by https://projecteuclid.org/download/pdf_1/euclid.ss/1177013815 and https://web.stanford.edu/~hastie/CASI/\n\n")
     (license gpl3+)))
+
+
+;; to add: jhs, docs_joxygen, math_lapack, math_lbfgs, tables_tara
