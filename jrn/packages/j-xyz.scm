@@ -1141,15 +1141,15 @@ trig.ijs Trigonometric functions")
 (define-public j-data-jd
   (package
     (name "j-data-jd")
-    (version "4.4.87")
+    (version "4.4.88")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/data_jd.git")
-             (commit "2bf3ea34c60438fc2351c8ad4701219094730f08")))
+             (commit "0badb6482d7fc2b3ca63f4d74ff634b2bcec2569")))
        (sha256
-        (base32 "09bqh9llhx5352az38lj1bbaysicnc1kydf56flkiifpqrm18y69"))))
+        (base32 "1zp788475wxx27cvp1yxs5bjbzsvx28ijgbnndpbgl21qz1vmijm"))))
     (propagated-inputs
      `(("j-convert-pjson" ,j-convert-pjson)
        ("j-data-jfiles" ,j-data-jfiles)
@@ -1166,8 +1166,7 @@ trig.ijs Trigonometric functions")
          (delete 'configure)
          (delete 'check)
          (delete 'build)
-         (replace
-             'install
+         (replace 'install
            (lambda _
              (let ((out (string-append
                          (assoc-ref %outputs "out")
@@ -2492,11 +2491,9 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
        (method git-fetch)
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
-	      (commit
-	       "114e8e5a584d49d73df0438ffc295157af0f4b41")))
+	      (commit "d501a2388fbfab5d57a674b4c6dcf8d4a3c1281d")))
         (sha256
-          (base32
-	   "1f30l19ghzb71mcbczr0ghrdpzgi6v60fal1rpnxjihfyn8vawlq"))))
+          (base32 "0zcig13higrdll6k0sjw4bbj08lkgy6f61d9nisxgzfkxn47kyps"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
