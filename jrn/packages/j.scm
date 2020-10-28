@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "25224946a37dd0fe6ced3d50b3a3d485e4014cdc")))
+         (commit "ea9ecfde1253b7204d904a1589d92a66c237e3d3")))
        (sha256
-        (base32 "07bixv5kmnm888dx948yz5hfq3zndhd8yls3kzymh2k170mm338c"))))
+        (base32 "0qnx1ghnmx0sw8grl58gzfz0n334rrzaqrxhsj5b8pkjl0rkp4dm"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -90,8 +90,7 @@ md &.> (user,'/projects');break;config;snap;temp
                    (display "#define jtype     ") (write "beta")    (newline)
                    (display "#define jlicense  ") (write "GPL3")    (newline)
                    (display "#define jbuilder  ") (write "guix.gnu.org")))
-               (invoke "cat"
-                       "jsrc/jversion.h")
+               (invoke "cat" "jsrc/jversion.h")
                (substitute* `("jlibrary/system/main/regex.ijs")
                  (("pcre2dll=: f")
                   (string-append "pcre2dll=: '"
