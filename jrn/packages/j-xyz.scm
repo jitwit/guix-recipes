@@ -2525,5 +2525,44 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
      "bootstrapping benchmarks in J for confidence\n\ninspired by https://hackage.haskell.org/package/criterion\n\ninformed by https://projecteuclid.org/download/pdf_1/euclid.ss/1177013815 and https://web.stanford.edu/~hastie/CASI/\n\n")
     (license gpl3+)))
 
+(define-public j-data-jsv
+  (package
+    (name "j-data-jsv")
+    (version "1.0.0")
+    (source
+      (origin
+       (method git-fetch)
+        (uri (git-reference
+	      (url "https://github.com/jitwit/jsv.git")
+	      (commit "48735f7fef3687ccae82b198151f3ec253d0bb6d")))
+        (sha256
+          (base32 "0dcspps7lglg45lch3qzyl018wl7pp25pirv76rfydanlz5kj357"))))
+    (build-system gnu-build-system)
+    (arguments
+      `(#:modules
+        ((guix build gnu-build-system)
+         (guix build utils))
+        #:phases
+        (modify-phases
+          %standard-phases
+          (delete 'configure)
+          (delete 'check)
+          (delete 'build)
+          (replace
+            'install
+            (lambda _
+              (let ((out (string-append
+                           (assoc-ref %outputs "out")
+                           "/share/j/addons/data/jsv")))
+                (copy-recursively "." out)
+                #t))))))
+    (home-page "https://github.com/jitwit/jsv")
+    (synopsis
+      "mini csv parser")
+    (description
+     "based on limited testing, lighter weight and faster than tables/csv,
+though less featureful")
+    (license gpl3+)))
+
 
 ;; to add: jhs, docs_joxygen, math_lapack, math_lbfgs, tables_tara
