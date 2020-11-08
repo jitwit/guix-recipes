@@ -1033,3 +1033,287 @@ Please refer to the documentation in \"Data.Csv\" and the included [README](#rea
       "Parsec is designed from scratch as an industrial-strength parser library.  It is simple, safe, well documented (on the package homepage), has extensive libraries, good error messages, and is fast.  It is defined as a monad transformer that can be stacked on arbitrary monads, and it is also parametric in the input stream type. . The main entry point is the \"Text.Parsec\" module which provides defaults for parsing 'Char'acter data. . The \"Text.ParserCombinators.Parsec\" module hierarchy contains the legacy @parsec-2@ API and may be removed at some point in the future.")
     (license license:bsd-3)))
 
+(define-public ghc-mtl
+  (package
+    (name "ghc-mtl")
+    (version "1.2.1.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/ghc-mtl/ghc-mtl-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0h6r6gip9nsjlsq88wj105hhqliy7ac2dmmndsfzbjz07b03cklk"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-exceptions" ,ghc-exceptions)
+        ("ghc-extensible-exceptions" ,ghc-extensible-exceptions)))
+    (home-page
+      "http://hub.darcs.net/jcpetruzza/ghc-mtl")
+    (synopsis
+      "An mtl compatible version of the Ghc-Api monads and monad-transformers.")
+    (description
+      "Provides an 'mtl' compatible version of the 'GhcT' monad-transformer defined in the 'GHC-API' since version 6.10.1.")
+    (license license:bsd-3)))
+
+(define-public ghc-filepath
+  (package
+    (name "ghc-filepath")
+    (version "1.4.2.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/filepath/filepath-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "04jlcaaab4fvlkgpss2mfmr5ixnp1k8f8051nqf8avfg0qan6hqb"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-quickcheck" ,ghc-quickcheck)))
+    (arguments
+      `(#:cabal-revision
+        ("2"
+         "0jpmcdm852wr18kliyp0a69iij3v9rp6wx92gkkk2nc9vns3mwdg")))
+    (home-page
+      "https://github.com/haskell/filepath#readme")
+    (synopsis
+      "Library for manipulating FilePaths in a cross platform way.")
+    (description
+      "This package provides functionality for manipulating @FilePath@ values, and is shipped with both <https://www.haskell.org/ghc/ GHC> and the <https://www.haskell.org/platform/ Haskell Platform>. It provides three modules: . * \"System.FilePath.Posix\" manipulates POSIX\\/Linux style @FilePath@ values (with @\\/@ as the path separator). . * \"System.FilePath.Windows\" manipulates Windows style @FilePath@ values (with either @\\\\@ or @\\/@ as the path separator, and deals with drives). . * \"System.FilePath\" is an alias for the module appropriate to your platform. . All three modules provide the same API, and the same documentation (calling out differences in the different variants).")
+    (license license:bsd-3)))
+
+(define-public ghc-stm
+  (package
+    (name "ghc-stm")
+    (version "2.5.0.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/stm/stm-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "1illcj8zgzmpl91hzgk0j74ha436a379gw13siq4gifbcrf6iqsr"))))
+    (build-system haskell-build-system)
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "189fxk75h7n27kw7ndyn8nkxm3117qdh1dpag1mcs487kxghff62")))
+    (home-page
+      "https://wiki.haskell.org/Software_transactional_memory")
+    (synopsis "Software Transactional Memory")
+    (description
+      "Software Transactional Memory, or STM, is an abstraction for concurrent communication. The main benefits of STM are /composability/ and /modularity/. That is, using STM you can write concurrent abstractions that can be easily composed with any other abstraction built using STM, without exposing the details of how your abstraction ensures safety. This is typically not the case with other forms of concurrent communication, such as locks or 'MVar's.")
+    (license license:bsd-3)))
+
+
+(define-public ghc-text
+  (package
+    (name "ghc-text")
+    (version "1.2.4.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/text/text-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0k739i0sjrbl029y5j8n5v1hqa68z00xazvrahjhyl69mp4s5qna"))))
+    (build-system haskell-build-system)
+    (native-inputs
+     `(("ghc-hunit" ,ghc-hunit)
+       ("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-quickcheck-unicode"
+         ,ghc-quickcheck-unicode)
+        ("ghc-random" ,ghc-random)
+        ("ghc-test-framework" ,ghc-test-framework)
+        ("ghc-test-framework-hunit"
+         ,ghc-test-framework-hunit)
+        ("ghc-test-framework-quickcheck2"
+         ,ghc-test-framework-quickcheck2)))
+    (home-page "https://github.com/haskell/text")
+    (synopsis
+      "An efficient packed Unicode text type.")
+    (description
+      ". An efficient packed, immutable Unicode text type (both strict and lazy), with a powerful loop fusion optimization framework. . The 'Text' type represents Unicode character strings, in a time and space-efficient manner. This package provides text processing capabilities that are optimized for performance critical use, both in terms of large data quantities and high speed. . The 'Text' type provides character-encoding, type-safe case conversion via whole-string case conversion functions (see \"Data.Text\"). It also provides a range of functions for converting 'Text' values to and from 'ByteStrings', using several standard encodings (see \"Data.Text.Encoding\"). . Efficient locale-sensitive support for text IO is also supported (see \"Data.Text.IO\"). . These modules are intended to be imported qualified, to avoid name clashes with Prelude functions, e.g. . > import qualified Data.Text as T . == ICU Support . To use an extended and very rich family of functions for working with Unicode text (including normalization, regular expressions, non-standard encodings, text breaking, and locales), see the [text-icu package](https://hackage.haskell.org/package/text-icu) based on the well-respected and liberally licensed [ICU library](http://site.icu-project.org/). . == Internal Representation: UTF-16 vs. UTF-8 . Currently the @text@ library uses UTF-16 as its internal representation which is [neither a fixed-width nor always the most dense representation](http://utf8everywhere.org/) for Unicode text. We're currently investigating the feasibility of [changing Text's internal representation to UTF-8](https://github.com/text-utf8) and if you need such a 'Text' type right now you might be interested in using the spin-off packages <https://hackage.haskell.org/package/text-utf8 text-utf8> and <https://hackage.haskell.org/package/text-short text-short>.")
+    (license license:bsd-2)))
+
+(define-public ghc-time
+  (package
+    (name "ghc-time")
+    (version "1.11")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/time/time-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "16kmc754gz73plwb7lnk206r9v99va8y4ilbm347h6xmi5z7avp9"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
+        ("ghc-random" ,ghc-random)
+        ("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-tasty" ,ghc-tasty)
+        ("ghc-tasty-hunit" ,ghc-tasty-hunit)
+        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)))
+    (home-page "https://github.com/haskell/time")
+    (synopsis "A time library")
+    (description "Time, clocks and calendars")
+    (license license:bsd-3)))
+
+(define-public ghc-binary
+  (package
+    (name "ghc-binary")
+    (version "0.10.0.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/binary/binary-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "1lkh6cpayj7vdkkmacgkpi5dgypsjkx3yzjw6d3c3zp8fwsgwgk1"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-random" ,ghc-random)
+        ("ghc-test-framework" ,ghc-test-framework)
+        ("ghc-test-framework-quickcheck2"
+         ,ghc-test-framework-quickcheck2)
+        ("ghc-quickcheck" ,ghc-quickcheck)
+        ("ghc-hunit" ,ghc-hunit)))
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "0bcnan7vzxqskgpshqrqh2s0v1iplkjvqy1klb65hm83lg1789q7")))
+    (home-page "https://github.com/kolmodin/binary")
+    (synopsis
+      "Binary serialisation for Haskell values using lazy ByteStrings")
+    (description
+      "Efficient, pure binary serialisation using lazy ByteStrings. Haskell values may be encoded to and from binary formats, written to disk as binary, or sent over the network. The format used can be automatically generated, or you can choose to implement a custom format if needed. Serialisation speeds of over 1 G\\/sec have been observed, so this library should be suitable for high performance scenarios.")
+    (license license:bsd-3)))
+
+(define-public ghc-deepseq
+  (package
+    (name "ghc-deepseq")
+    (version "1.4.4.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/deepseq/deepseq-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "09kfpmgl679l74b6dadia11pvhya9ik4wrd8x76cgkxk7gwcbkrc"))))
+    (build-system haskell-build-system)
+    (native-inputs
+      `(("ghc-test-framework" ,ghc-test-framework)
+        ("ghc-test-framework-hunit"
+         ,ghc-test-framework-hunit)
+        ("ghc-hunit" ,ghc-hunit)))
+    (arguments
+      `(#:cabal-revision
+        ("1"
+         "0mbby1hig605jyiyy4m2y2nnjjf5i2adzc6x269hbz4pxscjp43n")))
+    (home-page
+      "http://hackage.haskell.org/package/deepseq")
+    (synopsis "Deep evaluation of data structures")
+    (description
+      "This package provides methods for fully evaluating data structures (\\\"deep evaluation\\\"). Deep evaluation is often used for adding strictness to a program, e.g. in order to force pending exceptions, remove space leaks, or force lazy I/O to happen. It is also useful in parallel programs, to ensure pending work does not migrate to the wrong thread. . The primary use of this package is via the 'deepseq' function, a \\\"deep\\\" version of 'seq'. It is implemented on top of an 'NFData' typeclass (\\\"Normal Form Data\\\", data structures with no unevaluated components) which defines strategies for fully evaluating different data types. See module documentation in \"Control.DeepSeq\" for more details.")
+    (license license:bsd-3)))
+
+(define-public ghc-hdbc
+  (package
+    (name "ghc-hdbc")
+    (version "2.4.0.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/HDBC/HDBC-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0vv2l99wpm2azm1wmbiqvra5aw708rsldd8y4fdf660q7lgvqqqy"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-old-time" ,ghc-old-time)
+        ("ghc-convertible" ,ghc-convertible)
+        ("ghc-utf8-string" ,ghc-utf8-string)))
+    (home-page "https://github.com/hdbc/hdbc")
+    (synopsis "Haskell Database Connectivity")
+    (description
+      "HDBC provides an abstraction layer between Haskell programs and SQL relational databases. This lets you write database code once, in Haskell, and have it work with any number of backend SQL databases (MySQL, Oracle, PostgreSQL, ODBC-compliant databases, etc.)")
+    (license license:bsd-3)))
+
+(define-public ghc-hdbc
+  (package
+    (name "ghc-hdbc")
+    (version "2.4.0.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/HDBC/HDBC-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "0vv2l99wpm2azm1wmbiqvra5aw708rsldd8y4fdf660q7lgvqqqy"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-old-time" ,ghc-old-time)
+        ("ghc-convertible" ,ghc-convertible)
+        ("ghc-utf8-string" ,ghc-utf8-string)))
+    (home-page "https://github.com/hdbc/hdbc")
+    (synopsis "Haskell Database Connectivity")
+    (description
+      "HDBC provides an abstraction layer between Haskell programs and SQL relational databases. This lets you write database code once, in Haskell, and have it work with any number of backend SQL databases (MySQL, Oracle, PostgreSQL, ODBC-compliant databases, etc.)")
+    (license license:bsd-3)))
+
+(define-public ghc-hdbc-sqlite3
+  (package
+    (name "ghc-hdbc-sqlite3")
+    (version "2.3.3.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (string-append
+               "https://hackage.haskell.org/package/HDBC-sqlite3/HDBC-sqlite3-"
+               version
+               ".tar.gz"))
+        (sha256
+          (base32
+            "1spbhvwwyj4q7li33kvw1bsr6m1xbnxipga67s7cdgvyf2mxk0x7"))))
+    (build-system haskell-build-system)
+    (inputs
+      `(("ghc-hdbc" ,ghc-hdbc)
+        ("ghc-utf8-string" ,ghc-utf8-string)))
+    (home-page
+      "https://github.com/hdbc/hdbc-sqlite3")
+    (synopsis "Sqlite v3 driver for HDBC")
+    (description
+      "This is the Sqlite v3 driver for HDBC, the generic database access system for Haskell")
+    (license bsd-3)))
+
