@@ -2534,9 +2534,9 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
        (method git-fetch)
         (uri (git-reference
 	      (url "https://github.com/jitwit/jsv.git")
-	      (commit "48735f7fef3687ccae82b198151f3ec253d0bb6d")))
+	      (commit "c62014cebb84c2f8a0697c670e2600315d0cd0fb")))
         (sha256
-          (base32 "0dcspps7lglg45lch3qzyl018wl7pp25pirv76rfydanlz5kj357"))))
+          (base32 "17r4wvmd6bfxslrp6b91kqg852pvvn2h4xlr4ni714434wjs8niq"))))
     (build-system gnu-build-system)
     (arguments
       `(#:modules

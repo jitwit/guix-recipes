@@ -1315,5 +1315,5 @@ Please refer to the documentation in \"Data.Csv\" and the included [README](#rea
     (synopsis "Sqlite v3 driver for HDBC")
     (description
       "This is the Sqlite v3 driver for HDBC, the generic database access system for Haskell")
-    (license bsd-3)))
+    (license license:bsd-3)))
 
