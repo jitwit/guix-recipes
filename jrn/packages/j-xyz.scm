@@ -1249,16 +1249,16 @@ trig.ijs Trigonometric functions")
 (define-public j-tables-dsv
   (package
     (name "j-tables-dsv")
-    (version "1.0.14")
+    (version "1.0.15")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/tables_dsv.git")
-         (commit "6c3565993a95f977d93a219c95eff202d0b1845b")))
+         (commit "b5d5c3f61b199c021d7176bdfff383bfdbdfd10a")))
        (sha256
-        (base32 "1znp1qqmb4060qh0xjfxrx6016128w6zkpb51imja2gsqvg0lnnw"))))
+        (base32 "0bc5ixidm4iczjzqxb6i19zlj5ni8vqw3qkdhj01da3d2wwhpyac"))))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -2491,9 +2491,9 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
        (method git-fetch)
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
-	      (commit "d501a2388fbfab5d57a674b4c6dcf8d4a3c1281d")))
+	      (commit "519301ec8ba743dd1420795bb694e667aba0c59a")))
         (sha256
-          (base32 "0zcig13higrdll6k0sjw4bbj08lkgy6f61d9nisxgzfkxn47kyps"))))
+          (base32 "0943nlxga0vc5vqcsz796l904p21v0g692wrqrh34d0h8y0qyy01"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
@@ -2534,9 +2534,9 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
        (method git-fetch)
         (uri (git-reference
 	      (url "https://github.com/jitwit/jsv.git")
-	      (commit "c62014cebb84c2f8a0697c670e2600315d0cd0fb")))
+	      (commit "f62f0178ce46bfb7bfa89106cb359468a761529f")))
         (sha256
-          (base32 "17r4wvmd6bfxslrp6b91kqg852pvvn2h4xlr4ni714434wjs8niq"))))
+          (base32 "0zclhzans9knjxwn2z09nkiifazm4zgyniz9sm4p8954yrx13pvg"))))
     (build-system gnu-build-system)
     (arguments
       `(#:modules
