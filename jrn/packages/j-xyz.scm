@@ -36,6 +36,8 @@
   #:use-module (gnu packages databases)
   #:use-module (gnu packages ncurses))
 
+;; base9 "8290b5e2e36d59f0a415115f334a2f770a7b9a29" "1j49in01i77g099xv7z3n3j7jh38k4slfryaxdm14maas3xh7vr0"
+
 ;;;; Graphics Addons
 (define-public j-media-imagekit
   (package
