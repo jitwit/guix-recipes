@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "3155ca87b79726df49a3fe0d34dbb67d32cb2825")))
+         (commit "ac136ea4d94f7da88d1d728ffc177a1348f7a845")))
        (sha256
-        (base32 "1hnljmnak0myljhdndk445bvr6z9yk1ikcnb2pxrsrjdz5gr6nz3"))))
+        (base32 "08614sxp30vd6mm3awlqpchb8v09hm6dxmsm033z96cndbn7ccxb"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -167,16 +167,16 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
 (define-public jqt
   (package
     (name "jqt")
-    (version "1.8.7")
+    (version "1.9.0")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/qtide.git")
-         (commit "aa9204f770e6a807b05923b1c38eb13fdf3a0111")))
+         (commit "d0f3c9f4652e4326a66219b745453ccd4110d2f5")))
        (sha256
-        (base32 "0f82a06s8dwclik35cpxaw4m0g8c8msxl3sqslivcsypsfhvbg43"))))
+        (base32 "0hypshx8j3f424g337v6vzn76wlrm953l4vqxyi76219rzab9vx8"))))
     (build-system gnu-build-system)
     (inputs `(("bash" ,bash)
               ("j" ,j)

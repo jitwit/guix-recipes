@@ -1916,9 +1916,9 @@ fndef.ijs Using a more literate style")
        (uri
         (git-reference
          (url "https://github.com/jsoftware/ide_qt.git")
-         (commit "e306a3898e89a3215c94075d70d360a7deb477d2")))
+         (commit "3300d98bb7bc5c1283cbe71f45370f19a8ba066e")))
        (sha256
-        (base32 "0vnx2dhi9wjimnk8s3l17fz6ywxx7rkcd905a0swhgbr32w5ajxs"))))
+        (base32 "1yhah72yc8amn7wl6c8i984scrflyibx3x82l3m5zd6842q1n7wy"))))
     (inputs `(("jqt" ,jqt)))
     (outputs '("out"))
     (build-system gnu-build-system)
