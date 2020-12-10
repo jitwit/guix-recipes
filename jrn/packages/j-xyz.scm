@@ -278,16 +278,16 @@ Based on media/platimg developed by Oleg Kobchenko")
 (define-public j-graphics-cairo
   (package
     (name "j-graphics-cairo")
-    (version "1.0.9")
+    (version "1.0.11")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/graphics_cairo.git")
-         (commit "e23236060339cdf4b4bec1da9dbca911c2230ad8")))
+         (commit "102df50933c4f92337b2f19f8a8c169a26505d8a")))
        (sha256
-        (base32 "15f22zxyfj96a2ak6pdclg0jzc81a9x96hwcv5b2s7kbgpnj6cw8"))))
+        (base32 "0aqq33kz5mzd8a4r0vkz9g0g1ymxhi05fxghm84rd4r7fyppy9xc"))))
     (inputs `(("cairo" ,cairo)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -348,16 +348,16 @@ Based on media/platimg developed by Oleg Kobchenko")
 (define-public j-graphics-plot
   (package
     (name "j-graphics-plot")
-    (version "1.0.194")
+    (version "1.0.195")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/graphics_plot.git")
-         (commit "ba25cc4e6522b7fb40643c22ed076a255bb52b9c")))
+         (commit "c05a658c40a7fc5346b00243669c9b2303e6b0e2")))
        (sha256
-        (base32 "0aymwaavzn64lgb5v8g5k9nsc3mmkkw7l0b98v4qsh8iffmpjx5k"))))
+        (base32 "0kdnj06xhnkw1irqdbf8cif8jw3rxx0cpd62r3yhsdcxr3zvdkpb"))))
     (propagated-inputs `(("j-graphics-afm" ,j-graphics-afm)
 			 ("j-graphics-bmp" ,j-graphics-bmp)
 			 ("j-graphics-color" ,j-graphics-color)
@@ -1909,16 +1909,16 @@ fndef.ijs Using a more literate style")
 (define-public j-ide-qt
   (package
     (name "j-ide-qt")
-    (version "1.1.139")
+    (version "1.1.143")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/ide_qt.git")
-         (commit "3300d98bb7bc5c1283cbe71f45370f19a8ba066e")))
+         (commit "796dc860d01ef8a7a8519c36969462f520c186d6")))
        (sha256
-        (base32 "1yhah72yc8amn7wl6c8i984scrflyibx3x82l3m5zd6842q1n7wy"))))
+        (base32 "1i2g96bn3fq6pdyjzsnx1ccyxa3x4jadcajxjrrgcqa8vv2mscmp"))))
     (inputs `(("jqt" ,jqt)))
     (outputs '("out"))
     (build-system gnu-build-system)
