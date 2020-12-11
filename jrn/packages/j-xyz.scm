@@ -2487,15 +2487,15 @@ Authors: Ric Sherlock, Bill Lam and Raul Miller.")
 (define-public j-stats-bonsai
   (package
     (name "j-stats-bonsai")
-    (version "1.0.3")
+    (version "1.0.7")
     (source
       (origin
        (method git-fetch)
         (uri (git-reference
 	      (url "https://github.com/jitwit/bonsai.git")
-	      (commit "519301ec8ba743dd1420795bb694e667aba0c59a")))
+	      (commit "8ccf1a6389232415db91d66c1d09552148dd18da")))
         (sha256
-          (base32 "0943nlxga0vc5vqcsz796l904p21v0g692wrqrh34d0h8y0qyy01"))))
+         (base32 "1i62f4w695s433d0fv6ymmq6qi29yjqnwiys2g4p8ds2bmgywg06"))))
     (propagated-inputs
      `(("j-stats-base" ,j-stats-base)
        ("j-stats-distribs" ,j-stats-distribs)
