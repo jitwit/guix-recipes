@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "ccb807cc5de864959189985ce76fbf798e198ca9")))
+         (commit "334306630d0943600d15cc0a4e710829b7c369a8")))
        (sha256
-        (base32 "0ybw3sbdwdbalggi45dqx8gq8sz7789jyglk1jvyadf601da09hh"))))
+        (base32 "0cjakjh4vvwar60qh09dpbgfapbq1j869lg38xqxbhpyx7h5y2h8"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
