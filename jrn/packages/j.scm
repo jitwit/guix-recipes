@@ -62,9 +62,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "334306630d0943600d15cc0a4e710829b7c369a8")))
+         (commit "7997352af1fb150898c426b7d9d78771f41fc8f5")))
        (sha256
-        (base32 "0cjakjh4vvwar60qh09dpbgfapbq1j869lg38xqxbhpyx7h5y2h8"))))
+        (base32 "144dgvlhs75cmrn7y2a7i70qvyq570bhxd6ila5g2mwkfa3vzz92"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -123,11 +123,11 @@ md &.> (user,'/projects');break;config;snap;temp
                (with-output-to-file "profile.ijs"
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
-               (invoke (string-append jbld "/jconsole")
-                       "-lib" (string-append jbld "/libj.so")
-                       "-js"
-		       "(+/ *: i. 10) (1!:2) 2"
-		       "2!:55 ''")
+               ;; (invoke (string-append jbld "/jconsole")
+               ;;         "-lib" (string-append jbld "/libj.so")
+               ;;         "-js"
+	       ;; 	       "(+/ *: i. 10) (1!:2) 2"
+	       ;; 	       "2!:55 ''")
 	       (invoke (string-append jbld "/jconsole")
                        "-lib" (string-append jbld "/libj.so")
                        "-jprofile" "profile.ijs"
