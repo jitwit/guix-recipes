@@ -105,9 +105,7 @@ md &.> (user,'/projects');break;config;snap;temp
          (replace 'build
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (chdir "make2")
-             (invoke "./build_jconsole.sh")
-             (invoke "./build_libj.sh")
-             (invoke "./build_tsdll.sh")
+             (invoke "./build_all.sh")
              (chdir "..")
              #t))
          (replace 'check
@@ -123,11 +121,6 @@ md &.> (user,'/projects');break;config;snap;temp
                (with-output-to-file "profile.ijs"
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
-               ;; (invoke (string-append jbld "/jconsole")
-               ;;         "-lib" (string-append jbld "/libj.so")
-               ;;         "-js"
-	       ;; 	       "(+/ *: i. 10) (1!:2) 2"
-	       ;; 	       "2!:55 ''")
 	       (invoke (string-append jbld "/jconsole")
                        "-lib" (string-append jbld "/libj.so")
                        "-jprofile" "profile.ijs"
