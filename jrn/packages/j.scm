@@ -27,6 +27,7 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages algebra)
   #:use-module (gnu packages compression)
+  #:use-module (gnu packages llvm)
   #:use-module (gnu packages libedit)
   #:use-module (gnu packages pcre)
   #:use-module (gnu packages readline)
@@ -62,12 +63,13 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "7997352af1fb150898c426b7d9d78771f41fc8f5")))
+         (commit "1a339d22f4d97c2058defa21ff2c9d630d5b3adf")))
        (sha256
-        (base32 "144dgvlhs75cmrn7y2a7i70qvyq570bhxd6ila5g2mwkfa3vzz92"))))
+        (base32 "0hwi403967mn88qgxqf22syrqfgli1zsicchy03gzzyqf4n32jav"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
+       ("clang" ,clang)
        ("readline" ,readline)
        ("bc" ,bc)
        ("libedit" ,libedit)
@@ -82,6 +84,7 @@ md &.> (user,'/projects');break;config;snap;temp
                    (j64x ,(if (target-64bit?) "j64avx2" "j32"))
                    (out (assoc-ref %outputs "out")))
                (setenv "jplatform" jplatform)
+               (setenv "CC" "clang")
                (setenv "j64x" j64x)
                (with-output-to-file "jsrc/jversion.h"
                  (lambda ()
