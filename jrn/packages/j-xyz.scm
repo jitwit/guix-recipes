@@ -604,10 +604,10 @@ FFTW is available under Windows, Mac and Linux.
      (origin
        (method git-fetch)
        (uri (git-reference
-             (url "https://github.com/jitwit/stats_base.git")
-             (commit "05ad80846f0a9d7c057136053329d871f870bed0")))
+             (url "https://github.com/jsoftware/stats_base.git")
+             (commit "ad7ffc494cd5a51d715dffa32e01dc1974adc992")))
        (sha256
-        (base32 "0yyl50c2mi73ml0w2cxrii4wwxwj08wpw3ddfvz6ns0631rkgmi6"))))
+        (base32 "11zyj473fb7k5708hybkvz7mnlr1zln8rhaqhzkznqcq5l6hhqjn"))))
     (propagated-inputs '())
     (outputs '("out"))
     (build-system gnu-build-system)
