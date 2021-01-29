@@ -63,9 +63,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "8a1b4c00c6941763c36affc4b44ef37f14fb7111")))
+         (commit "a7b5a8b56914b607c866666f943ef271346ffcf8")))
        (sha256
-        (base32 "0ma2lclc2x4ppvg8v6kcf8wysfbs4llcmwv7a1xm3xx4ln6qhhfb"))))
+        (base32 "0z2vbsy4k5cyhvykxa8405fcyvi0rdn82bw4nc56mr4zp78x7fr9"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -104,6 +104,10 @@ md &.> (user,'/projects');break;config;snap;temp
                   (string-append "zlib=: '"
                                  (assoc-ref %build-inputs "zlib")
                                  "/lib/libz.so'\n")))
+               (substitute* `("jlibrary/system/main/stdlib.ijs")
+                 (("/bin/stty")
+                  (string-append (assoc-ref %build-inputs "coreutils")
+                                 "/bin/stty")))
                #t)))
          (replace 'build
            (lambda* (#:key inputs outputs #:allow-other-keys)
