@@ -174,19 +174,20 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
        (uri
         (git-reference
          (url "https://github.com/jsoftware/qtide.git")
-         (commit "3e724bd70afd02462613e326a6e2d43cda69f72f")))
+         (commit "da0b4d2c05109fb459e5a1734550c5a3ef2093fb")))
        (sha256
-        (base32 "028q56wqk71gsvyvxpsn1cw87wxiwk7dri2kifnj0xpl01ll6z22"))))
+        (base32 "0jwl8gf005aas8z4zg4h1pv11da4cv58is4v5xmnh614i2b78n9b"))))
     (build-system gnu-build-system)
     (inputs `(("bash" ,bash)
               ("j" ,j)
               ("mesa" ,mesa)
               ("pulseaudio" ,pulseaudio)
-              ("qtbase" ,qtbase)
+              ("qtbase" ,qtbase-5)
               ("qtwebsockets" ,qtwebsockets)
               ("qtsvg" ,qtsvg)
               ("qtdeclarative" ,qtdeclarative)
               ("qtquickcontrols" ,qtquickcontrols)
+	      ("qtwebkit" ,qtwebkit)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
               ("qtwebengine" ,qtwebengine)))
