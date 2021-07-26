@@ -97,7 +97,8 @@ neural network, specifically those of the LeelaChessZero project.")
                                            (assoc-ref %outputs "out"))
                             (string-append "ARCH="
                                            ,(match (%current-system)
-                                              ("x86_64-linux" "x86-64")
+					      ;; nb. since it's mostly personal use
+                                              ("x86_64-linux" "x86-64-avx512")
                                               ("i686-linux" "x86-32")
                                               ("aarch64-linux" "general-64")
                                               ("armhf-linux" "armv7")
