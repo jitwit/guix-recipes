@@ -23,7 +23,7 @@
 (define-public lc0
   (package
    (name "lc0")
-   (version "0.27.0")
+   (version "0.28.0-rc1")
    (source
     (origin
      (method git-fetch)
@@ -34,7 +34,7 @@
      (file-name (git-file-name name version))
      (sha256
       (base32
-       "00r8bahyqq8n26h3ih8n0spq9lm44pgvmmss29n1mq45g997vbgb"))))
+       "11n8xpd9zv7fas2r6bar344ypnfg8j3liig8cq77820rg9caiqqc"))))
    (build-system meson-build-system)
    (native-inputs
     `(("ninja" ,ninja)
@@ -43,8 +43,7 @@
       ("cmake" ,cmake)
       ("pkg-config" ,pkg-config)
       ("gtest" ,googletest)
-      ("zlib" ,zlib)
-      ))
+      ("zlib" ,zlib)))
    (inputs
     `(("boost" ,boost)
       ("eigen" ,eigen)
