@@ -1074,16 +1074,16 @@ trig.ijs Trigonometric functions")
 (define-public j-data-jmf
   (package
     (name "j-data-jmf")
-    (version "1.0.36")
+    (version "1.0.40")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/data_jmf.git")
-         (commit "7e1e41ce005c6bdad491bc83ff0f342d97921d95")))
+         (commit "574cce7e63efaa2a8e2aa6435af4f892ebf20009")))
        (sha256
-        (base32 "1cwiivsbxbcxfnb72hwacjw18szlhhm6bxpmm95s2q2sxia8b4bd"))))
+        (base32 "1kbhlylgklg48qmnq5pvz15pgb6nh15k7vw810zd3hq7z324xk4d"))))
     (outputs '("out"))
     (build-system gnu-build-system)
     (arguments
@@ -1143,15 +1143,15 @@ trig.ijs Trigonometric functions")
 (define-public j-data-jd
   (package
     (name "j-data-jd")
-    (version "4.4.88")
+    (version "4.4.96")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/jsoftware/data_jd.git")
-             (commit "0badb6482d7fc2b3ca63f4d74ff634b2bcec2569")))
+             (commit "6f718ed69538085035d7926fed55fa4940063894")))
        (sha256
-        (base32 "1zp788475wxx27cvp1yxs5bjbzsvx28ijgbnndpbgl21qz1vmijm"))))
+        (base32 "1ci5jvb3zy07gzpw55mr6m5k875hnvkj7bcl3n0y9ga2fqjqfzz5"))))
     (propagated-inputs
      `(("j-convert-pjson" ,j-convert-pjson)
        ("j-data-jfiles" ,j-data-jfiles)
@@ -1909,16 +1909,16 @@ fndef.ijs Using a more literate style")
 (define-public j-ide-qt
   (package
     (name "j-ide-qt")
-    (version "1.1.143")
+    (version "1.1.145")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/ide_qt.git")
-         (commit "796dc860d01ef8a7a8519c36969462f520c186d6")))
+         (commit "d2b2aafea60d4ed45f4fbb73055ba43dbfd50328")))
        (sha256
-        (base32 "1i2g96bn3fq6pdyjzsnx1ccyxa3x4jadcajxjrrgcqa8vv2mscmp"))))
+        (base32 "06dk728r8fr5xmixvn4byyknzybxvngkn3mfkrvj7d5p5w1156jr"))))
     (inputs `(("jqt" ,jqt)))
     (outputs '("out"))
     (build-system gnu-build-system)
@@ -2030,16 +2030,16 @@ See the program header for description and directives.")
 (define-public j-demos-qtdemo
   (package
     (name "j-demos-qtdemo")
-    (version "1.0.22")
+    (version "1.0.23")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/demos_qtdemo.git")
-         (commit "164421344ff9b47bad212aed1e7a9dc8cfc6ff43")))
+         (commit "3160214ea8c75469d24c1d38553db61610065a8d")))
        (sha256
-        (base32 "0an15b0zv7zxm40zwvb2gapn90jx73hf2kjscpmrsg14iz8246dy"))))
+        (base32 "1k9zxk8pgysszvw3d46lzjyaa4ckfja1jdrh1pkapn1r4m0xphpz"))))
     (propagated-inputs `(("j-api-gles" ,j-api-gles)
 			 ("j-graphics-bmp" ,j-graphics-bmp)
 			 ("j-graphics-plot" ,j-graphics-plot)
