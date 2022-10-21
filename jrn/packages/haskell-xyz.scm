@@ -134,7 +134,7 @@
      "Processing HTTP Content-Type and Accept headers")
     (description
      "This library is intended to be a comprehensive solution to parsing and selecting quality-indexed values in HTTP headers.  It is capable of parsing both media types and language parameters from the Accept and Content header families, and can be extended to match against other accept headers as well.  Selecting the appropriate header value is achieved by comparing a list of server options against the quality-indexed values supplied by the client. . In the following example, the Accept header is parsed and then matched against a list of server options to serve the appropriate media using 'mapAcceptMedia': . > getHeader >>= maybe send406Error sendResourceWith . mapAcceptMedia >     [ (\"text/html\",        asHtml) >     , (\"application/json\", asJson) >     ] . Similarly, the Content-Type header can be used to produce a parser for request bodies based on the given content type with 'mapContentMedia': . > getContentType >>= maybe send415Error readRequestBodyWith . mapContentMedia >     [ (\"application/json\", parseJson) >     , (\"text/plain\",       parseText) >     ] . The API is agnostic to your choice of server.")
-    (license expat)))
+    (license license:expat)))
 
 (define-public ghc-string-conversions
   (package
@@ -297,7 +297,7 @@
     (synopsis "WAI application for static serving")
     (description
      "API docs and the README are available at <http://www.stackage.org/package/wai-app-static>.")
-    (license expat)))
+    (license license:expat)))
 
 (define-public ghc-hspec-wai
   (package
@@ -332,7 +332,7 @@
      "Experimental Hspec support for testing WAI applications")
     (description
      "Experimental Hspec support for testing WAI applications")
-    (license expat)))
+    (license license:expat)))
 
 (define-public ghc-should-not-typecheck
   (package
@@ -586,7 +586,7 @@
     (home-page "http://github.com/lens/lens-aeson/")
     (synopsis "Law-abiding lenses for aeson")
     (description "Law-abiding lenses for aeson.")
-    (license expat)))
+    (license license:expat)))
 
 (define-public ghc-directory
   (package

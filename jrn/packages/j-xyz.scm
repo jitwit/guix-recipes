@@ -1180,7 +1180,7 @@ trig.ijs Trigonometric functions")
     (synopsis "Jd")
     (description
      "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
-    (license 'commercial)))
+    (license 'expat)))
 
 (define-public j-convert-pjson
   (package
