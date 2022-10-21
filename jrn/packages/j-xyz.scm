@@ -1140,47 +1140,47 @@ trig.ijs Trigonometric functions")
      "This script contains definitions for the J component file and\nkeyed file system.\n\nA keyed file is a J component file in which data is accessed\nusing keywords.\n\n")
     (license expat)))
 
-(define-public j-data-jd
-  (package
-    (name "j-data-jd")
-    (version "4.4.96")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/jsoftware/data_jd.git")
-             (commit "6f718ed69538085035d7926fed55fa4940063894")))
-       (sha256
-        (base32 "1ci5jvb3zy07gzpw55mr6m5k875hnvkj7bcl3n0y9ga2fqjqfzz5"))))
-    (propagated-inputs
-     `(("j-convert-pjson" ,j-convert-pjson)
-       ("j-data-jfiles" ,j-data-jfiles)
-       ("j-data-jmf" ,j-data-jmf)))
-    (outputs '("out"))
-    (build-system gnu-build-system)
-    (arguments
-     `(#:modules
-       ((guix build gnu-build-system)
-        (guix build utils))
-       #:phases
-       (modify-phases
-           %standard-phases
-         (delete 'configure)
-         (delete 'check)
-         (delete 'build)
-         (replace 'install
-           (lambda _
-             (let ((out (string-append
-                         (assoc-ref %outputs "out")
-                         "/share/j/addons/data/jd")))
-               (copy-recursively "." out)
-               #t))))))
-    (home-page
-     "https://github.com/jsoftware/data_jd")
-    (synopsis "Jd")
-    (description
-     "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
-    (license 'expat)))
+;; (define-public j-data-jd
+;;   (package
+;;     (name "j-data-jd")
+;;     (version "4.4.96")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/jsoftware/data_jd.git")
+;;              (commit "6f718ed69538085035d7926fed55fa4940063894")))
+;;        (sha256
+;;         (base32 "1ci5jvb3zy07gzpw55mr6m5k875hnvkj7bcl3n0y9ga2fqjqfzz5"))))
+;;     (propagated-inputs
+;;      `(("j-convert-pjson" ,j-convert-pjson)
+;;        ("j-data-jfiles" ,j-data-jfiles)
+;;        ("j-data-jmf" ,j-data-jmf)))
+;;     (outputs '("out"))
+;;     (build-system gnu-build-system)
+;;     (arguments
+;;      `(#:modules
+;;        ((guix build gnu-build-system)
+;;         (guix build utils))
+;;        #:phases
+;;        (modify-phases
+;;            %standard-phases
+;;          (delete 'configure)
+;;          (delete 'check)
+;;          (delete 'build)
+;;          (replace 'install
+;;            (lambda _
+;;              (let ((out (string-append
+;;                          (assoc-ref %outputs "out")
+;;                          "/share/j/addons/data/jd")))
+;;                (copy-recursively "." out)
+;;                #t))))))
+;;     (home-page
+;;      "https://github.com/jsoftware/data_jd")
+;;     (synopsis "Jd")
+;;     (description
+;;      "Jd is a commercial database product from Jsoftware.\nAlthough similar in terminology and features to\nMySQL, Oracle, DB2, SQL Server, and others, it is closer\nin spirit and design to Kx's kdb, Jsoftware's free JDB,\nand old APL financial systems on mainframes in 70s and 80s.\n\nThe key difference between Jd and most other systems \nis that Jd comes with a fully integrated and mature\nprogramming language. Jd is implemented in J and lives\nopenly and dynamically in the J execution and development\nenvironment. Jd is a natural extension of J and the full power\nof J is available to the Jd database application developer.\nThe integration is not just available to you,\nit is unabashedly pushed to you for exploitation.\n\nJd is a columnar (column oriented) RDBMS.\n\nJd is particularly suited to analytics.\nIt works well with large tables (100s of millions of rows),\nmultiple tables connected by complex joins, structured data,\nnumerical data, and complex queries and aggregations.\n\n")
+;;     (license 'expat)))
 
 (define-public j-convert-pjson
   (package
