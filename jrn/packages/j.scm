@@ -26,6 +26,7 @@
   #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages algebra)
+  #:use-module (gnu packages assembly)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages libedit)
@@ -56,16 +57,16 @@ md &.> (user,'/projects');break;config;snap;temp
 (define-public j
   (package
     (name "j")
-    (version "903")
+    (version "904")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "3f2b4c8d111a06130c7d680fec62fbadcdf900ba")))
+         (commit "1482c879f4c7fad66c76090045f003998e5c7cf7")))
        (sha256
-        (base32 "1fcfl7q7c2vj4fmnqqc8c6hwgsjm20ff93v8xxfniasss1b2fmc4"))))
+        (base32 "158zy6ibds3n4fy9jlm98mal59ha07v9sjq2rvkxzh9176d7vbg2"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -73,6 +74,7 @@ md &.> (user,'/projects');break;config;snap;temp
        ("readline" ,readline)
        ("bc" ,bc)
        ("libedit" ,libedit)
+       ("nasm" ,nasm)
        ("pcre2" ,pcre2)
        ("zlib" ,zlib)))
     (arguments
