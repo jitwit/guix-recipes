@@ -176,9 +176,9 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
        (uri
         (git-reference
          (url "https://github.com/jsoftware/qtide.git")
-         (commit "da0b4d2c05109fb459e5a1734550c5a3ef2093fb")))
+         (commit "649a99f1fd75d81290fd67d2237e3a1bd990eb95")))
        (sha256
-        (base32 "0jwl8gf005aas8z4zg4h1pv11da4cv58is4v5xmnh614i2b78n9b"))))
+        (base32 "1cbfsd99m8laajv8iijgac0nyx55hfc88r02nb8wranz91ry0ppy"))))
     (build-system gnu-build-system)
     (inputs `(("bash" ,bash)
               ("j" ,j)
@@ -188,7 +188,7 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
               ("qtwebsockets" ,qtwebsockets)
               ("qtsvg" ,qtsvg)
               ("qtdeclarative" ,qtdeclarative)
-              ("qtquickcontrols" ,qtquickcontrols)
+	      ("qt5compat" ,qt5compat)
 	      ("qtwebkit" ,qtwebkit)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
