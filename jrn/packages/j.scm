@@ -169,7 +169,7 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
 (define-public jqt
   (package
     (name "jqt")
-    (version "1.9.1")
+    (version "2.0.3")
     (source
      (origin
        (method git-fetch)
@@ -189,7 +189,7 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
               ("qtsvg" ,qtsvg)
               ("qtdeclarative" ,qtdeclarative)
 	      ("qt5compat" ,qt5compat)
-	      ("qtwebkit" ,qtwebkit)
+;;	      ("qtwebkit" ,qtwebkit)
               ("qtwebchannel" ,qtwebchannel)
               ("qtmultimedia" ,qtmultimedia)
               ("qtwebengine" ,qtwebengine)))
