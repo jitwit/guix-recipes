@@ -57,7 +57,7 @@ md &.> (user,'/projects');break;config;snap;temp
 (define-public j
   (package
     (name "j")
-    (version "905")
+    (version "904")
     (source
      (origin
        (method git-fetch)
