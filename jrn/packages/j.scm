@@ -57,22 +57,21 @@ md &.> (user,'/projects');break;config;snap;temp
 (define-public j
   (package
     (name "j")
-    (version "905")
+    (version "904")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "b7158e3c35cdfb07e2d0b32edf4fb0d2a6300ee8")))
+         (commit "1482c879f4c7fad66c76090045f003998e5c7cf7")))
        (sha256
-        (base32 "0pgbms9xk8lbdbarwr2j3gcba46g8n97g5w9mqhx4f6ylf9rm553"))))
+        (base32 "158zy6ibds3n4fy9jlm98mal59ha07v9sjq2rvkxzh9176d7vbg2"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
        ("clang" ,clang)
        ("readline" ,readline)
-       ("which" ,which)
        ("bc" ,bc)
        ("libedit" ,libedit)
        ("nasm" ,nasm)
@@ -84,7 +83,7 @@ md &.> (user,'/projects');break;config;snap;temp
          (replace 'configure
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
-                   (j64x ,(if (target-64bit?) "j64avx512" "j32"))
+                   (j64x ,(if (target-64bit?) "j64avx2" "j32"))
                    (out (assoc-ref %outputs "out")))
                (setenv "jplatform" jplatform)
                (setenv "CC" "clang")
