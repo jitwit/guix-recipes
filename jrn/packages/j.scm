@@ -57,16 +57,16 @@ md &.> (user,'/projects');break;config;snap;temp
 (define-public j
   (package
     (name "j")
-    (version "904")
+    (version "905")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "fe87ae6a65b1c53796fd41d3c41b1923107f39ac")))
+         (commit "da952489b2773c95c99aa3d5b715a4cdb19f819a")))
        (sha256
-        (base32 "014caafcxzq61krvkmhkla44yp65rhxgj9dhg9ac05vsvjj1vaxb"))))
+        (base32 "0hbg5wvmfm9gwn8l2c7mlyxjms2c2c3wqz8gbp98l6aply0vvypl"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
