@@ -30,6 +30,7 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages libedit)
+  #:use-module (gnu packages multiprecision)
   #:use-module (gnu packages pcre)
   #:use-module (gnu packages readline)
   #:use-module (gnu packages pulseaudio)
@@ -74,6 +75,7 @@ md &.> (user,'/projects');break;config;snap;temp
        ("readline" ,readline)
        ("which" ,which)
        ("bc" ,bc)
+       ("gmp" ,gmp)
        ("libedit" ,libedit)
        ("nasm" ,nasm)
        ("pcre2" ,pcre2)
@@ -111,6 +113,10 @@ md &.> (user,'/projects');break;config;snap;temp
                  (("/bin/stty")
                   (string-append (assoc-ref %build-inputs "coreutils")
                                  "/bin/stty")))
+	       ;; (substitute* `("jsrc/jgmpinit.c")
+	       ;; 		    (("\"libgmp\"")
+	       ;; 		     (string-append (assoc-ref %build-inputs "gmp")
+	       ;; 				    "/lib/libgmp")))
                #t)))
          (replace 'build
            (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -131,11 +137,12 @@ md &.> (user,'/projects');break;config;snap;temp
                (with-output-to-file "profile.ijs"
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
-	       (invoke (string-append jbld "/jconsole")
-                       "-lib" (string-append jbld "/libj.so")
-                       "-jprofile" "profile.ijs"
-                       "./test/tsu.ijs"
-                       "-js" "exit 0 [ RECHO ddall")
+	       (invoke "UWUWUWUWUUWU")
+	       ;; (invoke (string-append jbld "/jconsole")
+               ;;         "-lib" (string-append jbld "/libj.so")
+               ;;         "-jprofile" "profile.ijs"
+               ;;         "./test/tsu.ijs"
+               ;;         "-js" "exit 0 [ RECHO ddall")
                #t)))
          (replace 'install
            (lambda* (#:key inputs outputs #:allow-other-keys)
