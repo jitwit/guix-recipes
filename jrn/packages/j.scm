@@ -64,9 +64,9 @@ md &.> (user,'/projects');break;config;snap;temp
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "da952489b2773c95c99aa3d5b715a4cdb19f819a")))
+         (commit "b7158e3c35cdfb07e2d0b32edf4fb0d2a6300ee8")))
        (sha256
-        (base32 "0hbg5wvmfm9gwn8l2c7mlyxjms2c2c3wqz8gbp98l6aply0vvypl"))))
+        (base32 "0pgbms9xk8lbdbarwr2j3gcba46g8n97g5w9mqhx4f6ylf9rm553"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
@@ -84,7 +84,7 @@ md &.> (user,'/projects');break;config;snap;temp
          (replace 'configure
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
-                   (j64x ,(if (target-64bit?) "j64avx2" "j32"))
+                   (j64x ,(if (target-64bit?) "j64avx512" "j32"))
                    (out (assoc-ref %outputs "out")))
                (setenv "jplatform" jplatform)
                (setenv "CC" "clang")
