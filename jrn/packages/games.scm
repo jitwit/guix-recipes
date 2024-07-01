@@ -63,63 +63,63 @@ neural network, specifically those of the LeelaChessZero project.")
    (license license:gpl3+)))
 
 (define-public stockfish
-  (let ((neural-network-revision "26abeed38351"))
+  (let ((neural-network-revision "1717e98f7812"))
     (package
-      (name "stockfish")
-      (version "14")
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/official-stockfish/Stockfish")
-               (commit (string-append "sf_" version))))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "046b3rq9w8lzgk07q5zazzkl93ai99ab18hr9d8n73mabjpi6zbx"))))
-      (build-system gnu-build-system)
-      (inputs
-       `(("neural-network"
-          ,(origin
-             (method url-fetch)
-             (uri (string-append "https://tests.stockfishchess.org/api/nn/nn-"
-                                 neural-network-revision ".nnue"))
-             (sha256
-              (base32
-               "0l1h1nb7bh0sppxw2sx6bldgnz513qzwmgj78h6kl7sihg9yxar6"))))))
-      (arguments
-       `(#:tests? #f
-         #:make-flags (list "-C" "src"
-                            "build"
-			    (string-append "nnuenet=nn-"
-					   ,neural-network-revision
-					   ".nnue")
-                            (string-append "PREFIX="
-                                           (assoc-ref %outputs "out"))
-                            (string-append "ARCH="
-                                           ,(match (%current-system)
-					      ;; nb. since it's mostly personal use
-                                              ("x86_64-linux" "x86-64-avx512")
-                                              ("i686-linux" "x86-32")
-                                              ("aarch64-linux" "general-64")
-                                              ("armhf-linux" "armv7")
-                                              ("mips64el-linux" "general-64")
-                                              (_ "general-32"))))
-         #:phases (modify-phases %standard-phases
-                    (delete 'configure)
-                    ;; The official neural network file is needed for building
-                    ;; and is embedded in the resulting binary.
-                    (add-after 'unpack 'copy-net
-                      (lambda* (#:key inputs #:allow-other-keys)
-                        (copy-file (assoc-ref inputs "neural-network")
-                                   (format #f "src/nn-~a.nnue"
-                                           ,neural-network-revision))
-			(substitute* `("src/evaluate.h")
-			  (("nn-.{12}.nnue")
-			   (format #f "nn-~a.nnue" ,neural-network-revision))))))))
-      (synopsis "Strong chess engine")
-      (description
-       "Stockfish is a very strong chess engine.  It is much stronger than the
+     (name "stockfish")
+     (version "16.1")
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/official-stockfish/Stockfish")
+             (commit (string-append "sf_" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0rcv0a3fqsr8dv43mlklx113941da7zw6i9z8495s704k1y66fy5"))))
+     (build-system gnu-build-system)
+     (inputs
+      `(("neural-network"
+         ,(origin
+           (method url-fetch)
+           (uri (string-append "https://tests.stockfishchess.org/api/nn/nn-"
+                               neural-network-revision ".nnue"))
+           (sha256
+            (base32
+             "0jhn5d29d124hjrcq0mpgwlcackszw04l86917y87f0jg27yj5qp"))))))
+     (arguments
+      `(#:tests? #f
+        #:make-flags (list "-C" "src"
+                           "build"
+			   (string-append "nnuenet=nn-"
+					  ,neural-network-revision
+					  ".nnue")
+                           (string-append "PREFIX="
+                                          (assoc-ref %outputs "out"))
+                           (string-append "ARCH="
+                                          ,(match (%current-system)
+					     ;; nb. since it's mostly personal use
+                                             ("x86_64-linux" "x86-64-avx512")
+                                             ("i686-linux" "x86-32")
+                                             ("aarch64-linux" "general-64")
+                                             ("armhf-linux" "armv7")
+                                             ("mips64el-linux" "general-64")
+                                             (_ "general-32"))))
+        #:phases (modify-phases %standard-phases
+				(delete 'configure)
+				;; The official neural network file is needed for building
+				;; and is embedded in the resulting binary.
+				(add-after 'unpack 'copy-net
+					   (lambda* (#:key inputs #:allow-other-keys)
+					     (copy-file (assoc-ref inputs "neural-network")
+							(format #f "src/nn-~a.nnue"
+								,neural-network-revision))
+					     (substitute* `("src/evaluate.h")
+							  (("nn-.{12}.nnue")
+							   (format #f "nn-~a.nnue" ,neural-network-revision))))))))
+     (synopsis "Strong chess engine")
+     (description
+      "Stockfish is a very strong chess engine.  It is much stronger than the
 best human chess grandmasters.  It can be used with UCI-compatible GUIs like
 ChessX.")
-      (home-page "https://stockfishchess.org/")
-      (license license:gpl3+))))
+     (home-page "https://stockfishchess.org/")
+     (license license:gpl3+))))
