@@ -279,16 +279,16 @@ libraries providing most of the functionality of the original.")
 (define-public cs-euler
   (package
    (name "cs-euler")
-   (version "0.0")
+   (version "0.2")
    (source
     (origin
      (method git-fetch)
      (uri
       (git-reference
        (url "https://github.com/jitwit/chez-euler.git")
-       (commit "eda2da28c014318f8413d15b9575f33dfc838532")))
+       (commit "12bb44a26b3b672209f04789da835ae895ab544a")))
      (sha256
-      (base32 "1gs0x7wbnrlfjb95vbfilkkibh3805j4vx85iyhx8ynid99k842i"))))
+      (base32 "18z87a98jw1hsl2wg9kwha2706fh275pfxcdrzvjzcisfqvvpy5r"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
