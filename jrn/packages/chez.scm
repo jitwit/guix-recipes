@@ -286,9 +286,9 @@ libraries providing most of the functionality of the original.")
      (uri
       (git-reference
        (url "https://github.com/jitwit/chez-euler.git")
-       (commit "12bb44a26b3b672209f04789da835ae895ab544a")))
+       (commit "d79b883641685282afbeba21f0a2f7dd3eee62a0")))
      (sha256
-      (base32 "18z87a98jw1hsl2wg9kwha2706fh275pfxcdrzvjzcisfqvvpy5r"))))
+      (base32 "1779fk8459jjn1cgs69rbsrz9q3255w9bpv1igdprxp6npvilak0"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
