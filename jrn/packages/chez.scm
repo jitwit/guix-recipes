@@ -249,16 +249,16 @@ libraries providing most of the functionality of the original.")
 (define-public cs-hemlock
   (package
    (name "cs-hemlock")
-   (version "0.0")
+   (version "0.2")
    (source
     (origin
      (method git-fetch)
      (uri
       (git-reference
        (url "https://github.com/jitwit/hemlock.git")
-       (commit "c7e69d2d6e3de2db899774a14c1773f7d33411d5")))
+       (commit "06b207b0df02b594cee5b47ae1c15e26bdcffd04")))
      (sha256
-      (base32 "1rhkn2brvp7z6mymakiai3kv984znvw62q8ln7svqkpbc83dibv1"))))
+      (base32 "01qzfd5pakids1svr6ckfp58maxhvk63pxbmdnq0j9zlj9fnslha"))))
    (build-system gnu-build-system)
    (native-inputs
     `(("chez-scheme" ,chez-scheme)))
