@@ -398,23 +398,23 @@ libraries providing most of the functionality of the original.")
 (define-public cs-juniper
   (package
    (name "cs-juniper")
-   (version "0.0")
+   (version "0.1")
    (source
     (origin
      (method git-fetch)
      (uri
       (git-reference
        (url "https://github.com/jitwit/juniper.git")
-       (commit "d8b9963e8a6e57de721cf7f97167263e38d80847")))
+       (commit "e00d5d2bbf0b2de61c8f05134b554fb22286a3e7")))
      (sha256
-      (base32 "0jm8xkwkwc3hx3w2hwm3nagm1cxwcysmqc5yad56f6hgrl0h514w"))))
+      (base32 "0wm1d05rrhms65wmnpg7pq32xkxaqnrn90s54cg9mdij60kxvrlc"))))
    (build-system gnu-build-system)
    (native-inputs `(("chez-scheme" ,chez-scheme)))
    (inputs `(("j" ,j)))
    (arguments
     `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")
 				     "/lib/csv-site")
-		     ,(string-append "libj" "=" (assoc-ref %build-inputs "j") "/bin/libj.so"))
+		     ,(string-append "j-bin" "=" (assoc-ref %build-inputs "j") "/bin"))
       #:tests? #f
       #:phases
       (modify-phases
