@@ -1317,3 +1317,65 @@ Please refer to the documentation in \"Data.Csv\" and the included [README](#rea
       "This is the Sqlite v3 driver for HDBC, the generic database access system for Haskell")
     (license license:bsd-3)))
 
+(define-public ghc-algebraic-graphs
+  (package
+    (name "ghc-algebraic-graphs")
+    (version "0.7")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (hackage-uri "algebraic-graphs" version))
+       (sha256
+        (base32 "0s75h92qb9jdfdyzh0fraxpzj0jl4xvcbqq9cwgba2k9306rl5ai"))))
+    (build-system haskell-build-system)
+    (properties '((upstream-name . "algebraic-graphs")))
+    (native-inputs (list ghc-extra ghc-inspection-testing ghc-quickcheck))
+    (arguments
+     `(#:cabal-revision ("3"
+                         "010i8dl3zd484fbamq7k6i5cl0as2zsj2fis4rpm9giyickkr3ny")))
+    (home-page "https://github.com/snowleopard/alga")
+    (synopsis "A library for algebraic graph construction and transformation")
+    (description
+     "<https://github.com/snowleopard/alga Alga> is a library for algebraic
+construction and manipulation of graphs in Haskell.  See
+<https://github.com/snowleopard/alga-paper this paper> for the motivation behind
+the library, the underlying theory and implementation details. .  The top-level
+module
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph.html
+Algebra.Graph> defines the main data type for /algebraic graphs/
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph.html#t:Graph
+Graph>, as well as associated algorithms.  For type-safe representation and
+manipulation of /non-empty algebraic graphs/, see
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{NonEmpty.html}
+Algebra.Graph.@code{NonEmpty>}.  Furthermore, /algebraic graphs with edge
+labels/ are implemented in
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-Labelled.html
+Algebra.Graph.Labelled>. .  The library also provides conventional graph data
+structures, such as
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{AdjacencyMap.html}
+Algebra.Graph.@code{AdjacencyMap>} along with its various flavours: . *
+adjacency maps specialised to graphs with vertices of type Int
+(<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{AdjacencyIntMap.html}
+Algebra.Graph.@code{AdjacencyIntMap>}), * non-empty adjacency maps
+(<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{NonEmpty-AdjacencyMap.html}
+Algebra.Graph.@code{NonEmpty.AdjacencyMap>}), * adjacency maps for undirected
+bipartite graphs
+(<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-Bipartite-@code{AdjacencyMap.html}
+Algebra.Graph.Bipartite.@code{AdjacencyMap>}), * adjacency maps with edge labels
+(<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-Labelled-@code{AdjacencyMap.html}
+Algebra.Graph.Labelled.@code{AdjacencyMap>}), * acyclic adjacency maps
+(<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-Acyclic-@code{AdjacencyMap.html}
+Algebra.Graph.Acyclic.@code{AdjacencyMap>}), .  A large part of the API of
+algebraic graphs and adjacency maps is available through the Foldable'-like type
+class
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{ToGraph.html}
+Algebra.Graph.@code{ToGraph>}. .  The type classes defined in
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-Class.html
+Algebra.Graph.Class> and
+<http://hackage.haskell.org/package/algebraic-graphs/docs/Algebra-Graph-@code{HigherKinded-Class.html}
+Algebra.Graph.@code{HigherKinded.Class>} can be used for polymorphic
+construction and manipulation of graphs. .  This is an experimental library and
+the API is expected to remain unstable until version 1.0.0.  Please consider
+contributing to the on-going <https://github.com/snowleopard/alga/issues
+discussions on the library API>.")
+    (license license:expat)))
