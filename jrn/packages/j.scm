@@ -159,10 +159,15 @@ md &.> (user,'/projects');break;config;snap;temp
                                     (getenv "jplatform")
                                     "/"
                                     (getenv "j64x")))
+		    (jgmp
+		     (string-append "mpir/"
+				    (getenv "jplatform")
+				    "/x86_64/libgmp.so"))
                     (jconsole (string-append jbld "/jconsole"))
                     (libj.so  (string-append jbld "/libj.so")))
                (install-file jconsole bin)
                (install-file libj.so bin)
+               (install-file jgmp bin) ;; ew
                (copy-recursively "jlibrary/addons"
                                  (string-append share "/addons"))
                (copy-recursively "jlibrary/system"
