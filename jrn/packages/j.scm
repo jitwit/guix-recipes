@@ -27,10 +27,11 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages algebra)
   #:use-module (gnu packages assembly)
-  #:use-module (gnu packages compression)
   #:use-module (gnu packages commencement)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages libedit)
+  #:use-module (gnu packages multiprecision)
   #:use-module (gnu packages pcre)
   #:use-module (gnu packages readline)
   #:use-module (gnu packages pulseaudio)
@@ -73,12 +74,13 @@ md &.> (user,'/projects');break;config;snap;temp
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
-       ("clang" ,clang)
        ("readline" ,readline)
        ("which" ,which)
+       ("clang" ,clang)
        ("bc" ,bc)
        ("libedit" ,libedit)
-       ("gcc-toolchain" ,gcc-toolchain)
+       ("clang-toolchain" ,clang-toolchain)
+       ("gmp" ,gmp)
        ("nasm" ,nasm)
        ("pcre2" ,pcre2)
        ("zlib" ,zlib)))
@@ -120,7 +122,7 @@ md &.> (user,'/projects');break;config;snap;temp
 			     (string-append (assoc-ref %build-inputs "coreutils")
 					    "/bin/stty"))
 			    (("/sbin/ldconfig")
-			     (string-append (assoc-ref %build-inputs "gcc-toolchain")
+			     (string-append (assoc-ref %build-inputs "clang-toolchain")
 					    "/sbin/ldconfig")))
                #t)))
          (replace 'build
@@ -167,6 +169,8 @@ md &.> (user,'/projects');break;config;snap;temp
                     (libj.so  (string-append jbld "/libj.so")))
                (install-file jconsole bin)
                (install-file libj.so bin)
+	       ;; does not work!
+	       ;; ./jsrc/jgmpinit.c:335: #define LIBGMPNAME "libgmp" LIBEXT
                (install-file jgmp bin) ;; ew
                (copy-recursively "jlibrary/addons"
                                  (string-append share "/addons"))
