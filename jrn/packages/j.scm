@@ -61,26 +61,23 @@ md &.> (user,'/projects');break;config;snap;temp
 (define-public j
   (package
     (name "j")
-    (version "906")
+    (version "904")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/jsource")
-         (commit "22de9f930f23783169bcc1a8ac09a20ff407d30e")))
+         (commit "1482c879f4c7fad66c76090045f003998e5c7cf7")))
        (sha256
-        (base32 "1z2i68sb2k4ipzi0ph4h9i533jc2p2h8vxxkvpydkarn2ihyycl1"))))
+        (base32 "158zy6ibds3n4fy9jlm98mal59ha07v9sjq2rvkxzh9176d7vbg2"))))
     (build-system gnu-build-system)
     (inputs
      `(("bash" ,bash)
-       ("readline" ,readline)
-       ("which" ,which)
        ("clang" ,clang)
+       ("readline" ,readline)
        ("bc" ,bc)
        ("libedit" ,libedit)
-       ("clang-toolchain" ,clang-toolchain)
-       ("gmp" ,gmp)
        ("nasm" ,nasm)
        ("pcre2" ,pcre2)
        ("zlib" ,zlib)))
@@ -113,17 +110,10 @@ md &.> (user,'/projects');break;config;snap;temp
                   (string-append "zlib=: '"
                                  (assoc-ref %build-inputs "zlib")
                                  "/lib/libz.so'\n")))
-	       ;; this file seems to have changed a lot since i was
-	       ;; able to build before... part of the issue is j now
-	       ;; using local copy of gmp.so. need to also substitute
-	       ;; "/sbin/ldconfig"
                (substitute* `("jlibrary/system/main/stdlib.ijs")
-			    (("/bin/stty")
-			     (string-append (assoc-ref %build-inputs "coreutils")
-					    "/bin/stty"))
-			    (("/sbin/ldconfig")
-			     (string-append (assoc-ref %build-inputs "clang-toolchain")
-					    "/sbin/ldconfig")))
+                 (("/bin/stty")
+                  (string-append (assoc-ref %build-inputs "coreutils")
+                                 "/bin/stty")))
                #t)))
          (replace 'build
            (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -144,12 +134,11 @@ md &.> (user,'/projects');break;config;snap;temp
                (with-output-to-file "profile.ijs"
                  (lambda ()
                    (display ,(profile.ijs "'jlibrary'" version))))
-	       (when #f
-		 (invoke (string-append jbld "/jconsole")
-			 "-lib" (string-append jbld "/libj.so")
-			 "-jprofile" "profile.ijs"
-			 "./test/tsu.ijs"
-			 "-js" "exit 0 [ RECHO ddall"))
+	       (invoke (string-append jbld "/jconsole")
+                       "-lib" (string-append jbld "/libj.so")
+                       "-jprofile" "profile.ijs"
+                       "./test/tsu.ijs"
+                       "-js" "exit 0 [ RECHO ddall")
                #t)))
          (replace 'install
            (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -161,17 +150,10 @@ md &.> (user,'/projects');break;config;snap;temp
                                     (getenv "jplatform")
                                     "/"
                                     (getenv "j64x")))
-		    (jgmp
-		     (string-append "mpir/"
-				    (getenv "jplatform")
-				    "/x86_64/libgmp.so"))
                     (jconsole (string-append jbld "/jconsole"))
                     (libj.so  (string-append jbld "/libj.so")))
                (install-file jconsole bin)
                (install-file libj.so bin)
-	       ;; does not work!
-	       ;; ./jsrc/jgmpinit.c:335: #define LIBGMPNAME "libgmp" LIBEXT
-               (install-file jgmp bin) ;; ew
                (copy-recursively "jlibrary/addons"
                                  (string-append share "/addons"))
                (copy-recursively "jlibrary/system"
@@ -187,6 +169,136 @@ adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
 @code{/:~x} sorts it.")
     (home-page "https://code.jsoftware.com/wiki/Main_Page")
     (license gpl3)))
+
+(define-public j-906
+  (package
+   (name "j-906")
+   (version "906")
+   (source
+    (origin
+     (method git-fetch)
+     (uri
+      (git-reference
+       (url "https://github.com/jsoftware/jsource")
+       (commit "22de9f930f23783169bcc1a8ac09a20ff407d30e")))
+     (sha256
+      (base32 "1z2i68sb2k4ipzi0ph4h9i533jc2p2h8vxxkvpydkarn2ihyycl1"))))
+   (build-system gnu-build-system)
+   (inputs
+    `(("bash" ,bash)
+      ("readline" ,readline)
+      ("which" ,which)
+      ("clang" ,clang)
+      ("bc" ,bc)
+      ("libedit" ,libedit)
+      ("clang-toolchain" ,clang-toolchain)
+      ("gmp" ,gmp)
+      ("nasm" ,nasm)
+      ("pcre2" ,pcre2)
+      ("zlib" ,zlib)))
+   (arguments
+    `(#:phases
+      (modify-phases %standard-phases
+		     (replace 'configure
+			      (lambda* (#:key inputs outputs #:allow-other-keys)
+				(let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
+				      (j64x ,(if (target-64bit?) "j64avx2" "j32"))
+				      (out (assoc-ref %outputs "out")))
+				  (setenv "jplatform" jplatform)
+				  (setenv "CC" "clang")
+				  (setenv "j64x" j64x)
+				  (with-output-to-file "jsrc/jversion.h"
+				    (lambda ()
+				      (display "#define jversion  ") (write ,version)  (newline)
+				      (display "#define jplatform ") (write jplatform) (newline)
+				      (display "#define jtype     ") (write "beta")    (newline)
+				      (display "#define jlicense  ") (write "GPL3")    (newline)
+				      (display "#define jbuilder  ") (write "guix.gnu.org")))
+				  (invoke "cat" "jsrc/jversion.h")
+				  (substitute* `("jlibrary/system/main/regex.ijs")
+					       (("pcre2dll=: f")
+						(string-append "pcre2dll=: '"
+							       (assoc-ref %build-inputs "pcre2")
+							       "/lib/libpcre2-8.so.0'")))
+				  (substitute* `("jlibrary/system/util/tar.ijs")
+					       (("libz=: .+$")
+						(string-append "zlib=: '"
+							       (assoc-ref %build-inputs "zlib")
+							       "/lib/libz.so'\n")))
+				  ;; this file seems to have changed a lot since i was
+				  ;; able to build before... part of the issue is j now
+				  ;; using local copy of gmp.so. need to also substitute
+				  ;; "/sbin/ldconfig"
+				  (substitute* `("jlibrary/system/main/stdlib.ijs")
+					       (("/bin/stty")
+						(string-append (assoc-ref %build-inputs "coreutils")
+							       "/bin/stty"))
+					       (("/sbin/ldconfig")
+						(string-append (assoc-ref %build-inputs "clang-toolchain")
+							       "/sbin/ldconfig")))
+				  #t)))
+		     (replace 'build
+			      (lambda* (#:key inputs outputs #:allow-other-keys)
+				(chdir "make2")
+				(invoke "./build_all.sh")
+				(chdir "..")
+				#t))
+		     (replace 'check
+			      (lambda* (#:key inputs outputs #:allow-other-keys)
+				(let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
+				      (jbld
+				       (canonicalize-path
+					(string-append "bin/"
+						       (getenv "jplatform")
+						       "/"
+						       (getenv "j64x")))))
+					; following instructions from make2/make.txt with temp profile.ijs
+				  (with-output-to-file "profile.ijs"
+				    (lambda ()
+				      (display ,(profile.ijs "'jlibrary'" version))))
+				  (when #f
+				    (invoke (string-append jbld "/jconsole")
+					    "-lib" (string-append jbld "/libj.so")
+					    "-jprofile" "profile.ijs"
+					    "./test/tsu.ijs"
+					    "-js" "exit 0 [ RECHO ddall"))
+				  #t)))
+		     (replace 'install
+			      (lambda* (#:key inputs outputs #:allow-other-keys)
+				(let* ((bin (string-append (assoc-ref %outputs "out") "/bin"))
+				       (share (string-append (assoc-ref %outputs "out")
+							     "/share/j"))
+				       (jbld
+					(string-append "bin/"
+						       (getenv "jplatform")
+						       "/"
+						       (getenv "j64x")))
+				       (jgmp
+					(string-append "mpir/"
+						       (getenv "jplatform")
+						       "/x86_64/libgmp.so"))
+				       (jconsole (string-append jbld "/jconsole"))
+				       (libj.so  (string-append jbld "/libj.so")))
+				  (install-file jconsole bin)
+				  (install-file libj.so bin)
+				  ;; does not work!
+				  ;; ./jsrc/jgmpinit.c:335: #define LIBGMPNAME "libgmp" LIBEXT
+				  (install-file jgmp bin) ;; ew
+				  (copy-recursively "jlibrary/addons"
+						    (string-append share "/addons"))
+				  (copy-recursively "jlibrary/system"
+						    (string-append share "/system"))
+				  (with-output-to-file (string-append bin "/profile.ijs")
+				    (lambda ()
+				      (display
+				       ,(profile.ijs "home,'/.guix-profile/share/j'" version))))
+				  #t))))))
+   (synopsis "Dialect of the APL programming language")
+   (description "J is a programming language that works with arrays, verbs,
+adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
+@code{/:~x} sorts it.")
+   (home-page "https://code.jsoftware.com/wiki/Main_Page")
+   (license gpl3)))
 
 (define-public jqt
   (package
