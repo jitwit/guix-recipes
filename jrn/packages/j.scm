@@ -60,126 +60,128 @@ md &.> (user,'/projects');break;config;snap;temp
 
 (define-public j
   (package
-   (name "j")
-   (version "906")
-   (source
-    (origin
-     (method git-fetch)
-     (uri
-      (git-reference
-       (url "https://github.com/jsoftware/jsource")
-       (commit "89e1344049a2da1cb6b8304f1b8c709ea4d1c4dd")))
-     (sha256
-      (base32 "0d208x8pq3lad0f617vgfz9pwkdhsaqx6k6ll02phyagm3nhhy89"))))
-   (build-system gnu-build-system)
-   (inputs
-    `(("bash" ,bash)
-      ("readline" ,readline)
-      ("which" ,which)
-      ("clang" ,clang)
-      ("bc" ,bc)
-      ("libedit" ,libedit)
-      ("clang-toolchain" ,clang-toolchain)
-      ("gmp" ,gmp)
-      ("nasm" ,nasm)
-      ("pcre2" ,pcre2)
-      ("zlib" ,zlib)))
-   (arguments
-    `(#:phases
-      (modify-phases %standard-phases
-		     (replace 'configure
-			      (lambda* (#:key inputs outputs #:allow-other-keys)
-				(let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
-				      (j64x ,(if (target-64bit?) "j64avx2" "j32"))
-				      (out (assoc-ref %outputs "out")))
-				  (setenv "jplatform" jplatform)
-				  (setenv "CC" "clang")
-				  (setenv "j64x" j64x)
-				  (with-output-to-file "jsrc/jversion.h"
-				    (lambda ()
-				      (display "#define jversion  ") (write ,version)  (newline)
-				      (display "#define jplatform ") (write jplatform) (newline)
-				      (display "#define jtype     ") (write "beta")    (newline)
-				      (display "#define jlicense  ") (write "GPL3")    (newline)
-				      (display "#define jbuilder  ") (write "guix.gnu.org")))
-				  (invoke "cat" "jsrc/jversion.h")
-				  (substitute* `("jlibrary/system/main/regex.ijs")
-					       (("pcre2dll=: f")
-						(string-append "pcre2dll=: '"
-							       (assoc-ref %build-inputs "pcre2")
-							       "/lib/libpcre2-8.so.0'")))
-				  (substitute* `("make2/build_libj.sh")
-					       (("LDFLAGS=\" ")
-						"LDFLAGS=\" -lgmp "))
-				  (substitute* `("jlibrary/system/util/tar.ijs")
-					       (("libz=: .+$")
-						(string-append "zlib=: '"
-							       (assoc-ref %build-inputs "zlib")
-							       "/lib/libz.so'\n")))
-				  (substitute* `("jlibrary/system/main/stdlib.ijs")
-					       (("/bin/stty")
-						(string-append (assoc-ref %build-inputs "coreutils")
-							       "/bin/stty"))
-					       (("/sbin/ldconfig")
-						(string-append (assoc-ref %build-inputs "clang-toolchain")
-							       "/sbin/ldconfig")))
-				  #t)))
-		     (replace 'build
-			      (lambda* (#:key inputs outputs #:allow-other-keys)
-				(chdir "make2")
-				(setenv "LDFLAGS" "-lgmp") ;; .....
-				(invoke "./build_all.sh")
-				(chdir "..")
-				#t))
-		     (replace 'check
-			      (lambda* (#:key inputs outputs #:allow-other-keys)
-				(let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
-				      (jbld
-				       (canonicalize-path
-					(string-append "bin/"
-						       (getenv "jplatform")
-						       "/"
-						       (getenv "j64x")))))
+    (name "j")
+    (version "906")
+    (source
+     (origin
+       (method git-fetch)
+       (uri
+	(git-reference
+	  (url "https://github.com/jsoftware/jsource")
+	  (commit "89e1344049a2da1cb6b8304f1b8c709ea4d1c4dd")))
+       (sha256
+	(base32 "0d208x8pq3lad0f617vgfz9pwkdhsaqx6k6ll02phyagm3nhhy89"))))
+    (build-system gnu-build-system)
+    (inputs
+     `(("bash" ,bash)
+       ("readline" ,readline)
+       ("which" ,which)
+       ;;      ("gcc-toolchain" ,gcc-toolchain)
+       ("bc" ,bc)
+       ("libedit" ,libedit)
+       ("clang-toolchain" ,clang-toolchain)
+       ("gmp" ,gmp)
+       ("nasm" ,nasm)
+       ("pcre2" ,pcre2)
+       ("zlib" ,zlib)))
+    (arguments
+     `(#:phases
+       (modify-phases %standard-phases
+	 (replace 'configure
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let ((jplatform ,(if (target-arm?) "raspberry" "linux"))
+		   (j64x ,(if (target-64bit?) "j64avx2" "j32"))
+		   (out (assoc-ref %outputs "out")))
+	       (setenv "jplatform" jplatform)
+	       (setenv "CC" "clang")
+	       (setenv "j64x" j64x)
+	       (with-output-to-file "jsrc/jversion.h"
+		 (lambda ()
+		   (display "#define jversion  ") (write ,version)  (newline)
+		   (display "#define jplatform ") (write jplatform) (newline)
+		   (display "#define jtype     ") (write "beta")    (newline)
+		   (display "#define jlicense  ") (write "GPL3")    (newline)
+		   (display "#define jbuilder  ") (write "guix.gnu.org")))
+	       (invoke "cat" "jsrc/jversion.h")
+	       (substitute* `("jlibrary/system/main/regex.ijs")
+		 (("pcre2dll=: f")
+		  (string-append "pcre2dll=: '"
+				 (assoc-ref %build-inputs "pcre2")
+				 "/lib/libpcre2-8.so.0'")))
+	       (substitute* `("make2/build_libj.sh")
+		 (("LDFLAGS=\" ")
+		  "LDFLAGS=\" -lgmp "))
+	       (substitute* `("jlibrary/system/util/tar.ijs")
+		 (("libz=: .+$")
+		  (string-append "zlib=: '"
+				 (assoc-ref %build-inputs "zlib")
+				 "/lib/libz.so'\n")))
+	       (substitute* `("jlibrary/system/main/stdlib.ijs")
+		 (("/bin/stty")
+		  (string-append (assoc-ref %build-inputs "coreutils")
+				 "/bin/stty"))
+		 (("/sbin/ldconfig -p")
+		  ;; j tries to invoke ldconfig in the stdlib.ijs file
+		  "echo"
+		  ;; (string-append (assoc-ref %build-inputs "gcc-toolchain") "/sbin/ldconfig")
+		  ))
+	       ;;				  (invoke "sed" "'146,165d'" "jlibrary/system/main/stdlib.ijs")
+	       #t)))
+	 (replace 'build
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (chdir "make2")
+	     (invoke "./build_all.sh")
+	     (chdir "..")
+	     #t))
+	 (replace 'check
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
+		   (jbld
+		    (canonicalize-path
+		     (string-append "bin/"
+				    (getenv "jplatform")
+				    "/"
+				    (getenv "j64x")))))
 					; following instructions from make2/make.txt with temp profile.ijs
-				  (with-output-to-file "profile.ijs"
-				    (lambda ()
-				      (display ,(profile.ijs "'jlibrary'" version))))
-				  (when #f
-				    (invoke (string-append jbld "/jconsole")
-					    "-lib" (string-append jbld "/libj.so")
-					    "-jprofile" "profile.ijs"
-					    "./test/tsu.ijs"
-					    "-js" "exit 0 [ RECHO ddall"))
-				  #t)))
-		     (replace 'install
-			      (lambda* (#:key inputs outputs #:allow-other-keys)
-				(let* ((bin (string-append (assoc-ref %outputs "out") "/bin"))
-				       (share (string-append (assoc-ref %outputs "out")
-							     "/share/j"))
-				       (jbld
-					(string-append "bin/"
-						       (getenv "jplatform")
-						       "/"
-						       (getenv "j64x")))
-				       (jconsole (string-append jbld "/jconsole"))
-				       (libj.so  (string-append jbld "/libj.so")))
-				  (install-file jconsole bin)
-				  (install-file libj.so bin)
-				  (copy-recursively "jlibrary/addons"
-						    (string-append share "/addons"))
-				  (copy-recursively "jlibrary/system"
-						    (string-append share "/system"))
-				  (with-output-to-file (string-append bin "/profile.ijs")
-				    (lambda ()
-				      (display
-				       ,(profile.ijs "home,'/.guix-profile/share/j'" version))))
-				  #t))))))
-   (synopsis "Dialect of the APL programming language")
-   (description "J is a programming language that works with arrays, verbs,
+	       (with-output-to-file "profile.ijs"
+		 (lambda ()
+		   (display ,(profile.ijs "'jlibrary'" version))))
+	       (when #f
+		 (invoke (string-append jbld "/jconsole")
+			 "-lib" (string-append jbld "/libj.so")
+			 "-jprofile" "profile.ijs"
+			 "./test/tsu.ijs"
+			 "-js" "exit 0 [ RECHO ddall"))
+	       #t)))
+	 (replace 'install
+	   (lambda* (#:key inputs outputs #:allow-other-keys)
+	     (let* ((bin (string-append (assoc-ref %outputs "out") "/bin"))
+		    (share (string-append (assoc-ref %outputs "out")
+					  "/share/j"))
+		    (jbld
+		     (string-append "bin/"
+				    (getenv "jplatform")
+				    "/"
+				    (getenv "j64x")))
+		    (jconsole (string-append jbld "/jconsole"))
+		    (libj.so  (string-append jbld "/libj.so")))
+	       (install-file jconsole bin)
+	       (install-file libj.so bin)
+	       (copy-recursively "jlibrary/addons"
+				 (string-append share "/addons"))
+	       (copy-recursively "jlibrary/system"
+				 (string-append share "/system"))
+	       (with-output-to-file (string-append bin "/profile.ijs")
+		 (lambda ()
+		   (display
+		    ,(profile.ijs "home,'/.guix-profile/share/j'" version))))
+	       #t))))))
+    (synopsis "Dialect of the APL programming language")
+    (description "J is a programming language that works with arrays, verbs,
 adverbs, and conjunctions.  For example, @code{+/x} sums array @code{x} and
 @code{/:~x} sorts it.")
-   (home-page "https://code.jsoftware.com/wiki/Main_Page")
-   (license gpl3)))
+    (home-page "https://code.jsoftware.com/wiki/Main_Page")
+    (license gpl3)))
 
 (define-public jqt
   (package

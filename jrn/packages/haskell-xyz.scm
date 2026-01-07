@@ -476,7 +476,7 @@
        ("ghc-tasty" ,ghc-tasty)
        ("ghc-tasty-quickcheck" ,ghc-tasty-quickcheck)
        ("ghc-doctest" ,ghc-doctest)
-       ("ghc-cabal-doctest" ,ghc-cabal-doctest)))
+       ("cabal-doctest" ,cabal-doctest)))
     (arguments
      `(#:cabal-revision
        ("5"
@@ -489,9 +489,9 @@
      "A new data structure for accurate on-line accumulation of rank-based statistics such as quantiles and trimmed means. . See original paper: \"Computing extremely accurate quantiles using t-digest\" by Ted Dunning and Otmar Ertl for more details <https://github.com/tdunning/t-digest/blob/07b8f2ca2be8d0a9f04df2feadad5ddc1bb73c88/docs/t-digest-paper/histo.pdf>.")
     (license license:bsd-3)))
 
-(define-public ghc-cabal-doctest
+(define-public cabal-doctest
   (package
-    (name "ghc-cabal-doctest")
+    (name "cabal-doctest")
     (version "1.0.8")
     (source
      (origin
@@ -578,7 +578,7 @@
        ("ghc-generic-deriving" ,ghc-generic-deriving)
        ("ghc-semigroups" ,ghc-semigroups)
        ("ghc-simple-reflect" ,ghc-simple-reflect)
-       ("ghc-cabal-doctest" ,ghc-cabal-doctest)))
+       ("cabal-doctest" ,cabal-doctest)))
     (arguments
      `(#:cabal-revision
        ("2"
