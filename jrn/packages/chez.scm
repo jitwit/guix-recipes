@@ -17,7 +17,7 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages xorg)
   #:use-module (jrn packages j)
-  #:use-module ((gnu packages chez) #:select (chez-scheme))
+  #:use-module ((gnu packages chez) #:select (chez-scheme chez-srfi chez-matchable))
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1))
 
@@ -112,9 +112,9 @@
     `(("chez-scheme" ,chez-scheme)))
    (propagated-inputs
     `(("cs-hemlock" ,cs-hemlock)
-      ("cs-srfi" ,cs-srfi)
+      ("chez-srfi" ,chez-srfi)
       ("cs-euler" ,cs-euler)
-      ("cs-matchable" ,cs-matchable)))
+      ("chez-matchable" ,chez-matchable)))
    (arguments
     `(#:make-flags `(,(string-append "out" "=" (assoc-ref %outputs "out")))
       #:tests? #f
