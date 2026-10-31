@@ -385,16 +385,16 @@ Based on media/platimg developed by Oleg Kobchenko")
 (define-public j-graphics-viewmat
   (package
     (name "j-graphics-viewmat")
-    (version "1.0.83")
+    (version "1.0.95")
     (source
      (origin
        (method git-fetch)
        (uri
         (git-reference
          (url "https://github.com/jsoftware/graphics_viewmat.git")
-         (commit "ed86115ed60a43a506f4ec9c827963866b738217")))
+         (commit "d45769dc7d4d219e329225439f155a78b203c846")))
        (sha256
-        (base32 "1jv52s3fi6wrqjdi2p45v7mjy2jr5zmkq213axjgbgm2f4b3m458"))))
+        (base32 "1mrhqaf2f31g5797wknp6ms2bkr7lcllwafcv2s4x2b2iw40n296"))))
     (propagated-inputs `(("j-graphics-bmp" ,j-graphics-bmp)
 			 ("j-graphics-color" ,j-graphics-color)
 			 ("j-graphics-png" ,j-graphics-png)))

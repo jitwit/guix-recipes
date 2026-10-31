@@ -134,7 +134,7 @@ md &.> (user,'/projects');break;config;snap;temp
 	     (chdir "..")
 	     #t))
 	 (replace 'check
-	   (lambda* (#:key inputs outputs #:allow-other-keys)
+           (lambda* (#:key inputs outputs #:allow-other-keys)
 	     (let ((tsu (string-append (getcwd) "/test/tsu.ijs"))
 		   (jbld
 		    (canonicalize-path
